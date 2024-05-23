@@ -19,5 +19,14 @@
 - 로그인한 사용자는 오픈 채팅방에 들어갈 수 있다.
 - 로그인한 사용자는 오픈 채팅방에서 나올 수 있다.
 
-## 구현 기능 목록
+## Planning
+- Requirements를 구체화해서 github issues에 등록한다.
 
+## Design
+- API-First Approach
+  - 코드 한 줄을 작성하기 전에 API 문서를 개발한다.
+  - api doc은 front-end와 back-end 사이의 계약이다.
+- API-First Approach의 장점
+  - 더 나은 커뮤니케이션과 collaboration
+  - 더 나은 개발자 경험
+  - 빠른 개발
