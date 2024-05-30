@@ -50,4 +50,8 @@ public class MyUserPrincipal implements UserDetails {
     public boolean isEnabled() {
         return user.isEnabled();
     }
+
+    public User getUser() {
+        return user;
+    }
 }
