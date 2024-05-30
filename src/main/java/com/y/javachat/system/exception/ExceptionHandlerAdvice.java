@@ -3,6 +3,8 @@ package com.y.javachat.system.exception;
 import com.y.javachat.system.Result;
 import com.y.javachat.system.StatusCode;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,6 +36,12 @@ public class ExceptionHandlerAdvice {
             map.put(key, val);
         });
         return new Result(false, StatusCode.INVALID_ARGUMENT, "제공된 인자가 타당하지 않습니다.", map);
+    }
+
+    @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    Result handleAuthenticationException(Exception e) {
+        return new Result(false, StatusCode.UNAUTHORIZED, "이메일 혹은 비밀번호가 틀렸습니다.", e.getMessage());
     }
 
 }
