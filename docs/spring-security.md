@@ -9,6 +9,12 @@
 - Spring Security OAuth2 Resource Server를 사용한 JSON web token(JWT) 생성과 validation
 - Role-based authorization 혹은 access control
 - Authentication과 Authorization Exception
+<br><br>
+- 스프링 시큐리티는 기본적으로 아래의 것이 설정되어 있다.
+  - application과 상호작용을 위해서 인증된 사용자를 요구한다.
+  - 애플리케이션에 기본 로그인 폼을 생성한다.
+  - 'user'라는 username과 폼기반 인증을 위해서 콘솔로 로그인하는 password를 가진 인메모리 사용자를 생성한다. 
+
 
 ## Athentication Process
 1. username과 password를 사용자가 입력한다.
@@ -46,3 +52,9 @@
       "token": "~~~~~~~~~~~~~"
     }  
     ```
+   
+## HTTP Basic Authentication
+- 클라이언트는 Authorization request header 안에 credentials(자격정보)를 제공한다.
+  - header는 `Basic`이란 단어 우측으로 스페이스된 것을 포함한다.
+  - headers는 base64-encoded인 username:password string을 포함한다. 예를 들어 a:123456
+  - 위의 자격조건(credential)을 위해서, Authorization request header는 `Basic asdfasdfadf=`같은 것이 된다.
