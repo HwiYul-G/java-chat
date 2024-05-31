@@ -90,3 +90,13 @@
 - JWT는 오직 토큰 발급만 담당하는 전용 인증 서버를 허용한다.
   - 책임 분리 : 애플리케이션 서버로 요청 처리 vs 사용자 토큰 발급 전담 서버
   - 보안 향상 : 토큰 발급 및 관리가 중앙 집중화 > 일관된 보안 정책
+
+## Spring Security Exceptions
+- Authentication Exceptions
+  - UsernameNotFoundException
+  - BadCredentialsException
+  - AccountStatusException
+  - InvalidBearerTokenException
+- Authorization Exceptions
+  - AccessDeniedException
+- Spring Security Exceptions은 컨트롤러가 작업을 시작하기 전에 던져진다.
