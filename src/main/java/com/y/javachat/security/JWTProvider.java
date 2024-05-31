@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JWTProvider {
 
-    private JwtEncoder jwtEncoder;
+    private final JwtEncoder jwtEncoder;
 
     public String createToken(Authentication authentication) {
         Instant now = Instant.now();
