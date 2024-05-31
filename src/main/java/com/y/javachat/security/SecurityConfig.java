@@ -33,7 +33,6 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 @Configuration
-
 public class SecurityConfig {
 
     private final RSAPublicKey publicKey;
@@ -42,7 +41,15 @@ public class SecurityConfig {
     @Value("${api.endpoint.base-url}")
     private String baseUrl;
 
-    public SecurityConfig() throws NoSuchAlgorithmException {
+    private final CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint;
+    private final CustomBearerTokenAuthenticationEntryPoint customBearerTokenAuthenticationEntryPoint;
+    private final CustomBearerTokenAccessDeniedHandler customBearerTokenAccessDeniedHandler;
+
+    public SecurityConfig(CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint, CustomBearerTokenAuthenticationEntryPoint customBearerTokenAuthenticationEntryPoint, CustomBearerTokenAccessDeniedHandler customBearerTokenAccessDeniedHandler) throws NoSuchAlgorithmException {
+        this.customBasicAuthenticationEntryPoint = customBasicAuthenticationEntryPoint;
+        this.customBearerTokenAuthenticationEntryPoint = customBearerTokenAuthenticationEntryPoint;
+        this.customBearerTokenAccessDeniedHandler = customBearerTokenAccessDeniedHandler;
+
         // Generate a public/private key pair
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048); // The generated key will have a size of 2048 bits
@@ -66,8 +73,10 @@ public class SecurityConfig {
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // for H2 browser console access
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()))
+                .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(this.customBasicAuthenticationEntryPoint))
+                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(this.customBearerTokenAuthenticationEntryPoint)
+                        .accessDeniedHandler(this.customBearerTokenAccessDeniedHandler))
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
