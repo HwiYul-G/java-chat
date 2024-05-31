@@ -25,7 +25,7 @@ public class DBDataInitializer implements CommandLineRunner {
                 .username("a")
                 .password("12345")
                 .enabled(true)
-                .roles("admin")
+                .roles("admin user")
                 .build();
 
         User u2 = User.builder()
