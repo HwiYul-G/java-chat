@@ -62,10 +62,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                                .requestMatchers(HttpMethod.GET, baseUrl + "/users/**").hasAuthority("admin") // Protect the endpoint
-                                .requestMatchers(HttpMethod.POST, baseUrl + "/users").hasAuthority("admin")
-                                .requestMatchers(HttpMethod.PUT, baseUrl + "/users/**").hasAuthority("admin")
-                                .requestMatchers(HttpMethod.DELETE, baseUrl + "/users/**").hasAuthority("admin")
+                                .requestMatchers(HttpMethod.GET, baseUrl + "/users/**").hasAuthority("ROLE_admin") // Protect the endpoint
+                                .requestMatchers(HttpMethod.POST, baseUrl + "/users").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.PUT, baseUrl + "/users/**").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.DELETE, baseUrl + "/users/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                 // Disallow everything else.
                                 .anyRequest().authenticated() // 마지막엔 항상 이 조건을 둔다.
