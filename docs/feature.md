@@ -6,7 +6,7 @@
   - Implementation and Testing : TDD
   - Deployment : CI/CD
 
-## Requirements
+### Requirements
 #### As a `<user role>`, I want `<goal>`, so that `<rationale>`.
 - 게스트는 회원가입을 할 수 있다.
 - 로그인한 사용자가 사용자 닉네임으로 친구 추가를 한다.
@@ -19,10 +19,10 @@
 - 로그인한 사용자는 오픈 채팅방에 들어갈 수 있다.
 - 로그인한 사용자는 오픈 채팅방에서 나올 수 있다.
 
-## Planning
+### Planning
 - Requirements를 구체화해서 github issues에 등록한다.
 
-## Design
+### Design
 - API-First Approach
   - 코드 한 줄을 작성하기 전에 API 문서를 개발한다.
   - api doc은 front-end와 back-end 사이의 계약이다.
@@ -30,3 +30,57 @@
   - 더 나은 커뮤니케이션과 collaboration
   - 더 나은 개발자 경험
   - 빠른 개발
+
+
+## ERD
+- [dbdiagram.io](https://dbdiagram.io/d)
+
+<img alt="ERD 이미지" src="./resources/erd.png" >
+
+<details>
+  <summary> 현재 ERD 정의 코드</summary>
+
+```
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table app_user {
+id bigint [primary key]
+email varchar
+username varchar
+password varchar
+enabled bool
+roles varchar
+}
+
+Table chat {
+id bigint [primary key]
+sender_id bigint
+room_id bigint
+content varchar
+created_at timestamp
+}
+
+Table chat_room{
+id bigint [primary key]
+name varchar
+notice_chat_id bigint
+created_at timestamp
+}
+
+Table chat_join{
+id bigint [primary key]
+user_id bigint
+room_id bigint
+created_at timestamp
+}
+
+
+Ref: chat.sender_id > app_user.id // many-to-one
+Ref: chat.room_id > chat_room.id
+Ref: chat_room.notice_chat_id > chat.id
+Ref: chat_join.user_id > app_user.id
+Ref: chat_join.room_id > chat_room.id
+
+```
+</details>
