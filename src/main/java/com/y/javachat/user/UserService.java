@@ -3,6 +3,10 @@ package com.y.javachat.user;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,25 +15,26 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return this.userRepository.findAll();
     }
 
-    public User findById(Long userId){
+    public User findById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
     }
 
-    public User save(User newUser){
-        // TODO : plain text password를 encode 하기
+    public User save(User newUser) {
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         return userRepository.save(newUser);
     }
 
-    public User update(Long userId, User update){
+    public User update(Long userId, User update) {
         User oldUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
         oldUser.setUsername(update.getUsername());
@@ -39,12 +44,17 @@ public class UserService {
         return userRepository.save(oldUser);
     }
 
-    public void delete(Long userId){
+    public void delete(Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
         userRepository.deleteById(userId);
     }
 
 
-
+    @Override
+    public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
+        return userRepository.findByEmail(userEmail)
+                .map(MyUserPrincipal::new)
+                .orElseThrow(() -> new UsernameNotFoundException("userEmail " + userEmail + " 을 찾을 수 없습니다.."));
+    }
 }
