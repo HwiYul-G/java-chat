@@ -1,10 +1,11 @@
 package com.y.javachat.chat_room;
 
-import com.y.javachat.chat.ChatRepository;
-import com.y.javachat.chat_join.ChatJoinRepository;
+import com.y.javachat.chat_room.event.ChatRoomGeneratedEvent;
+import com.y.javachat.chat_room.event.ChatRoomDeletedEvent;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -18,6 +19,8 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
 
+    private final ApplicationEventPublisher eventPublisher;
+
     public List<ChatRoom> findAll() {
         return this.chatRoomRepository.findAll();
     }
@@ -29,9 +32,15 @@ public class ChatRoomService {
     }
 
     public ChatRoom save(ChatRoom newChatRoom) {
-        newChatRoom.setCreatedAt(Timestamp.from(Instant.now()));
-        // TODO : 채팅방을 만든 사람을 현재 채팅방에 join 시키는 작업이 필요하다.
-        return chatRoomRepository.save(newChatRoom);
+        Timestamp currentTimestamp = Timestamp.from(Instant.now());
+        newChatRoom.setCreatedAt(currentTimestamp);
+        ChatRoom chatRoom = chatRoomRepository.save(newChatRoom);
+
+        eventPublisher.publishEvent(
+                new ChatRoomGeneratedEvent(chatRoom.getId(), currentTimestamp)
+        );
+
+        return chatRoom;
     }
 
 
@@ -46,8 +55,9 @@ public class ChatRoomService {
     public void delete(Long chatRoomId) {
         chatRoomRepository.findById(chatRoomId)
                 .orElseThrow(() -> new ObjectNotFoundException("chat room", chatRoomId));
-        // TODO : 현재 채팅방에 있는 모든 사람들을 제거한다.
-        // TODO: 현재 채팅방에 있는 모든 채팅을 제거한다.
+
+        eventPublisher.publishEvent(new ChatRoomDeletedEvent(chatRoomId));
+
         chatRoomRepository.deleteById(chatRoomId);
     }
 }
