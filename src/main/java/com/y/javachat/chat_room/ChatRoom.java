@@ -26,6 +26,6 @@ public class ChatRoom {
     private Timestamp createdAt;
 
     @NotEmpty(message = "채팅방 관리자 아이디가 필요합니다.")
-    private Long manager_user_id;
+    private Long managerUserId;
 
 }
