@@ -41,9 +41,6 @@
   <summary> 현재 ERD 정의 코드</summary>
 
 ```
-// Use DBML to define your database structure
-// Docs: https://dbml.dbdiagram.io/docs
-
 Table app_user {
 id bigint [primary key]
 email varchar
@@ -65,6 +62,7 @@ Table chat_room{
 id bigint [primary key]
 name varchar
 notice_chat_id bigint
+manager_user_id bigint [ref: - app_user.id]
 created_at timestamp
 }
 
@@ -81,6 +79,5 @@ Ref: chat.room_id > chat_room.id
 Ref: chat_room.notice_chat_id > chat.id
 Ref: chat_join.user_id > app_user.id
 Ref: chat_join.room_id > chat_room.id
-
 ```
 </details>
