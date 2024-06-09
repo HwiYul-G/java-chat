@@ -1,4 +1,4 @@
-package com.y.javachat.chat_room;
+package com.y.javachat.chatRoom;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

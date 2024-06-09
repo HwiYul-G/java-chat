@@ -1,4 +1,4 @@
-package com.y.javachat.chat_room.event;
+package com.y.javachat.chatRoom.event;
 
 public record ChatRoomDeletedEvent(
         Long chatRoomId

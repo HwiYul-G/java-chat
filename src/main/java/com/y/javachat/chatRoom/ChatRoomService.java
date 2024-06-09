@@ -1,7 +1,7 @@
-package com.y.javachat.chat_room;
+package com.y.javachat.chatRoom;
 
-import com.y.javachat.chat_room.event.ChatRoomGeneratedEvent;
-import com.y.javachat.chat_room.event.ChatRoomDeletedEvent;
+import com.y.javachat.chatRoom.event.ChatRoomGeneratedEvent;
+import com.y.javachat.chatRoom.event.ChatRoomDeletedEvent;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
