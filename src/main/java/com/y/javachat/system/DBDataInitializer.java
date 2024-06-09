@@ -32,7 +32,7 @@ public class DBDataInitializer implements CommandLineRunner {
                 .id(2L)
                 .email("b@google.com")
                 .username("b")
-                .password("232345")
+                .password("12345")
                 .enabled(true)
                 .roles("user")
                 .build();
@@ -41,7 +41,7 @@ public class DBDataInitializer implements CommandLineRunner {
                 .id(3L)
                 .email("c@google.com")
                 .username("c")
-                .password("09876")
+                .password("12345")
                 .enabled(false)
                 .roles("user")
                 .build();
