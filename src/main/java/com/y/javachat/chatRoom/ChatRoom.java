@@ -1,7 +1,8 @@
-package com.y.javachat.chat_room;
+package com.y.javachat.chatRoom;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -25,7 +26,7 @@ public class ChatRoom {
 
     private Timestamp createdAt;
 
-    @NotEmpty(message = "채팅방 관리자 아이디가 필요합니다.")
+    @NotNull(message = "채팅방 관리자 아이디가 필요합니다.")
     private Long managerUserId;
 
 }
