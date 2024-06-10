@@ -37,7 +37,7 @@ public class ChatRoomService {
         ChatRoom chatRoom = chatRoomRepository.save(newChatRoom);
 
         eventPublisher.publishEvent(
-                new ChatRoomGeneratedEvent(chatRoom.getId(), currentTimestamp)
+                new ChatRoomGeneratedEvent(chatRoom.getId(), chatRoom.getManagerUserId(), currentTimestamp)
         );
 
         return chatRoom;
