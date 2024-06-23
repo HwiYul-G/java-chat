@@ -103,7 +103,7 @@ const RegisterPage = () => {
             </div>
             <button type='button' className='btn btn-primary px-4'> 회원가입 완료</button>
         </form>
-        <p className='mt-1'>이미 아이디가 존재하나요? <Link to={"/email"} className="icon-link icon-link-hover">Login</Link></p>
+        <p className='mt-1'>이미 아이디가 존재하나요? <Link to={"/login"} className="icon-link icon-link-hover">Login</Link></p>
       </div>
     </div>
   )
