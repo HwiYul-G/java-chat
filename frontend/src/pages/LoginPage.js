@@ -54,7 +54,7 @@ const LoginPage = () => {
                 required
               />
             </div>
-            <button type='button' className='btn btn-primary px-4'>로그인</button>
+            <button type='submit' className='btn btn-primary px-4'>로그인</button>
         </form>
         <p className='mt-1'>신규 사용자인가요?<Link to={"/register"} className="icon-link icon-link-hover">회원가입</Link></p>
         <p className='mt-1'>비밀번호를 잊어버리셨나요? <Link to={"/forget-password"} className='icon-link icon-link-hover'>비밀번호 찾기</Link></p>
