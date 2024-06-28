@@ -16,7 +16,7 @@ const Sidebar = () => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-
+    navigate("/login")
   }
 
   return (
@@ -86,12 +86,12 @@ const Sidebar = () => {
       </div>
       {
         editUserOpen && (
-          <EditUserDetails/>
+          <EditUserDetails onClose={()=> setEditUserOpen(false)}/>
         )
       }
       {
         openSearchUser && (
-          <SearchUser/>
+          <SearchUser onClose={()=>setOpenSearchUser(false)}/>
         )
       }
     </div>
