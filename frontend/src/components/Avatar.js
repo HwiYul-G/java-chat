@@ -21,7 +21,7 @@ const Avatar = ({userId, name, imageUrl, width, height}) => {
                     />
                 ) : (
                     <img
-                        src= "../assets/default_user_icon.png"
+                        src= {require('../assets/default_user_icon.png')}
                         width={width}
                         height={height}
                         alt={name}
