@@ -1,24 +1,29 @@
 import React, { useState } from "react";
+import Loading from "./Loading";
 
 const SearchUser = ({onClose}) => {
     const [searchUser, setSearchUser] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
 
+    const handleSearchUser = async () => {
 
+    }
 
     return (
         <div className="">
             <div>
                 {/* 사용자 email 입력 */}
-                <div>
+                <div className="">
                     <input 
-                        type="text" placeholder="email입력" 
+                        type="text" 
+                        placeholder="email입력" 
                         className="" 
-                        onChange={(e) => setSearch(e.target.value)} value={search}
+                        onChange={(e) => setSearch(e.target.value)} 
+                        value={search}
                     />
                     <div>
-                        찾기버튼?
+                        <button className="btn btn-primary">찾기</button>
                     </div>
                 </div>
 
@@ -29,7 +34,9 @@ const SearchUser = ({onClose}) => {
                     }
 
                     {
-                        // 로딩중
+                        loading && (
+                            <p><Loading/></p>
+                        )
                     }
 
                     {
@@ -38,9 +45,7 @@ const SearchUser = ({onClose}) => {
                 </div>
             </div>
 
-            <div className="" onClick={onClose}>
-                <img src="" alt="x버튼" />
-            </div>
+            <button onClick={onClose} className="btn btn-secondary">취소</button>
         </div>
     )
 }
