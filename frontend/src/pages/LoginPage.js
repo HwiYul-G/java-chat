@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../api/loginApi';
 
 const LoginPage = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
   })
+  const [message, setMessage] = useState('');
 
   const navigate = useNavigate()
 
@@ -23,8 +25,18 @@ const LoginPage = () => {
   const handleSubmit = async(e) => {
     e.preventDefault()
     e.stopPropagation()
-    
-    navigate("/")
+    try{
+      const result = await login(data);
+      if(result.flag){
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("userInfo", result.userInfo);
+        navigate("/")
+      } else {
+        setMessage(`로그인 실패 이유: ${result.message}`)
+      }
+    } catch(err){
+      setMessage(`Error: ${err.message}`);
+    }
   }
 
   return (
@@ -56,6 +68,7 @@ const LoginPage = () => {
             </div>
             <button type='submit' className='btn btn-primary px-4'>로그인</button>
         </form>
+        { message !=='' && <p> {message} </p>}
         <p className='mt-1'>신규 사용자인가요?<Link to={"/register"} className="icon-link icon-link-hover">회원가입</Link></p>
         <p className='mt-1'>비밀번호를 잊어버리셨나요? <Link to={"/forget-password"} className='icon-link icon-link-hover'>비밀번호 찾기</Link></p>
       </div>
