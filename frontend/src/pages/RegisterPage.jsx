@@ -53,6 +53,7 @@ const RegisterPage = () => {
       }
     })
     .catch((err) => {
+      console.log(err);
       setMessage(err.message);
     });
 
@@ -65,10 +66,10 @@ const RegisterPage = () => {
         <h3>Chat app에 오신 걸 환영합니다.</h3>
         <form className='' onSubmit={handleSubmit}>
             <div className='mb-3 col-md-6'>
-              <label htmlFor='name' className='from-label fs-5'>이름</label>
-              <input type='text' id='name' name='name' placeholder='your name'
+              <label htmlFor='username' className='from-label fs-5'>이름</label>
+              <input type='text' id='username' name='username' placeholder='your name'
                 className='form-control'
-                value={data.name}
+                value={data.username}
                 onChange={handleOnChange}
                 required
               />
