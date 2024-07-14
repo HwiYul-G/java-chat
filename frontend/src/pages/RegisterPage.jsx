@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import {register} from '../api/userApi';
 
 const RegisterPage = () => {
+  // TODO: 사용자 이미지 추가 필요
   const [data, setData] = useState({
     email: "",
-    name: "",
+    username: "",
     password: "",
-    profile_pic: ""
-  })
+    roles: "user",
+  });
 
   const [uploadPhoto, setUploadPhoto] = useState("")
+
+  const [message, setMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     const {name, value} = e.target
@@ -35,9 +41,21 @@ const RegisterPage = () => {
     setUploadPhoto(null)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
     e.stopPropagation()
+
+    await register(data)
+    .then((res) => {
+      if(res.flag){
+        console.log("등록 성공 결과 확인", res.data);
+        navigate('/login');
+      }
+    })
+    .catch((err) => {
+      setMessage(err.message);
+    });
+
   }
 
 
@@ -103,6 +121,7 @@ const RegisterPage = () => {
             </div>
             <button type='submit' className='btn btn-primary px-4'> 회원가입 완료</button>
         </form>
+        { message !=='' && <p> {message} </p>}
         <p className='mt-1'>이미 아이디가 존재하나요? <Link to={"/login"} className="icon-link icon-link-hover">Login</Link></p>
       </div>
     </div>

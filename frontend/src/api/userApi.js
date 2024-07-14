@@ -2,8 +2,14 @@ import instance from ".";
 
 const prefix = "/users";
 
-export const register = async () => {
-
+export const register = async (newUser) => {
+    try{
+        const res = await instance.post(`${prefix}`, newUser);
+        return res.data;
+    }catch(err){
+        console.log("서버의 회원가입 API 호출 실패: ", err);
+        throw err;
+    }
 };
 
 export const updateUserInfo = async (userId, userInfo) => {
