@@ -36,6 +36,13 @@ public class UserController {
         return new Result(true, StatusCode.SUCCESS, "Find One Success", userDto);
     }
 
+    @GetMapping("/email")
+    public Result findUserByEmail(@RequestParam String email){
+        User foundUser = userService.findByEmail(email);
+        UserDto userDto = userToUserDtoConverter.convert(foundUser);
+        return new Result(true, StatusCode.SUCCESS, "Find One Success", userDto);
+    }
+
     @PostMapping
     public Result addUser(@Valid @RequestBody User newUser) {
         User savedUser = userService.save(newUser);
