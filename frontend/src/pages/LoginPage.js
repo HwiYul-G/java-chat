@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../api/loginApi';
+import instance from '../api';
+import { useUser } from '../context/UserContext';
 
 const LoginPage = () => {
   const [data, setData] = useState({
@@ -8,6 +10,8 @@ const LoginPage = () => {
     password: "",
   })
   const [message, setMessage] = useState('');
+
+  const { setUserInfo } = useUser();
 
   const navigate = useNavigate()
 
@@ -18,7 +22,7 @@ const LoginPage = () => {
       return{
         ...preve,
         [name] : value
-      }
+      };
     })
   }
 
@@ -28,11 +32,13 @@ const LoginPage = () => {
     try{
       const result = await login(data);
       if(result.flag){
-        localStorage.setItem("token", result.token);
-        localStorage.setItem("userInfo", result.userInfo);
-        navigate("/")
+        localStorage.setItem("token", result.data.token);
+        instance.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
+        // userInfo : {id: 1, email: 'a@google.com', username: 'a', enabled: true, roles: 'admin user'}
+        setUserInfo(result.data.userInfo);
+        navigate("/");
       } else {
-        setMessage(`로그인 실패 이유: ${result.message}`)
+        setMessage(`로그인 실패 이유: ${result.message}`);
       }
     } catch(err){
       setMessage(`Error: ${err.message}`);
