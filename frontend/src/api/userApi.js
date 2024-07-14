@@ -27,6 +27,14 @@ export const deleteAccount = async (userId) => {
     }
 };
 
-export const findUserByEmail = async () => {
-
+export const findUserByEmail = async (email) => {
+    try{
+        const res = await instance.get(`${prefix}/email`, {
+            params: {email}
+        });
+        return res.data;
+    } catch(err){
+        console.log('서버의 이메일로 사용자 찾기 API 호출 실패: ',err);
+        throw err;
+    }
 };
