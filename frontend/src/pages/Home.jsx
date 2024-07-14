@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 
 const Home = () => {
+
+  // socket connection
+  useEffect(() => {
+    
+  }, []);
   
   return (
     <div className='container row'>
