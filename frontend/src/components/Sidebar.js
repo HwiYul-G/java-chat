@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Avatar from './Avatar';
 import EditUserDetails from './EditUserDetails';
 import SearchUser from './SearchUser';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 
 
 const Sidebar = () => {
-  const user = null
-
   const [editUserOpen, setEditUserOpen] = useState(false)
   const [allUser, setAllUser] = useState([])
   const [openSearchUser, setOpenSearchUser] = useState(false)
 
+  const { userInfo } = useUser();
+
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    navigate("/login")
+    localStorage.clear();
+    navigate("/login");
   }
 
   return (
@@ -86,7 +88,7 @@ const Sidebar = () => {
       </div>
       {
         editUserOpen && (
-          <EditUserDetails onClose={()=> setEditUserOpen(false)}/>
+          <EditUserDetails onClose={()=> setEditUserOpen(false)} userInfo={userInfo} />
         )
       }
       {
