@@ -2,81 +2,89 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from './Avatar';
 import Message from './Message';
+import './css/_messagePage.css';
 
 const MessagePage = () => {
   const params = useParams();  // console.log("params : ", params.userId);
-
-  const [allMessage, setAllMessag] = useState([]);
-
+  // userId는 상대방의 정보임
+  const [allMessages, setAllMessages] = useState([]);
   const [message, setMessage] = useState({
-    text: "",
-    imageUrl: "",
-    videoUrl: "",
+    senderId: params.userId,
+    roomId: params.roomId,
+    content: '',
+    type: 'CHAT',
   });
-
-  useEffect(() => {
-
-  }, [allMessage]);
-
-  useEffect(() => {
-    // socket connection 관련 처리
-  }, []);
 
   const handleOnChange = (e) => {
     const {name, value} = e.target;
     setMessage(prev => {
-      return {
+      return{
         ...prev,
-        text: value
-      };
+        [name]: value,
+      }
     });
-  }
+  };
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
+  // 임시 데이터 설정
+  useEffect(() => {
+    const tempMessages = [
+      {
+        id: 1,
+        senderId: params.userId,
+        roomId: 1,
+        content: 'Hello!ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
+        createdAt: new Date().toISOString(),
+        type: 'CHAT'
+      },
+      {
+        id: 2,
+        senderId: 2,
+        roomId: 1,
+        content: 'Hi there!',
+        createdAt: new Date().toISOString(),
+        type: 'CHAT'
+      },
+      {
+        id: 3,
+        senderId: 1,
+        roomId: 1,
+        content: 'How are you?',
+        createdAt: new Date().toISOString(),
+        type: 'CHAT'
+      },
+    ];
+    setAllMessages(tempMessages);
+  }, []);
 
-  }
 
 
   return (
-    <div className='bg-secondary'>
-      <header>
-        <Avatar width={50} height={50} name={params.username} userId={params.userId}/>
+    <div className='card'>
+      <header className='card-header'>
+        <Avatar width={50} height={50}/>
+        <p>
+          이름
+        </p>
       </header>
-
-      {/* show all message */}
-      <section>
-        {/* all message show here */}
-        <div className=''>
-          {
-            allMessage.map((msg) => <Message message={msg}/>)
-          }
-        </div>
-        {/* upload image display */}
-        {/* upload video display */}
-
-      </section>
-
-      {/* send message */}
-      <section>
-        <div className='relative'>
-
-        </div>
-
-        <form>
-          <input
-            type='text'
-            placeholder='메시지를 입력하세요.'
-            className='py-1 px-4'
-            value={message.text}
-            onChange={handleOnChange}
-          />
-          <button className='btn btn-primary' onClick={handleSendMessage}>전송</button>
-        </form>
-        
-      </section>
+      <div className='card-body'>
+        {
+          allMessages.map((msg, key) => {
+            return <Message message={msg} key={key} userId={params.userId}/>
+          })
+        }
+      </div>
+      <div className='card-footer'>
+        <input 
+          type='text' 
+          placeholder='메시지를 입력하세요.'
+          className='form-control form-control-lg'
+          name='content'
+          value={message.content} 
+          onChange={handleOnChange}/>
+        <button className='btn btn-primary' type='button'>전송</button>
+      </div>
     </div>
-  )
+  );
 }
 
 export default MessagePage
