@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
+import './css/_layout.css';
 
 const Home = () => {
 
@@ -10,14 +11,9 @@ const Home = () => {
   }, []);
   
   return (
-    <div className='container row'>
-      <section className='col-4'>
-        <Sidebar/>
-      </section>
-      {/* message component */}
-      <section className='col-8'>
-        <Outlet/>
-      </section>
+    <div className='layout'>
+        <Sidebar className='sidebar'/>
+        <Outlet className='outlet'/>
     </div>
   )
 }
