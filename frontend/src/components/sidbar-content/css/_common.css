@@ -1,9 +1,19 @@
+.tab-pane{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
 .tab-header{
     min-height: 3rem;
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid #dde2ed;
+}
+
+.hide-scrollbar{
+    overflow-y: auto;
+    flex-grow:1;
 }
 
 .tab-list{
@@ -38,6 +48,12 @@
 .tab-content{
     margin: 0;
     padding: 10px 0;
+}
+
+.tab-footer{
+    min-height: 4rem;
+    align-items: center;
+    justify-content: center;
 }
 
 
