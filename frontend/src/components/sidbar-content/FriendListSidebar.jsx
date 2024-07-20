@@ -1,14 +1,25 @@
 import './css/_common.css';
 import './contents/Friend';
 import Friend from './contents/Friend';
+import { useState } from 'react';
+import AddFriendModal from './contents/AddFriendModal';
 
 const FriendListSidebar = () => {
+    const [showModal, setShowModal] = useState(false);
 
     const friends = [
         { id: 1, name: 'Alice', email: 'alice@example.com', imgUrl: '' },
         { id: 2, name: 'Bob', email: 'bob@example.com', imgUrl: '' },
         { id: 3, name: 'Charlie', email: 'charlie@example.com', imgUrl: '' },
     ];
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className='tab-pane'>
@@ -31,9 +42,10 @@ const FriendListSidebar = () => {
                 </div>
 
                 <div className='tab-footer border-top p-4'>
-                    <button className='btn btn-sm btn-primary w-100'>친구 추가</button>
+                    <button className='btn btn-sm btn-primary w-100' onClick={handleShowModal}>친구 추가</button>
                 </div>
             </div>
+            <AddFriendModal show={showModal} onClose={handleCloseModal}/>
         </div>
     );
 };
