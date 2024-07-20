@@ -1,7 +1,19 @@
+import { useState } from 'react';
 import Avatar from '../Avatar';
 import './css/_common.css';
+import EditMyInfomodal from './contents/EditMyInfoModal';
 
 const MyInfoSidebar = () => {
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
     return (
         <div className='d-flex flex-column h-100'>
             <div className='tab-header'>
@@ -26,8 +38,10 @@ const MyInfoSidebar = () => {
 
 
             <div className='tab-footer border-top p-4'>
-                    <button className='btn btn-sm btn-primary w-100'>내 정보 수정</button>
+                <button className='btn btn-sm btn-primary w-100' onClick={handleShowModal}>내 정보 수정</button>
             </div>
+
+            <EditMyInfomodal show={showModal} onClose={handleCloseModal}/>
         </div>
     );
 };
