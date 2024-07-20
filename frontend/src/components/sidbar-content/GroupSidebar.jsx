@@ -33,7 +33,7 @@ const GroupSidebar = () => {
                 </div>
                 
                 <div className="hide-scrollbar h-100">
-                    <div className="tab-content m-4 mt-0">
+                    <div className="tab-content">
                         {tabArr[currentTab].content}
                     </div>
                 </div>
