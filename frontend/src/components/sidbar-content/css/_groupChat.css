@@ -1,0 +1,11 @@
+.room-name{
+    width: 100%;
+}
+
+.last-message{
+    width: 100%;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
