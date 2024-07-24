@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.y.javachat.system.StatusCode;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import com.y.javachat.user.dto.UserDto;
+import com.y.javachat.user.model.User;
+import com.y.javachat.user.service.UserService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

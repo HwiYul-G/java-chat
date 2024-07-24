@@ -1,5 +1,6 @@
-package com.y.javachat.user;
+package com.y.javachat.user.repository;
 
+import com.y.javachat.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

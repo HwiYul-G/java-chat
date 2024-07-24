@@ -1,6 +1,9 @@
 package com.y.javachat.user;
 
 import com.y.javachat.system.exception.ObjectNotFoundException;
+import com.y.javachat.user.model.User;
+import com.y.javachat.user.repository.UserRepository;
+import com.y.javachat.user.service.UserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,12 @@
-package com.y.javachat.user;
+package com.y.javachat.user.controller;
 
 import com.y.javachat.system.Result;
 import com.y.javachat.system.StatusCode;
+import com.y.javachat.user.service.UserService;
 import com.y.javachat.user.converter.UserDtoToUserConverter;
 import com.y.javachat.user.converter.UserToUserDtoConverter;
 import com.y.javachat.user.dto.UserDto;
+import com.y.javachat.user.model.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

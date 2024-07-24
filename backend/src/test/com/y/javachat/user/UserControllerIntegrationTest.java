@@ -3,6 +3,7 @@ package com.y.javachat.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.y.javachat.system.StatusCode;
+import com.y.javachat.user.model.User;
 import org.hamcrest.Matchers;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;

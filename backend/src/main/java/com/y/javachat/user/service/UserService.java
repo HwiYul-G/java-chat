@@ -1,6 +1,9 @@
-package com.y.javachat.user;
+package com.y.javachat.user.service;
 
 import com.y.javachat.system.exception.ObjectNotFoundException;
+import com.y.javachat.user.model.MyUserPrincipal;
+import com.y.javachat.user.repository.UserRepository;
+import com.y.javachat.user.model.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

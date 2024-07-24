@@ -1,4 +1,4 @@
-package com.y.javachat.user;
+package com.y.javachat.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;

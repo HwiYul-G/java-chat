@@ -1,6 +1,6 @@
 package com.y.javachat.user.converter;
 
-import com.y.javachat.user.User;
+import com.y.javachat.user.model.User;
 import com.y.javachat.user.dto.UserDto;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.y.javachat.user;
+package com.y.javachat.user.model;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

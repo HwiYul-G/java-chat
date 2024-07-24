@@ -1,6 +1,6 @@
 package com.y.javachat.security;
 
-import com.y.javachat.user.MyUserPrincipal;
+import com.y.javachat.user.model.MyUserPrincipal;
 import com.y.javachat.user.converter.UserToUserDtoConverter;
 import com.y.javachat.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
