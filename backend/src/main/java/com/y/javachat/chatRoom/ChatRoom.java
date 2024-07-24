@@ -29,4 +29,6 @@ public class ChatRoom {
     @NotNull(message = "채팅방 관리자 아이디가 필요합니다.")
     private Long managerUserId;
 
+    private Boolean isGroup;
+
 }
