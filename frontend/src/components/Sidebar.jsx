@@ -7,9 +7,11 @@ import MyInfoSidebar from "./sidbar-content/MyInfoSidebar";
 import ChatListSidebar from "./sidbar-content/ChatListSidebar";
 import FriendListSidebar from "./sidbar-content/FriendListSidebar";
 import NotificationSidebar from "./sidbar-content/NotificationSidebar";
+import { useUser } from "../context/UserContext";
 
 const Sidebar = () => {
   const [activeContent, setActiveContent] = useState(null);
+  const {setUserInfo} = useUser();
 
   const navigate = useNavigate();
 
@@ -22,6 +24,8 @@ const Sidebar = () => {
 
   const handleLogoutClicked = ()=>{
     setActiveContent(null);
+    setUserInfo({});
+    localStorage.clear();
     navigate('./login');
   };
 
