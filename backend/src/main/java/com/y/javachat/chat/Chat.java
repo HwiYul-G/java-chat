@@ -27,4 +27,6 @@ public class Chat {
     private String content;
 
     private Timestamp createdAt;
+
+    private MessageType type;
 }
