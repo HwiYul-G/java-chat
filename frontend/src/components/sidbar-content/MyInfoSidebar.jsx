@@ -2,9 +2,11 @@ import { useState } from 'react';
 import Avatar from '../Avatar';
 import './css/_common.css';
 import EditMyInfomodal from './contents/EditMyInfoModal';
+import { useUser } from '../../context/UserContext';
 
 const MyInfoSidebar = () => {
     const [showModal, setShowModal] = useState(false);
+    const { userInfo } = useUser();
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -22,7 +24,7 @@ const MyInfoSidebar = () => {
 
             <div className='d-flex flex-column align-items-center'>
                 <Avatar width={48} height={48}/> 
-                <h5 className='m-1'>로그인한 사용자 이름</h5>
+                <h5 className='m-1'>{userInfo.username}</h5>
             </div>
 
             <div className='hide-scrollbar h-100'>
@@ -30,7 +32,7 @@ const MyInfoSidebar = () => {
                     <li className='list-group-item p-4'>
                         <div className='col'>
                             <h5 className='mb-1'>이메일</h5>
-                            <p className='text-muted mb-0'>test@google.com</p>
+                            <p className='text-muted mb-0'>{userInfo.email}</p>
                         </div>
                     </li>
                 </ul>

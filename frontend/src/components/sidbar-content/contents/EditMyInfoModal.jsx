@@ -2,11 +2,35 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useEffect, useState } from 'react';
 import Avatar from '../../Avatar';
+import { useUser } from '../../../context/UserContext';
+import { updateUserInfo } from '../../../api/userApi';
 
 const EditMyInfomodal = ({show, onClose}) => {
+    const {userInfo, setUserInfo} = useUser();
+    const [data, setData] = useState({
+       'email': userInfo.email,
+       'username': userInfo.username,
+       'enabled': userInfo.enabled,
+       'roles': userInfo.roles 
+    });
+
+    useEffect(() => {
+        setData((prev) => {
+            return {
+                ...prev,
+                ...userInfo,
+            };
+        })
+    }, [userInfo]);
     
     const handleOnChange = (e) => {
-        
+        const {name, value} = e.target;
+        setData((prev) => {
+            return({
+                ...prev,
+                [name]: value,
+            });
+        });
     };
 
     const handleOpenUploadPhoto = (e) => {
@@ -18,6 +42,18 @@ const EditMyInfomodal = ({show, onClose}) => {
         const file = e.target.files[0];
         if(file){
             // TODO: server에서 img 처리도 추가한 후 진행
+        }
+    };
+
+    const handleSubmit = async() => {
+        try{
+            const res = await updateUserInfo(userInfo.id, data);
+            if(res.flag){
+                setUserInfo(data);
+                onClose();
+            }
+        } catch(err){
+            console.error(err);
         }
     };
 
@@ -36,7 +72,7 @@ const EditMyInfomodal = ({show, onClose}) => {
                                 type='text'
                                 name='username'
                                 id='username'
-                                value=''
+                                value={data.username}
                                 onChange={handleOnChange}
                             />
                         </div>
@@ -60,7 +96,7 @@ const EditMyInfomodal = ({show, onClose}) => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer> 
-                    <Button variant="primary" > 완료 </Button> 
+                    <Button variant="primary" onClick={handleSubmit}> 완료 </Button> 
                     <Button variant="secondary" onClick={onClose}> 닫기 </Button> 
                 </Modal.Footer> 
             </Modal.Dialog>
