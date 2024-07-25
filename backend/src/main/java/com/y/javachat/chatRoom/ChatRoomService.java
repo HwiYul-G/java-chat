@@ -1,15 +1,14 @@
 package com.y.javachat.chatRoom;
 
-import com.y.javachat.chatRoom.event.ChatRoomGeneratedEvent;
 import com.y.javachat.chatRoom.event.ChatRoomDeletedEvent;
+import com.y.javachat.chatRoom.event.ChatRoomGeneratedEvent;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -32,12 +31,12 @@ public class ChatRoomService {
     }
 
     public ChatRoom save(ChatRoom newChatRoom) {
-        Timestamp currentTimestamp = Timestamp.from(Instant.now());
-        newChatRoom.setCreatedAt(currentTimestamp);
+        LocalDateTime currentLocalDateTime = LocalDateTime.now();
+        newChatRoom.setCreatedAt(currentLocalDateTime);
         ChatRoom chatRoom = chatRoomRepository.save(newChatRoom);
 
         eventPublisher.publishEvent(
-                new ChatRoomGeneratedEvent(chatRoom.getId(), chatRoom.getManagerUserId(), currentTimestamp)
+                new ChatRoomGeneratedEvent(chatRoom.getId(), chatRoom.getManagerUserId(), currentLocalDateTime)
         );
 
         return chatRoom;

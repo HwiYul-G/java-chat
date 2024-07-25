@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,7 +24,7 @@ public class ChatRoom {
 
     private Long noticeChatId;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @NotNull(message = "채팅방 관리자 아이디가 필요합니다.")
     private Long managerUserId;

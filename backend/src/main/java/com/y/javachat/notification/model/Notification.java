@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,7 +26,7 @@ public class Notification {
 
     private String content;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     private NotificationStatus status;
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +24,5 @@ public class ChatJoin {
     @NotNull(message = "조인할 방 아이디가 필요합니다.")
     private Long roomId;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 }

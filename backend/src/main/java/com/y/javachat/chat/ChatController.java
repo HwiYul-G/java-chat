@@ -7,7 +7,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -20,7 +19,7 @@ public class ChatController {
     @MessageMapping("/chat-rooms/{roomId}")
     @SendTo("/sub/chat-rooms/{roomId}")
     public Chat sendMessage(@Payload Chat chat) {
-        chat.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        chat.setCreatedAt(LocalDateTime.now());
         return chatService.save(chat);
     }
 
