@@ -73,6 +73,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, baseUrl + "/users/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                                 // Disallow everything else.
+                                .requestMatchers("/java-chat/**").permitAll()
                                 .anyRequest().authenticated() // 마지막엔 항상 이 조건을 둔다.
                         // requestMatcher(HttpMethod.Get, baseUrl + "/users/**).permitAll()
                 )
