@@ -29,7 +29,7 @@ const router = createBrowserRouter([
                 element: <Home/>,
                 children: [
                     {
-                        path: ':userId',
+                        path: ':roomId',
                         element: <MessagePage/>
                     }
                 ]
