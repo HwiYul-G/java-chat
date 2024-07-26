@@ -12,3 +12,13 @@ export const makeGroupChatRoom = async({roomName, userId}) => {
         throw err;
     }
 };
+
+export const getAllMessagesByRoomId = async({roomId}) => {
+    try{
+        const res = await instance.get(`${prefix}/${roomId}/messages`);
+        return res.data;
+    }catch(err){
+        console.error(`${roomId} 번 방의 메시지 가져오기 실패: `, err);
+        throw err;
+    }
+};
