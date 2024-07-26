@@ -26,9 +26,9 @@ public class ChatRoom {
 
     private LocalDateTime createdAt;
 
-    @NotNull(message = "채팅방 관리자 아이디가 필요합니다.")
     private Long managerUserId;
 
+    @NotNull(message = "그룹 채팅방 여부 설정이 필요합니다.")
     private Boolean isGroup;
 
 }
