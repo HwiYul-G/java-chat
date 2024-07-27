@@ -1,8 +1,8 @@
 package com.y.javachat.security;
 
-import com.y.javachat.user.model.MyUserPrincipal;
-import com.y.javachat.user.converter.UserToUserDtoConverter;
-import com.y.javachat.user.dto.UserDto;
+import com.y.javachat.app.model.MyUserPrincipal;
+import com.y.javachat.app.converter.UserToUserDtoConverter;
+import com.y.javachat.app.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;

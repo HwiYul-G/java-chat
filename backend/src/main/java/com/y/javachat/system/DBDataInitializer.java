@@ -1,7 +1,7 @@
 package com.y.javachat.system;
 
-import com.y.javachat.user.model.User;
-import com.y.javachat.user.service.UserService;
+import com.y.javachat.app.model.User;
+import com.y.javachat.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
