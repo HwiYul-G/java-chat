@@ -6,7 +6,7 @@ const client = new StompJs.Client({
         Authorization: `Bearer ${localStorage.getItem('token')}`
     },
     debug: function (str){
-        console.log(str);
+        // console.log(str);
     },
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
@@ -52,8 +52,8 @@ const sendMessage = (roomId, message) => {
 const subscribeToRoom = (roomId, callback) => {
     const destination = `/sub/chat-rooms/${roomId}`;
     if (client.connected) {
-        client.subscribe(destination, message => {
-            callback(JSON.parse(message.body));
+        client.subscribe(destination, msg => {
+            callback(msg);
         });
     } else {
         if (!client.subscriptionRequests) {
