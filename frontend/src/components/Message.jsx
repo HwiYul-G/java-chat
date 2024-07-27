@@ -1,6 +1,6 @@
 import moment from "moment";
 
-const Message = ({message, key, userId}) => {
+const Message = ({message, userId}) => {
     const {id, senderId, roomId, content, createdAt, type } = message;
 
     if(type === 'DATE'){

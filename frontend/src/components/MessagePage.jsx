@@ -1,19 +1,57 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Avatar from './Avatar';
 import Message from './Message';
 import './css/_messagePage.css';
+import { useUser } from '../context/UserContext';
+import { sendMessage, activateClient, subscribeToRoom } from '../stomp';
+import { getAllMessagesByRoomId } from '../api/chatRoomApi';
 
 const MessagePage = () => {
-  const params = useParams();  // console.log("params : ", params.userId);
-  // userId는 상대방의 정보임
+  const {userInfo} = useUser();
+  const params = useParams();  // console.log("params : ", params.roomId);
   const [allMessages, setAllMessages] = useState([]);
   const [message, setMessage] = useState({
-    senderId: params.userId,
+    senderId: userInfo.id,
     roomId: params.roomId,
     content: '',
     type: 'CHAT',
   });
+
+  const subscriptionRef = useRef(null);
+
+  useEffect(() => {
+    setAllMessages([]); // 채팅방이 변경될 때 이전 메시지 초기화
+
+    activateClient();
+
+    if(subscriptionRef.current){
+      subscriptionRef.current.unsubscribe();
+    }
+
+    subscriptionRef.current = subscribeToRoom(params.roomId, msg => {
+      setAllMessages(prev => [...prev, JSON.parse(msg.body)]);
+    });
+
+    const loadMessages = async () => {
+      try{
+        const res = await getAllMessagesByRoomId({roomId: params.roomId});
+        if(res.data.length !== 0){
+          setAllMessages(res.data);
+        }
+      }catch(err){
+        console.error("Error loading messages: ", err);
+      }
+    };
+
+    loadMessages();
+
+    return () => {
+      if(subscriptionRef.current){
+        subscriptionRef.current.unsubscribe();
+      }
+    };
+  }, [params.roomId]);
 
   const handleOnChange = (e) => {
     const {name, value} = e.target;
@@ -25,51 +63,28 @@ const MessagePage = () => {
     });
   };
 
-  // 임시 데이터 설정
-  useEffect(() => {
-    const tempMessages = [
-      {
-        id: 1,
-        senderId: params.userId,
-        roomId: 1,
-        content: 'Hello!ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd',
-        createdAt: new Date().toISOString(),
-        type: 'CHAT'
-      },
-      {
-        id: 2,
-        senderId: 2,
-        roomId: 1,
-        content: 'Hi there!',
-        createdAt: new Date().toISOString(),
-        type: 'CHAT'
-      },
-      {
-        id: 3,
-        senderId: 1,
-        roomId: 1,
-        content: 'How are you?',
-        createdAt: new Date().toISOString(),
-        type: 'CHAT'
-      },
-    ];
-    setAllMessages(tempMessages);
-  }, []);
-
-
+  const handleSendMessage = () => {
+    sendMessage(params.roomId, message);
+    setMessage({
+      senderId: userInfo.id,
+      roomId: params.roomId,
+      content: '',
+      type: 'CHAT',
+    });
+  };
 
   return (
     <div className='card'>
       <header className='card-header'>
-        <Avatar width={50} height={50}/>
-        <p>
-          이름
-        </p>
+        <div>
+          <Avatar width={50} height={50}/>
+          <p>이름</p>
+        </div>
       </header>
       <div className='card-body'>
         {
-          allMessages.map((msg, key) => {
-            return <Message message={msg} key={key} userId={params.userId}/>
+          allMessages.map((msg, index) => {
+            return <Message message={msg} key={index} userId={userInfo.id}/>
           })
         }
       </div>
@@ -81,7 +96,7 @@ const MessagePage = () => {
           name='content'
           value={message.content} 
           onChange={handleOnChange}/>
-        <button className='btn btn-primary' type='button'>전송</button>
+        <button className='btn btn-primary' type='button' onClick={handleSendMessage}>전송</button>
       </div>
     </div>
   );
