@@ -1,3 +1,38 @@
+웹 소켓 소개
+RFC 6455라는 웹 소켓 프로토콜은 하나의 TCP connection위에서 클라이언트와 서버 사이의 full-duplex, two-way 커뮤니케이션을 설립하는 표준적인 방법을 제공한다. RFC 6455라는 웹 소켓 프로토콜은 HTTP와 다른 TCP 프르토콜이다. 하지만 이프로토콜은 HTTP 위에서 80과 443 포트를 사용해서 동작하도록 디자인 되었고 기존의 firewall rules를 재사용하는 것을 허락한다.
+
+웹소켓 상호작용은 HTTP Upgrade header를 사용하는 HTTP 요청으로 시작한다. 이 요청으로 웹 소켓 프로토콜로 전환된다. 
+1. Upgrade: webxocket 헤더와 Connection: Upgrade를 보낸다.
+2. 200 상태 코드가 아니라 서버는 Switching Protocols를 보낸다.
+위와 같은 성공적인 handshake 후에 HTTP upgrade request를 기반으로하는 TCP socket은 클라이언트와 서버에게 둘다 open되어서 message를 send recv 할 수 있게 한다.
+
+웹 소켓이 동작하는 방법에 대한 완벽한 소개는 현 문서의 범위를 넘는다. 이는 RFC6455 HTML5 웹 소켓 챕터를 보거나 웹에 대한 다른 소개나 튜토리얼을 봐라.
+
+웹소켓 버서가 nginx같은 웹 서버 뒤에서 운영되면, 너는 그것을 설정해서 웹 소켓 서버 로 웹 소켓 업그레이드 요청을 보낼 것이다. 마찬가지로 앱이 클라우드 환경에서 운영되면, 웹 소켓 support와 관련된 클라우드 제공자 소개를 확인해라
+
+HTTP vs. WebSocket
+웹 소켓이 HTTP와 호환되도록 디자인 되고 HTTP request로 시작됨에도, 2 프로토콜이 매우 다른 아키텍처와 애플리케이션 프로그래밍 모델로 이끄는 것을 이해하는 것은 중요하다.
+HTTP와 REST에서 애플리케이션은 많은 URLs로 모델된다. 애플리케이션끼리 상호작용하기 위햇, 클라이언트는 그러한 URLs와 request response style을 접근한다. 서버는 요청을 적절한 핸들러로 라우트 시킨다. 
+
+반면, 웹 소켓은 보통 초기 연결을 위한 URL 한개가 있다. 그 다음에 모든 애플리케이션 메시지는 같은 TCP connection을 따른다. 이것은 완전히 다른 비동기, 이벤트 기반 메시징 아키텍처임을 나타낸다.
+
+웹소켓은 낮은 수준의 전송 프로토콜이다. 즉 HTTP와 달리 메시지의 내용에 어떤 semantics도 처방하지 않는다. 
+semantics이 처방되지 않는 것은 클라이언트와 서버가 메시지 semantics에 관한 도으이가 없다면 메시지를 라우트하거나 처리할 어떤 방법도 없다는 것을 의미한다.
+
+웹소켓 클라이어늩와 서버가 더 고수준의 메시지 프로토콜(STOMP같은) 것을 사용하길 협상할 수 있다. 이때는 Sec-WebSocket-Protocol 헤더를 http handshake request에 놓는다. 이 헤더의 부제에도, 그들은 그들 자신의 컨벤션을 사용할 필요가 있다.
+
+웹 소켓을 사용하는 때
+웹소켓은 웹 페이지를 다이나믹하고 상호작용하게 한다. 그러나 많은 경우에 ajax와 http streaming의 조합 혹은 긴 polling으로 간단하고 효과적인 해결책을 제공한다.
+예를 들어서, 뉴스 메일 소셜 피드는 동적으로 업데이트된다. 그러나 이것은 완전히 매 몇 분마다 okay하지 앟는다. collaboration, games, financial apps같은 경우는 더 실시간이여야한다.
+
+latency alone은 결정 요인이 아니다. 메시지의 양이 상대적으로 낮으면 http streaming이나 polling은 효과적인 해결책을 제공한다.
+low latency와 high frequency와 high volume이 웹 소켓에서 적절한 선택이다.
+
+인터넷위에서 너의 통제 권한을 벗어난 제한적인 프록시들은 웹 소켓 상호작용을 못하게 할지도 모른다. 
+그들이 업그레이드 헤더 위에서 pass할 설정을 못하기 때문에 혹은 그들이 long lived connection을 닫기 때문일지도 므론다. 이것은 의미한다. firewall 내부에서 인터넷 앱의 웹 소캣 사용은 더 직관적인 결정이다. public facing appplicaiton보다. 
+
+
+
 
 웹소켓 프로토콜은 동시에 양방향 커뮤니케이션에 관한 HTTP 기반의 아키텍처의 한계를 극복하도록 만들어졌다.
 가장 중요한 것으로, 웹소켓은 HTTP(request-response)와 또 다른 커뮤니케이션 모델(동시에 양방향 메시징)을 가진다.
