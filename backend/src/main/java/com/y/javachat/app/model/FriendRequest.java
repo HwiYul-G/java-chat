@@ -10,23 +10,22 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Table(name="friends")
+@Table(name="friend_request")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Friend {
+public class FriendRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull(message = "userId가 필요합니다.")
-    private Long userId;
+    private Long senderId;
 
-    @NotNull(message = "friendId가 필요합니다.")
-    private Long friendId;
+    @NotNull(message = "receiverId가 필요합니다.")
+    private Long receiverId;
 
-    private FriendStatus status;
+    private String senderName;
 
     private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
 }
