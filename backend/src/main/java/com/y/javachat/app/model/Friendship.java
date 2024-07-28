@@ -24,8 +24,8 @@ public class Friendship {
     @NotNull(message = "friendId가 필요합니다.")
     private Long friendId;
 
-    private LocalDateTime createdAt;
+    private Long chatRoomId;
 
-    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
 
 }
