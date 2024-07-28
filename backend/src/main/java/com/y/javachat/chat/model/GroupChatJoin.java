@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @Entity
-@Table(name = "chat_join")
-public class ChatJoin {
+@Table(name = "group_chat_join")
+public class GroupChatJoin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -2,7 +2,6 @@ package com.y.javachat.chat.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,10 +10,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Table(name = "chat_room")
+@Table(name = "group_chat_room")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoom {
+public class GroupChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,13 +21,8 @@ public class ChatRoom {
     @NotEmpty(message = "채팅방 이름이 필요합니다.")
     private String name;
 
-    private Long noticeChatId;
-
     private LocalDateTime createdAt;
 
     private Long managerUserId;
-
-    @NotNull(message = "그룹 채팅방 여부 설정이 필요합니다.")
-    private Boolean isGroup;
 
 }
