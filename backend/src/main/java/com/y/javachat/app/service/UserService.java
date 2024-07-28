@@ -137,4 +137,22 @@ public class UserService implements UserDetailsService {
                 .map(MyUserPrincipal::new)
                 .orElseThrow(() -> new UsernameNotFoundException("userEmail " + userEmail + " 을 찾을 수 없습니다.."));
     }
+
+    @Async
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @EventListener
+    public void handlePersonalChatRoomGeneratedEvent(PersonalChatRoomGeneratedEvent event){
+        Friendship friendship1 = friendshipRepository
+                .findByUserIdAndAndFriendId(event.userId1(), event.userId2())
+                .orElseThrow(() -> new ObjectNotFoundException("friendship user1 and user2", event.userId1() + event.userId2()));
+        Friendship friendship2 = friendshipRepository
+                .findByUserIdAndAndFriendId(event.userId2(), event.userId1())
+                .orElseThrow(() -> new ObjectNotFoundException("friendship user2 and user1", event.userId2() + event.userId1()));
+
+        friendship1.setChatRoomId(event.roomId());
+        friendship2.setChatRoomId(event.roomId());
+
+        friendshipRepository.save(friendship1);
+        friendshipRepository.save(friendship2);
+    }
 }
