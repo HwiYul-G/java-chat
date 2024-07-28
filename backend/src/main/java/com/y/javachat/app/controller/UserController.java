@@ -1,5 +1,8 @@
 package com.y.javachat.app.controller;
 
+import com.y.javachat.app.dto.FriendRequestDto;
+import com.y.javachat.app.dto.FriendResponseDto;
+import com.y.javachat.app.model.FriendRequest;
 import com.y.javachat.app.model.User;
 import com.y.javachat.app.service.UserService;
 import com.y.javachat.system.Result;
@@ -64,6 +67,36 @@ public class UserController {
     public Result deleteUser(@PathVariable Long userId) {
         this.userService.delete(userId);
         return new Result(true, StatusCode.SUCCESS, "Delete Success");
+    }
+
+    @GetMapping("/{userId}/friends")
+    public Result findFriendsByUserId(@PathVariable Long userId){
+        List<FriendResponseDto> friends = this.userService.findFriendsByUserId(userId);
+        return new Result(true, StatusCode.SUCCESS, "친구 찾기 성공", friends);
+    }
+
+    @PostMapping("/invite-friend")
+    public Result inviteFriend(@Valid @RequestBody FriendRequestDto friendRequestDto){
+        userService.createFriendRequest(friendRequestDto.userId(), friendRequestDto.friendEmail());
+        return new Result(true, StatusCode.SUCCESS, "친구 초대 요청 성공");
+    }
+
+    @PostMapping("/friend-requests/{friendRequestId}/accept")
+    public Result acceptFriendRequest(@PathVariable Long friendRequestId){
+        userService.acceptFriendRequest(friendRequestId);
+        return new Result(true, StatusCode.SUCCESS, "친구 초대 요청 수락 성공");
+    }
+
+    @DeleteMapping("/friend-requests/{friendRequestId}")
+    public Result declineFriendRequest(@PathVariable Long friendRequestId){
+        userService.declineFriendRequest(friendRequestId);
+        return new Result(true, StatusCode.SUCCESS, "친구 초대 요청 거절 성공");
+    }
+
+    @GetMapping("/{userId}/request-friends")
+    public Result findFriendRequests(@PathVariable Long userId){
+        List<FriendRequest> friendRequests = userService.findFriendRequestsByUserId(userId);
+        return new Result(true, StatusCode.SUCCESS, "친구 초대 요청 목록 조회 성공",friendRequests);
     }
 
 
