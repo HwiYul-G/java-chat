@@ -1,7 +1,9 @@
 package com.y.javachat.chat.controller;
 
-import com.y.javachat.chat.model.Chat;
-import com.y.javachat.chat.service.ChatService;
+import com.y.javachat.chat.model.GroupChat;
+import com.y.javachat.chat.model.PersonalChat;
+import com.y.javachat.chat.service.GroupChatService;
+import com.y.javachat.chat.service.PersonalChatService;
 import com.y.javachat.system.Result;
 import com.y.javachat.system.StatusCode;
 import lombok.RequiredArgsConstructor;
@@ -22,20 +24,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ChatService chatService;
+    private final GroupChatService groupChatService;
+    private final PersonalChatService personalChatService;
 
-    @MessageMapping("/chat-rooms/{roomId}")
-    @SendTo("/sub/chat-rooms/{roomId}")
-    public Chat sendMessage(@Payload Chat chat) {
-        chat.setCreatedAt(LocalDateTime.now());
-        return chatService.save(chat);
+    @MessageMapping("/group-chat-rooms/{roomId}")
+    @SendTo("/sub/group-chat-rooms/{roomId}")
+    public GroupChat sendMessage(@Payload GroupChat groupChat) {
+        groupChat.setCreatedAt(LocalDateTime.now());
+        return groupChatService.save(groupChat);
     }
 
-    @GetMapping("${api.endpoint.base-url}/chat-rooms/{roomId}/messages")
+    @MessageMapping("/personal-chat-rooms/{roomId}")
+    @SendTo("/sub/personal-chat-rooms/{roomId}")
+    public PersonalChat sendPersonalMessage(@Payload PersonalChat personalChat){
+        personalChat.setCreatedAt(LocalDateTime.now());
+        return personalChatService.save(personalChat);
+    }
+
+    @GetMapping("${api.endpoint.base-url}/group-chat-rooms/{roomId}/messages")
     @ResponseBody
     public Result getAllMessagesByRoomId(@PathVariable Long roomId){
-        List<Chat> chats = chatService.findAllByRoomId(roomId);
+        List<GroupChat> chats = groupChatService.findAllByRoomId(roomId);
         return new Result(true, StatusCode.SUCCESS, "채팅 리스트 조회 성공", chats);
+    }
+
+    @GetMapping("${api.endpoint.base-url}/personal-chat-rooms/{roomId}/messages")
+    @ResponseBody
+    public Result getAllPersonalChatsByRoomId(@PathVariable Long roomId){
+        List<PersonalChat> chats = personalChatService.findAllByRoomId(roomId);
+        return new Result(true, StatusCode.SUCCESS,"채팅 리스트 조회 성공", chats);
     }
 
 }
