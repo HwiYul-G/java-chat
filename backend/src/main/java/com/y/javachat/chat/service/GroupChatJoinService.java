@@ -1,10 +1,10 @@
 package com.y.javachat.chat.service;
 
 import com.y.javachat.chat.dto.LeaveChatJoinDto;
-import com.y.javachat.chat.model.ChatJoin;
-import com.y.javachat.chat.repository.ChatJoinRepository;
-import com.y.javachat.chat.event.ChatRoomDeletedEvent;
-import com.y.javachat.chat.event.ChatRoomGeneratedEvent;
+import com.y.javachat.chat.model.GroupChatJoin;
+import com.y.javachat.chat.repository.GroupChatJoinRepository;
+import com.y.javachat.chat.event.GroupChatRoomDeletedEvent;
+import com.y.javachat.chat.event.GroupChatRoomGeneratedEvent;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -17,31 +17,31 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ChatJoinService {
+public class GroupChatJoinService {
 
-    private final ChatJoinRepository chatJoinRepository;
+    private final GroupChatJoinRepository chatJoinRepository;
 
-    public ChatJoin save(ChatJoin newChatJoin) {
-        return chatJoinRepository.save(newChatJoin);
+    public GroupChatJoin save(GroupChatJoin newGroupChatJoin) {
+        return chatJoinRepository.save(newGroupChatJoin);
     }
 
-    public List<ChatJoin> findAll() {
+    public List<GroupChatJoin> findAll() {
         return this.chatJoinRepository.findAll();
     }
 
     public void delete(LeaveChatJoinDto dto) {
-        ChatJoin chatJoin = chatJoinRepository.findByUserIdAndRoomId(dto.userId(), dto.roomId())
+        GroupChatJoin groupChatJoin = chatJoinRepository.findByUserIdAndRoomId(dto.userId(), dto.roomId())
                 .orElseThrow(() -> new ObjectNotFoundException("chat-join", "user id : " + dto.userId() + "room id : " + dto.roomId()));
         // TODO: 방의 관리자가 나가는 경우를 처리한다.
-        chatJoinRepository.delete(chatJoin);
+        chatJoinRepository.delete(groupChatJoin);
     }
 
 
     @Async
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @EventListener
-    public void handleChatRoomGeneratedEvent(ChatRoomGeneratedEvent event) {
-        chatJoinRepository.save(ChatJoin.builder()
+    public void handleGroupChatRoomGeneratedEvent(GroupChatRoomGeneratedEvent event) {
+        chatJoinRepository.save(GroupChatJoin.builder()
                 .roomId(event.chatRoomId())
                 .userId(event.managerId())
                 .createdAt(event.currentTIme())
@@ -51,8 +51,8 @@ public class ChatJoinService {
 
     @Async
     @EventListener
-    public void handleChatRoomDeletedEvent(ChatRoomDeletedEvent event) {
-        List<ChatJoin> chatJoins = chatJoinRepository.findAllByRoomId(event.chatRoomId());
-        chatJoinRepository.deleteAll(chatJoins);
+    public void handleGroupChatRoomDeletedEvent(GroupChatRoomDeletedEvent event) {
+        List<GroupChatJoin> groupChatJoins = chatJoinRepository.findAllByRoomId(event.chatRoomId());
+        chatJoinRepository.deleteAll(groupChatJoins);
     }
 }
