@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Table(name = "chat")
+@Table(name = "group_chat")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat {
+public class GroupChat {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,6 +23,9 @@ public class Chat {
 
     @NotNull(message = "메시지를 보내는 방 id가 필요합니다.")
     private Long roomId;
+
+    @NotNull(message = "메시지를 보내느 사람 이름이 필요합니다.")
+    private String senderName;
 
     private String content;
 
