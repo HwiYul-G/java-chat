@@ -1,6 +1,6 @@
 package com.y.javachat.chat.event;
 
-public record ChatRoomDeletedEvent(
+public record GroupChatRoomDeletedEvent(
         Long chatRoomId
 ) {
 
