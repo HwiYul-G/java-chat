@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { makeGroupChatRoom } from "../../../api/chatRoomApi";
+import { makeGroupChatRoom } from "../../../api/groupChatRoomApi";
 import { useUser } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 

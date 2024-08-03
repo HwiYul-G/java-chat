@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useUser } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { enterGroupChatRoom } from "../../../api/chatJoinApi";
+import { enterGroupChatRoom } from "../../../api/groupChatJoinApi";
 
 const EnterGroupChatRoom = () => {
     const {userInfo} = useUser();
