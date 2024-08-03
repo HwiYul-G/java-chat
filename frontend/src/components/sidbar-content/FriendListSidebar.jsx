@@ -1,17 +1,38 @@
 import './css/_common.css';
 import './contents/Friend';
 import Friend from './contents/Friend';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddFriendModal from './contents/AddFriendModal';
+import { findFriendsByUserId } from '../../api/userApi';
+import { useUser } from '../../context/UserContext';
 
 const FriendListSidebar = () => {
-    const [showModal, setShowModal] = useState(false);
+    const { userInfo } = useUser();
 
-    const friends = [
-        { id: 1, name: 'Alice', email: 'alice@example.com', imgUrl: '' },
-        { id: 2, name: 'Bob', email: 'bob@example.com', imgUrl: '' },
-        { id: 3, name: 'Charlie', email: 'charlie@example.com', imgUrl: '' },
-    ];
+    const [showModal, setShowModal] = useState(false);
+    const [friends, setFriends] = useState([]);
+
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        const fetchFriends = async () => {
+            try {
+                const friendsData = await findFriendsByUserId(userInfo.id);
+                if(friendsData.flag && friendsData.data.length === 0){
+                    setMessage("친구를 추가해 보세요");
+                }
+                if(friendsData.flag && friendsData.data.length !== 0){
+                    setMessage('');
+                    console.log(friendsData);
+                    setFriends(friendsData.data);
+                }
+            } catch (e) {
+                setMessage(e.message);
+            }
+        };
+
+        fetchFriends();
+    }, [friends]); // userId로 해야 하는 게 맞을까?
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -27,6 +48,14 @@ const FriendListSidebar = () => {
                 <div className='tab-header'>
                     <h5>친구 목록</h5>
                 </div>
+                
+                {
+                    message && (
+                        <div className='alert alert-danger'>
+                            {message}
+                        </div>
+                    )
+                }
 
                 <div className='hide-scrollbar h-100'>
                     <div className='m-4'>

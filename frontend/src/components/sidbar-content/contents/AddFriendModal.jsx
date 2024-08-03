@@ -1,13 +1,29 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import { useUser } from '../../../context/UserContext';
+import { inviteFriend } from '../../../api/userApi';
 
 const AddFriendModal = ({show, onClose}) => {
+    const {userInfo} = useUser(); // userInfo.id가 userId이다. 
+
     const [email, setEmail] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleInviteClicked = () => {
-
+    const handleInviteClicked = async() => {
+        try{
+            const res = await inviteFriend({userId: userInfo.id, friendEmail: email});
+            console.log(res);
+            if(res.flag){
+                setEmail('');
+                onClose();
+            } else {
+                setErrorMessage(res.message);
+            }
+        }catch(err){
+            console.error(err);
+            setErrorMessage(err.message || '친구 초대 중 오류가 발생했습니다.');
+        }
     };
 
     return (
