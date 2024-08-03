@@ -44,3 +44,45 @@ export const findUserByEmail = async (email) => {
         throw err;
     }
 };
+
+export const findFriendsByUserId = async(userId) => {
+    try {
+        const res = await instance.get(`${prefix}/${userId}/friends`)
+        return res.data;
+    } catch(err){
+        console.error("서버의 친구 목록 가져오기 API 호출 실패: ", err);
+        throw err;
+    }
+}
+
+export const inviteFriend = async(data) => {
+    // {userId: , friendEmail: }
+    try{
+        const res = await instance.post(`${prefix}/invite-friend`, data);
+        console.log(res);
+        return res.data;
+    } catch(err){
+        console.error("서버의 친구 초대하기 API 호출 실패: ", err);
+        throw err;
+    }
+};
+
+export const acceptFriendRequest = async(friendRequestId) => {
+    try{
+        const res = await instance.post(`${prefix}/friend-requests/${friendRequestId}/accept`);
+        return res.data;
+    }catch(err){
+        console.error("서버의 친구 요청 승락 API 호출 실패: ", err);
+        throw err;
+    }
+};
+
+export const declineFriendRequest = async(friendRequestId) => {
+    try{
+        const res = await instance.delete(`${prefix}/friend-requests/${friendRequestId}`);
+        return res.data;
+    }catch(err){
+        console.error("서버의친구 요청 거절 API 호출 오류: ", err);
+        throw err;
+    }
+};
