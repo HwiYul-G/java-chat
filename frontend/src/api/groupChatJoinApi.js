@@ -1,6 +1,6 @@
 import instance from ".";
 
-const prefix = '/chat-join'
+const prefix = '/group-chat-join'
 
 export const enterGroupChatRoom = async({roomId, userId}) => {
     const data = {

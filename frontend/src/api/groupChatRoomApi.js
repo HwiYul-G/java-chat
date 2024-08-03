@@ -1,6 +1,6 @@
 import instance from ".";
 
-const prefix = '/chat-rooms'
+const prefix = '/group-chat-rooms'
 
 export const makeGroupChatRoom = async({roomName, userId}) => {
     const data = {name: roomName, managerUserId: userId, isGroup: true};
@@ -13,7 +13,7 @@ export const makeGroupChatRoom = async({roomName, userId}) => {
     }
 };
 
-export const getAllMessagesByRoomId = async({roomId}) => {
+export const getAllMessagesByGroupRoomId = async({roomId}) => {
     try{
         const res = await instance.get(`${prefix}/${roomId}/messages`);
         return res.data;
