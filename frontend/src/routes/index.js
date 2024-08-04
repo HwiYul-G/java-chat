@@ -6,6 +6,7 @@ import App from "../App";
 import AuthLayouts from "../layout";
 import Forgotpassword from "../pages/Forgotpassword";
 import GroupMessagePage from "../components/GroupMessagePage";
+import PersonalMessagePage from "../components/PersonalMessagePage";
 
 const router = createBrowserRouter([
     {
@@ -32,10 +33,10 @@ const router = createBrowserRouter([
                         path: 'group/:roomId',
                         element: <GroupMessagePage/>
                     },
-                    // {
-                    //     path: 'personal/:roomId'
-                    //     element: <PersonalMessagePage/>
-                    // }
+                    {
+                        path: 'personal/:roomId',
+                        element: <PersonalMessagePage/>
+                    }
                 ]
             }
         ]
