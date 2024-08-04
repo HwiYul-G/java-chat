@@ -49,8 +49,46 @@ const sendGroupMessage = (roomId, message) => {
     });
 };
 
+const sendPersonalMessage = (roomId, message) =>{
+    client.publish({
+        destination: `/pub/personal-chat-rooms/${roomId}`,
+        body: JSON.stringify(message),
+        headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    });
+}
+
+const subscribedGroupRooms = new Set();
+const subscribedPersonalRooms = new Set();
+
 const subscribeToGroupRoom = (roomId, callback) => {
     const destination = `/sub/group-chat-rooms/${roomId}`;
+
+    if(subscribedGroupRooms.has(roomId))
+        return;
+    subscribedGroupRooms.add(roomId);
+
+    if (client.connected) {
+        client.subscribe(destination, msg => {
+            callback(msg);
+        });
+    } else {
+        if (!client.subscriptionRequests) {
+            client.subscriptionRequests = [];
+        }
+        client.subscriptionRequests.push({ destination, callback });
+    }
+};
+
+const subscribeToPersonalRoom = (roomId, callback) => {
+    const destination = `/sub/personal-chat-rooms/${roomId}`;
+
+    if(subscribedPersonalRooms.has(roomId))
+        return;
+    subscribedPersonalRooms.add(roomId);
+
     if (client.connected) {
         client.subscribe(destination, msg => {
             callback(msg);
