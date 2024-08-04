@@ -1,14 +1,21 @@
 import { useState } from "react";
+import { acceptFriendRequest, declineFriendRequest } from "../../../api/userApi";
 
 const AddFriendNotification = ({invitationId, inviterName, invitationDate}) => {
     const [isResponded, setIsResponded] = useState(false);
 
-    const handleReject = () => {
-        setIsResponded(true);
+    const handleReject = async () => {
+        const res = await declineFriendRequest(invitationId);
+        if(res.flag){
+            setIsResponded(true);
+        }
     };
 
-    const handleAccept = () => {
-        setIsResponded(true);
+    const handleAccept = async () => {
+        const res = await acceptFriendRequest(invitationId);
+        if(res.flag){
+            setIsResponded(true);
+        }
     };
 
     return (
