@@ -38,9 +38,9 @@ const deactivateClient = () => {
         client.deactivate();
 };
 
-const sendMessage = (roomId, message) => {
+const sendGroupMessage = (roomId, message) => {
     client.publish({
-        destination: `/pub/chat-rooms/${roomId}`,
+        destination: `/pub/group-chat-rooms/${roomId}`,
         body: JSON.stringify(message),
         headers: {
             'content-type': 'application/json',
@@ -49,8 +49,8 @@ const sendMessage = (roomId, message) => {
     });
 };
 
-const subscribeToRoom = (roomId, callback) => {
-    const destination = `/sub/chat-rooms/${roomId}`;
+const subscribeToGroupRoom = (roomId, callback) => {
+    const destination = `/sub/group-chat-rooms/${roomId}`;
     if (client.connected) {
         client.subscribe(destination, msg => {
             callback(msg);
@@ -63,4 +63,4 @@ const subscribeToRoom = (roomId, callback) => {
     }
 };
 
-export {activateClient, deactivateClient, sendMessage, subscribeToRoom};
+export {activateClient, deactivateClient, sendGroupMessage as sendMessage, subscribeToGroupRoom as subscribeToRoom};

@@ -2,10 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
 import Home from "../pages/Home";
-import MessagePage from "../components/MessagePage";
 import App from "../App";
 import AuthLayouts from "../layout";
 import Forgotpassword from "../pages/Forgotpassword";
+import GroupMessagePage from "../components/GroupMessagePage";
 
 const router = createBrowserRouter([
     {
@@ -29,9 +29,13 @@ const router = createBrowserRouter([
                 element: <Home/>,
                 children: [
                     {
-                        path: ':roomId',
-                        element: <MessagePage/>
-                    }
+                        path: 'group/:roomId',
+                        element: <GroupMessagePage/>
+                    },
+                    // {
+                    //     path: 'personal/:roomId'
+                    //     element: <PersonalMessagePage/>
+                    // }
                 ]
             }
         ]
