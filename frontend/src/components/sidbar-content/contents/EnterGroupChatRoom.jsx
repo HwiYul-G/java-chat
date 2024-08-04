@@ -16,7 +16,7 @@ const EnterGroupChatRoom = () => {
         try{
             const result = await enterGroupChatRoom({roomId: roomId, userId: userInfo.id});
             if(result.flag){
-                navigate(`/${roomId}`);
+                navigate(`group/${roomId}`);
             }
         }catch(err){
             setMessage(err.message);

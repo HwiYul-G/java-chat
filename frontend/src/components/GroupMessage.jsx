@@ -1,7 +1,7 @@
 import moment from "moment";
 
-const Message = ({message, userId}) => {
-    const {id, senderId, roomId, content, createdAt, type } = message;
+const GroupMessage = ({message, userId}) => {
+    const {id, senderId, roomId, senderName, content, createdAt, type } = message;
 
     if(type === 'DATE'){
         return (
@@ -23,12 +23,13 @@ const Message = ({message, userId}) => {
     }
     return (
         <div className='d-flex flex-row justify-content-start'>
+            <p className="small mb-0 me-3">{senderName}</p>
             <div>
-                <p className="small p-2 ms-3 mb-1 rounded-3 bg-body-tertiary" style={{maxWidth:'500px', wordWrap:'break-word'}}>{content}</p>
-                <p className="small ms-3 mb-3 rounded-3 text-muted">{moment(createdAt).format('hh:mm')}</p>
+                <p className="small p-2 mb-1 rounded-3 bg-body-tertiary" style={{maxWidth:'500px', wordWrap:'break-word'}}>{content}</p>
+                <p className="small mb-3 rounded-3 text-muted">{moment(createdAt).format('hh:mm')}</p>
             </div>
         </div>
     );
 };
 
-export default Message;
+export default GroupMessage;

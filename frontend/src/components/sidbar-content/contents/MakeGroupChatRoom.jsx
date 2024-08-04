@@ -19,7 +19,7 @@ const MakeGroupChatRoom = () => {
             const result = await makeGroupChatRoom({roomName: roomName, userId: userInfo.id});
             if(result.flag){
                 setRoomId(result.data.id);
-                navigate(`/${result.data.id}`);
+                navigate(`/group/${result.data.id}`);
             }
         }catch(err){
             setErrorMessage(err.message);
