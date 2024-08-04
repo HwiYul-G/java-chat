@@ -101,4 +101,4 @@ const subscribeToPersonalRoom = (roomId, callback) => {
     }
 };
 
-export {activateClient, deactivateClient, sendGroupMessage as sendMessage, subscribeToGroupRoom as subscribeToRoom};
+export {activateClient, deactivateClient, sendGroupMessage, subscribeToGroupRoom, sendPersonalMessage, subscribeToPersonalRoom};
