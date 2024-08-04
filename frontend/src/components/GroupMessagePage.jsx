@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Avatar from './Avatar';
 import GroupMessage from './GroupMessage';
 import './css/_messagePage.css';
 import { useUser } from '../context/UserContext';
-import { sendMessage, activateClient, subscribeToRoom as subscribeToGroupRoom } from '../stomp';
+import { activateClient, subscribeToGroupRoom, sendGroupMessage } from '../stomp';
 import { getAllMessagesByGroupRoomId } from '../api/groupChatRoomApi';
 
 const GroupMessagePage = ({roomName}) => {
@@ -65,7 +64,7 @@ const GroupMessagePage = ({roomName}) => {
   };
 
   const handleSendMessage = () => {
-    sendMessage(params.roomId, groupMessage);
+    sendGroupMessage(params.roomId, groupMessage);
     setGroupMessage({
       senderId: userInfo.id,
       roomId: params.roomId,
