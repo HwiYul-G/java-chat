@@ -86,3 +86,14 @@ export const declineFriendRequest = async(friendRequestId) => {
         throw err;
     }
 };
+
+export const findFriendRequests = async(userId) => {
+    try{
+        const res = await instance.get(`${prefix}/${userId}/request-friends`)
+        console.log(res);
+        return res.data;
+    }catch(err){
+        console.error("서버의 친구 요청 목록 API 호출 오류: ", err);
+        throw err;
+    }
+};
