@@ -69,8 +69,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                                .requestMatchers(HttpMethod.GET, baseUrl + "/users/**").hasAuthority("ROLE_admin") // Protect the endpoint
-                                .requestMatchers(HttpMethod.POST, baseUrl + "/users").permitAll()
+                                .requestMatchers(HttpMethod.POST, baseUrl + "/users").permitAll()   // Protect the endpoint
                                 .requestMatchers(HttpMethod.PUT, baseUrl + "/users/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(HttpMethod.DELETE, baseUrl + "/users/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
