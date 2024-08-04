@@ -23,7 +23,6 @@ const FriendListSidebar = () => {
                 }
                 if(friendsData.flag && friendsData.data.length !== 0){
                     setMessage('');
-                    console.log(friendsData);
                     setFriends(friendsData.data);
                 }
             } catch (e) {
