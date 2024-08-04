@@ -32,7 +32,7 @@ const FriendListSidebar = () => {
         };
 
         fetchFriends();
-    }, [friends]); // userId로 해야 하는 게 맞을까?
+    }, [userInfo.id]);
 
     const handleShowModal = () => {
         setShowModal(true);
