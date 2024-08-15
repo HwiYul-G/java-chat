@@ -23,7 +23,7 @@ public class PersonalChatRoomController {
         return new Result(true, StatusCode.SUCCESS, "채팅방 생성 성공", savedPersonalChatRoom);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public Result findAllPersonalChatRoomByUserId(@PathVariable Long userId) {
         List<PersonalChatRoom> personalChatRooms = personalChatRoomService.getAllPersonalChatRoomByUserId(userId);
         return new Result(true, StatusCode.SUCCESS, "개인 채팅방 목록 조회 성공", personalChatRooms);
