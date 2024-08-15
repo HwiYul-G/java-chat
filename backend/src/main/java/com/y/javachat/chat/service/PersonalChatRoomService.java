@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PersonalChatRoomService {
@@ -14,7 +16,7 @@ public class PersonalChatRoomService {
     private final PersonalChatRoomRepository personalChatRoomRepository;
     private final ApplicationEventPublisher eventPublisher;
 
-    public PersonalChatRoom createPersonalChatRoom(PersonalChatRoom personalChatRoom){
+    public PersonalChatRoom createPersonalChatRoom(PersonalChatRoom personalChatRoom) {
         PersonalChatRoom savedPersonalChatRoom = personalChatRoomRepository.save(personalChatRoom);
 
         eventPublisher.publishEvent(
@@ -25,6 +27,10 @@ public class PersonalChatRoomService {
         );
 
         return savedPersonalChatRoom;
+    }
+
+    public List<PersonalChatRoom> getAllPersonalChatRoomByUserId(Long userId) {
+        return personalChatRoomRepository.findAllByUserId(userId);
     }
 
 }
