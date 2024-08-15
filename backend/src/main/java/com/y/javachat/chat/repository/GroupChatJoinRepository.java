@@ -12,4 +12,6 @@ public interface GroupChatJoinRepository extends JpaRepository<GroupChatJoin, Lo
     List<GroupChatJoin> findAllByRoomId(Long chatRoomId);
 
     Optional<GroupChatJoin> findByUserIdAndRoomId(Long userId, Long roomId);
+
+    List<GroupChatJoin> findAllByUserId(Long userId);
 }

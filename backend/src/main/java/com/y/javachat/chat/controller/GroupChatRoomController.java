@@ -28,10 +28,10 @@ public class GroupChatRoomController {
         return new Result(true, StatusCode.SUCCESS, "채팅방 생성 성공", savedGroupChatRoom);
     }
 
-    @GetMapping
-    public Result findAllGroupChatRooms() {
-        List<GroupChatRoom> groupChatRoomPage = this.groupChatRoomService.findAll();
-        return new Result(true, StatusCode.SUCCESS, "채팅방 목록 조회 성공", groupChatRoomPage);
+    @GetMapping("/users/{userId}")
+    public Result findAllGroupChatRoomsByUserId(@PathVariable Long userId) {
+        List<GroupChatRoom> groupChatRooms = groupChatRoomService.findAllByUserId(userId);
+        return new Result(true, StatusCode.SUCCESS, "채팅방 목록 조회 성공", groupChatRooms);
     }
 
     @PutMapping("/{chatRoomId}")
@@ -45,6 +45,5 @@ public class GroupChatRoomController {
         this.groupChatRoomService.delete(chatRoomId);
         return new Result(true, StatusCode.SUCCESS, "채팅방 삭제 성공");
     }
-
 
 }

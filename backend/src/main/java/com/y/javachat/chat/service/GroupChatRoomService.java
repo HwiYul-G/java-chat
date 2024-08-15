@@ -3,6 +3,7 @@ package com.y.javachat.chat.service;
 import com.y.javachat.chat.event.GroupChatRoomDeletedEvent;
 import com.y.javachat.chat.event.GroupChatRoomGeneratedEvent;
 import com.y.javachat.chat.model.GroupChatRoom;
+import com.y.javachat.chat.repository.GroupChatJoinRepository;
 import com.y.javachat.chat.repository.GroupChatRoomRepository;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
@@ -19,11 +20,17 @@ import java.util.List;
 public class GroupChatRoomService {
 
     private final GroupChatRoomRepository groupChatRoomRepository;
+    private final GroupChatJoinRepository groupChatJoinRepository;
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public List<GroupChatRoom> findAll() {
-        return this.groupChatRoomRepository.findAll();
+    public List<GroupChatRoom> findAllByUserId(Long userId) {
+        return groupChatJoinRepository.findAllByUserId(userId)
+                .stream()
+                .map(groupChatJoin -> groupChatRoomRepository
+                        .findById(groupChatJoin.getRoomId())
+                        .orElseThrow(() -> new ObjectNotFoundException("chat room", groupChatJoin.getRoomId())))
+                .toList();
     }
 
 
@@ -38,7 +45,7 @@ public class GroupChatRoomService {
         GroupChatRoom groupChatRoom = groupChatRoomRepository.save(newGroupChatRoom);
 
         eventPublisher.publishEvent(
-                new GroupChatRoomGeneratedEvent(groupChatRoom.getId(), groupChatRoom.getManagerUserId(),currentLocalDateTime)
+                new GroupChatRoomGeneratedEvent(groupChatRoom.getId(), groupChatRoom.getManagerUserId(), currentLocalDateTime)
         );
 
         return groupChatRoom;

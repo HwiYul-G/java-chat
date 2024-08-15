@@ -25,10 +25,6 @@ public class GroupChatJoinService {
         return chatJoinRepository.save(newGroupChatJoin);
     }
 
-    public List<GroupChatJoin> findAll() {
-        return this.chatJoinRepository.findAll();
-    }
-
     public void delete(LeaveChatJoinDto dto) {
         GroupChatJoin groupChatJoin = chatJoinRepository.findByUserIdAndRoomId(dto.userId(), dto.roomId())
                 .orElseThrow(() -> new ObjectNotFoundException("chat-join", "user id : " + dto.userId() + "room id : " + dto.roomId()));
