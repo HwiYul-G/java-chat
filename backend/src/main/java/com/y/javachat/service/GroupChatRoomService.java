@@ -1,9 +1,11 @@
 package com.y.javachat.service;
 
+import com.y.javachat.dto.GroupChatRoomResponseDto;
 import com.y.javachat.event.GroupChatRoomDeletedEvent;
 import com.y.javachat.event.GroupChatRoomGeneratedEvent;
 import com.y.javachat.model.GroupChatRoom;
 import com.y.javachat.repository.GroupChatJoinRepository;
+import com.y.javachat.repository.GroupChatRepository;
 import com.y.javachat.repository.GroupChatRoomRepository;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
@@ -21,18 +23,25 @@ public class GroupChatRoomService {
 
     private final GroupChatRoomRepository groupChatRoomRepository;
     private final GroupChatJoinRepository groupChatJoinRepository;
+    private final GroupChatRepository groupChatRepository;
 
     private final ApplicationEventPublisher eventPublisher;
 
-    public List<GroupChatRoom> findAllByUserId(Long userId) {
+    public List<GroupChatRoomResponseDto> findAllByUserId(Long userId) {
         return groupChatJoinRepository.findAllByUserId(userId)
                 .stream()
-                .map(groupChatJoin -> groupChatRoomRepository
-                        .findById(groupChatJoin.getRoomId())
-                        .orElseThrow(() -> new ObjectNotFoundException("chat room", groupChatJoin.getRoomId())))
+                .map(groupChatJoin -> {
+                    GroupChatRoom groupChatRoom = groupChatRoomRepository
+                            .findById(groupChatJoin.getRoomId())
+                            .orElseThrow(() -> new ObjectNotFoundException("chat room", groupChatJoin.getRoomId()));
+                    String lastMessage = groupChatRepository
+                            .findTopByRoomIdOrderByCreatedAtDesc(groupChatJoin.getRoomId())
+                            .orElseThrow(() -> new ObjectNotFoundException("group chat in chat room", groupChatRoom.getId()))
+                            .getContent();
+                    return new GroupChatRoomResponseDto(groupChatJoin.getRoomId(), groupChatRoom.getName(), lastMessage);
+                })
                 .toList();
     }
-
 
     public GroupChatRoom findById(Long chatRoomId) {
         return groupChatRoomRepository.findById(chatRoomId)

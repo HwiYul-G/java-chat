@@ -1,5 +1,6 @@
 package com.y.javachat.controller;
 
+import com.y.javachat.dto.GroupChatRoomResponseDto;
 import com.y.javachat.model.GroupChatRoom;
 import com.y.javachat.service.GroupChatRoomService;
 import com.y.javachat.system.Result;
@@ -30,7 +31,7 @@ public class GroupChatRoomController {
 
     @GetMapping("/users/{userId}")
     public Result findAllGroupChatRoomsByUserId(@PathVariable Long userId) {
-        List<GroupChatRoom> groupChatRooms = groupChatRoomService.findAllByUserId(userId);
+        List<GroupChatRoomResponseDto> groupChatRooms = groupChatRoomService.findAllByUserId(userId);
         return new Result(true, StatusCode.SUCCESS, "채팅방 목록 조회 성공", groupChatRooms);
     }
 
