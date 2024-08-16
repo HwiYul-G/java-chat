@@ -16,10 +16,10 @@ public class PersonalChatRoom {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message = "참여자1의 id가 필요합니다.")
-    private Long userId1;
+    @NotNull(message = "사용자의 id가 필요합니다.")
+    private Long userId;
 
-    @NotNull(message = "참여자2의 id가 필요합니다.")
-    private Long userId2;
+    @NotNull(message = "친구의 id가 필요합니다.")
+    private Long friendId;
 
 }

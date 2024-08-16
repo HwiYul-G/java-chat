@@ -1,5 +1,6 @@
 package com.y.javachat.controller;
 
+import com.y.javachat.dto.PersonalChatRoomResponseDto;
 import com.y.javachat.model.PersonalChatRoom;
 import com.y.javachat.service.PersonalChatRoomService;
 import com.y.javachat.system.Result;
@@ -25,7 +26,7 @@ public class PersonalChatRoomController {
 
     @GetMapping("/users/{userId}")
     public Result findAllPersonalChatRoomByUserId(@PathVariable Long userId) {
-        List<PersonalChatRoom> personalChatRooms = personalChatRoomService.getAllPersonalChatRoomByUserId(userId);
+        List<PersonalChatRoomResponseDto> personalChatRooms = personalChatRoomService.getAllPersonalChatRoomByUserId(userId);
         return new Result(true, StatusCode.SUCCESS, "개인 채팅방 목록 조회 성공", personalChatRooms);
     }
 

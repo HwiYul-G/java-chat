@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface PersonalChatRoomRepository extends JpaRepository<PersonalChatRoom, Long> {
 
-    @Query("SELECT p FROM PersonalChatRoom as p WHERE p.userId1 = ?1 or p.userId2 = ?1")
     List<PersonalChatRoom> findAllByUserId(Long userId);
 
 }
