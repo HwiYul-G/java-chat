@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import AddFriendModal from './contents/AddFriendModal';
 import { findFriendsByUserId } from '../../api/userApi';
 import { useUser } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
+import { makePersonalChatRoom } from '../../api/personalChatRoomApi';
 
 const FriendListSidebar = () => {
     const { userInfo } = useUser();
@@ -13,6 +15,8 @@ const FriendListSidebar = () => {
     const [friends, setFriends] = useState([]);
 
     const [message, setMessage] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFriends = async () => {
@@ -41,6 +45,21 @@ const FriendListSidebar = () => {
         setShowModal(false);
     };
 
+    const handleFriendClicked = async (roomId, friendId, friendName, friendEmail) => {
+        if (roomId === undefined) {
+            const res = await makePersonalChatRoom({ myId: userInfo.id, friendId: friendId });
+            console.log(res);
+            if (res.flag) {
+                navigate(`personal/${res.data.id}`, { state: { friendName, friendEmail } });
+            } else {
+                console.error(res);
+            }
+        } else {
+            navigate(`personal/${roomId}`, { state: { friendName, friendEmail } });
+        }
+    };
+    
+
     return (
         <div className='tab-pane'>
             <div className='d-flex flex-column h-100'>
@@ -60,7 +79,12 @@ const FriendListSidebar = () => {
                     <div className='m-4'>
                         <ul className='list-unstyled'>
                             { friends.map(friend => (
-                                <li className='card contact-item' key={friend.id}>
+                                <li 
+                                    className='card contact-item' 
+                                    key={friend.userId} 
+                                    style={{cursor: 'pointer'}}
+                                    onClick={() => handleFriendClicked(friend.roomId, friend.userId, friend.name, friend.email)}
+                                >
                                     <Friend {...friend}/>
                                 </li>
                             ))
