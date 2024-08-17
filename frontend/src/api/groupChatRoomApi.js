@@ -22,3 +22,13 @@ export const getAllMessagesByGroupRoomId = async({roomId}) => {
         throw err;
     }
 };
+
+export const findGroupChatRoomsByUserid = async(userId) => {
+    try{
+        const res = await instance.get(`${prefix}/users/${userId}`);
+        return res.data;
+    }catch(err){
+        console.error(`${userId}번 사용자의 그룹 채팅 목록 가져오기 API 호출 실패: `, err);
+        throw err;
+    }
+};

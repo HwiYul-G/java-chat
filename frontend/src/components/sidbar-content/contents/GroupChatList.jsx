@@ -1,17 +1,39 @@
+import { useEffect, useState } from 'react';
+import { useUser } from '../../../context/UserContext.js';
 import '../css/_common.css';
 import GroupChat from './GroupChat.jsx';
+import { findGroupChatRoomsByUserid } from '../../../api/groupChatRoomApi.js';
 
 const GroupChatList = () => {
-    const groupChats = [
-        {roomId: 1, roomName: '방이름1', lastMessage:'방 1에서 보낸 마지막 메시지'},
-        {roomId: 2, roomName: '방이름2',  lastMessage:'쿠버네티스 코리아 2024 커뮤니티 데이 홍보'},
-    ];
+    const {userInfo} = useUser();
+
+    const [message, setMessage] = useState('');
+    const [groupChats, setGroupChats] = useState([]);
+
+    useEffect(()=>{
+        const fetchGroupChats = async () => {
+            try{
+                const groupChats = await findGroupChatRoomsByUserid(userInfo.id);
+                if(groupChats.flag && groupChats.data.length === 0){
+                    setMessage('그룹 채팅을 시작해보세요!');
+                }
+                if(groupChats.flag && groupChats.data.length !== 0){
+                    setMessage('');
+                    setGroupChats(groupChats.data);
+                }
+            }catch(err){
+                setMessage(err.message);
+            }
+        };
+        fetchGroupChats();
+    }, [userInfo.id]);
 
     return (
         <div>
+            {message && <div>{message}</div>}
             <ul className='list-unstyled js-contact-list mb-0'>
                 { groupChats.map(groupChat => (
-                    <li key={groupChat.roomId} className='card contact-item'>
+                    <li key={groupChat.groupChatRoomId} className='card contact-item'>
                         <GroupChat {...groupChat}/>
                     </li>
                 ))}

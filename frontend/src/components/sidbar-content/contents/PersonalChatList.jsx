@@ -1,20 +1,48 @@
+import { useEffect, useState } from 'react';
+import { useUser } from '../../../context/UserContext';
 import '../css/_common.css';
 import PersonalChat from './PersonalChat';
+import { findPersonalChatRoomsByUserId } from '../../../api/personalChatRoomApi';
 
 const PersonalChatList = () => {
-
-    const chats = [
-        { userId: 1, name: 'Alice', lastMessage: '안녕하세요!', imgUrl: '' },
-        { userId: 2, name: 'Bob', lastMessage: '오늘 점심 어때요?', imgUrl: '' },
-        { userId: 3, name: 'Charlie', lastMessage: '무슨 계획 있어요?', imgUrl: '' }
-    ];
+    const {userInfo} = useUser();
+    
+    const [personalChats, setPersonalChats] = useState([]);
+    const [message, setMessage] = useState('');
+    
+    useEffect(() => {
+        const fetchPersonalChats = async () => {
+            try {
+                const personalChats = await findPersonalChatRoomsByUserId(userInfo.id);
+                if(personalChats.flag && personalChats.data.length === 0){
+                    setMessage('친구와 채팅을 해보세요!')
+                }
+                if(personalChats.flag && personalChats.data.length !== 0){
+                    console.log(personalChats.data);
+                    setMessage('');
+                    setPersonalChats(personalChats.data);
+                }
+            } catch(err) {
+                setMessage(err.message);
+            }
+        };
+        fetchPersonalChats();
+    }, [userInfo.id]);
 
     return (
         <div>
+            {
+                message && (
+                    <div className='alert alert-danger'>
+                        {message}
+                    </div>
+                )
+            }
+
             <ul className="list-unstyled js-contact-list mb-0">
-                {chats.map(chat => (
-                    <li key={chat.userId} className="card contact-item">
-                        <PersonalChat {...chat} />
+                {personalChats.map(personalChat => (
+                    <li key={personalChat.friendId} className="card contact-item">
+                        <PersonalChat {...personalChat} />
                     </li>
                 ))}
             </ul>

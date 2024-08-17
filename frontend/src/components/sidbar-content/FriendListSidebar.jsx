@@ -25,8 +25,8 @@ const FriendListSidebar = () => {
                     setMessage('');
                     setFriends(friendsData.data);
                 }
-            } catch (e) {
-                setMessage(e.message);
+            } catch (err) {
+                setMessage(err.message);
             }
         };
 
