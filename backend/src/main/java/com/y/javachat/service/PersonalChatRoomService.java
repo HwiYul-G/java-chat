@@ -3,6 +3,7 @@ package com.y.javachat.service;
 import com.y.javachat.dto.PersonalChatRoomResponseDto;
 import com.y.javachat.event.PersonalChatRoomGeneratedEvent;
 import com.y.javachat.model.PersonalChatRoom;
+import com.y.javachat.model.User;
 import com.y.javachat.repository.PersonalChatRepository;
 import com.y.javachat.repository.PersonalChatRoomRepository;
 import com.y.javachat.repository.UserRepository;
@@ -49,14 +50,13 @@ public class PersonalChatRoomService {
         return personalChatRooms.stream().map(personalChatRoom -> {
             Long friendId = !personalChatRoom.getUserId1().equals(userId) ?
                     personalChatRoom.getUserId1() : personalChatRoom.getUserId2();
-            String friendName = userRepository.findById(friendId)
-                    .orElseThrow(() -> new ObjectNotFoundException("user id", friendId))
-                    .getUsername();
+            User friend = userRepository.findById(friendId)
+                    .orElseThrow(() -> new ObjectNotFoundException("user id", friendId));
             String lastMessage = personalChatRepository
                     .findTopByRoomIdOrderByCreatedAtDesc(personalChatRoom.getId())
                     .orElseThrow(() -> new ObjectNotFoundException("chat at roomId", personalChatRoom.getId()))
                     .getContent();
-            return new PersonalChatRoomResponseDto(personalChatRoom.getId(), personalChatRoom.getUserId2(), friendName, lastMessage);
+            return new PersonalChatRoomResponseDto(personalChatRoom.getId(), personalChatRoom.getUserId2(), friend.getUsername(), friend.getEmail(),lastMessage);
         }).toList();
     }
 
