@@ -48,7 +48,12 @@ const PersonalChatList = () => {
                         key={personalChat.friendId} 
                         className="card contact-item"
                         style={{cursor: 'pointer'}}
-                        onClick={()=> navigate(`personal/${personalChat.roomId}`)}
+                        onClick={() => navigate(`personal/${personalChat.roomId}`, { 
+                            state: { 
+                              friendName: personalChat.friendName, 
+                              friendEmail: personalChat.friendEmail 
+                            } 
+                          })}
                     >
                         <PersonalChat {...personalChat} />
                     </li>
