@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import GroupMessage from './GroupMessage';
 import './css/_messagePage.css';
 import { useUser } from '../context/UserContext';
 import { activateClient, subscribeToGroupRoom, sendGroupMessage, unsubscribeFromGroupRoom } from '../stomp';
 import { getAllMessagesByGroupRoomId } from '../api/groupChatRoomApi';
 
-const GroupMessagePage = ({roomName}) => {
+const GroupMessagePage = () => {
   const {userInfo} = useUser();
   const params = useParams();  // console.log("params : ", params.roomId);
   const [allGroupMessages, setAllGroupMessages] = useState([]);
@@ -17,6 +17,9 @@ const GroupMessagePage = ({roomName}) => {
     content: '',
     type: 'CHAT',
   });
+
+  const location = useLocation();
+  const {groupChatRoomName} = location.state || {};
 
   const subscriptionRef = useRef(null);
 
@@ -84,7 +87,7 @@ const GroupMessagePage = ({roomName}) => {
     <div className='card'>
       <header className='card-header'>
         <div>
-          <h4>{roomName ? roomName : "테스트용 방 이름"}</h4>
+          <h4>{groupChatRoomName ? groupChatRoomName : "테스트용 방 이름"}</h4>
           <p>방번호: {params.roomId}</p>
         </div>
       </header>
