@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import GroupMessage from './GroupMessage';
 import './css/_messagePage.css';
 import { useUser } from '../context/UserContext';
-import { activateClient, subscribeToGroupRoom, sendGroupMessage } from '../stomp';
+import { activateClient, subscribeToGroupRoom, sendGroupMessage, unsubscribeFromGroupRoom } from '../stomp';
 import { getAllMessagesByGroupRoomId } from '../api/groupChatRoomApi';
 
 const GroupMessagePage = ({roomName}) => {
@@ -20,12 +20,15 @@ const GroupMessagePage = ({roomName}) => {
 
   const subscriptionRef = useRef(null);
 
+  const prevRoomIdRef = useRef(params.roomId); // 이전 채팅방 ID
+
   useEffect(() => {
     setAllGroupMessages([]); // 채팅방이 변경될 때 이전 메시지 초기화
 
     activateClient();
 
     if(subscriptionRef.current){
+      unsubscribeFromGroupRoom(prevRoomIdRef.current);
       subscriptionRef.current.unsubscribe();
     }
 
@@ -46,8 +49,11 @@ const GroupMessagePage = ({roomName}) => {
 
     loadMessages();
 
+    prevRoomIdRef.current = params.roomId;
+
     return () => {
       if(subscriptionRef.current){
+        unsubscribeFromGroupRoom(prevRoomIdRef.current);
         subscriptionRef.current.unsubscribe();
       }
     };

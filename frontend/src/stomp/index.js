@@ -101,4 +101,27 @@ const subscribeToPersonalRoom = (roomId, callback) => {
     }
 };
 
-export {activateClient, deactivateClient, sendGroupMessage, subscribeToGroupRoom, sendPersonalMessage, subscribeToPersonalRoom};
+const unsubscribeFromGroupRoom = (roomId) => {
+    const destination = `/sub/group-chat-rooms/${roomId}`;
+
+    if (subscribedGroupRooms.has(roomId)) {
+        client.unsubscribe(destination);
+        subscribedGroupRooms.delete(roomId);
+    }
+};
+
+const unsubscribeFromPersonalRoom = (roomId) => {
+    const destination = `/sub/personal-chat-rooms/${roomId}`;
+
+    if (subscribedPersonalRooms.has(roomId)) {
+        // 구독 해제
+        client.unsubscribe(destination);
+        subscribedPersonalRooms.delete(roomId);
+    }
+};
+
+export {
+    activateClient, deactivateClient, sendGroupMessage, 
+    subscribeToGroupRoom, sendPersonalMessage, subscribeToPersonalRoom, 
+    unsubscribeFromGroupRoom, unsubscribeFromPersonalRoom
+};
