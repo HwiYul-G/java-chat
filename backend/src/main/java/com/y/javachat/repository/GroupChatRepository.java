@@ -13,6 +13,5 @@ import java.util.Optional;
 public interface GroupChatRepository extends JpaRepository<GroupChat, Long> {
     List<GroupChat> findAllByRoomId(Long chatRoomId);
 
-    @Query("SELECT gc FROM GroupChat AS gc WHERE gc.roomId = :roomId ORDER BY gc.createdAt DESC")
-    Optional<GroupChat> findTopByRoomIdOrderByCreatedAtDesc(@Param("roomId") Long roomId);
+    Optional<GroupChat> findFirstByRoomIdOrderByCreatedAtDesc(Long roomId);
 }

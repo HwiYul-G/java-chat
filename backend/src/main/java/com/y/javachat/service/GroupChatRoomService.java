@@ -3,6 +3,7 @@ package com.y.javachat.service;
 import com.y.javachat.dto.GroupChatRoomResponseDto;
 import com.y.javachat.event.GroupChatRoomDeletedEvent;
 import com.y.javachat.event.GroupChatRoomGeneratedEvent;
+import com.y.javachat.model.GroupChat;
 import com.y.javachat.model.GroupChatRoom;
 import com.y.javachat.repository.GroupChatJoinRepository;
 import com.y.javachat.repository.GroupChatRepository;
@@ -35,9 +36,9 @@ public class GroupChatRoomService {
                             .findById(groupChatJoin.getRoomId())
                             .orElseThrow(() -> new ObjectNotFoundException("chat room", groupChatJoin.getRoomId()));
                     String lastMessage = groupChatRepository
-                            .findTopByRoomIdOrderByCreatedAtDesc(groupChatJoin.getRoomId())
-                            .orElseThrow(() -> new ObjectNotFoundException("group chat in chat room", groupChatRoom.getId()))
-                            .getContent();
+                            .findFirstByRoomIdOrderByCreatedAtDesc(groupChatJoin.getRoomId())
+                            .map(GroupChat::getContent)
+                            .orElse("");
                     return new GroupChatRoomResponseDto(groupChatJoin.getRoomId(), groupChatRoom.getName(), lastMessage);
                 })
                 .toList();
