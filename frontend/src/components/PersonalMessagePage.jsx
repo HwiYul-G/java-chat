@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import Avatar from './Avatar';
 import PersonalMessage from './PersonalMessage';
 import './css/_messagePage.css';
 import { useUser } from '../context/UserContext';
-import { sendMessage, activateClient, subscribeToPersonalRoom, sendPersonalMessage} from '../stomp';
+import { activateClient, subscribeToPersonalRoom, sendPersonalMessage, unsubscribeFromPersonalRoom} from '../stomp';
 import { getAllMessagesByPersonalRoomId  } from '../api/personalChatRoomApi';
 
-const PersonalMessagePage = ({friendName}) => {
+const PersonalMessagePage = () => {
   const {userInfo} = useUser();
   const params = useParams();  // console.log("params : ", params.roomId);
   const [allPersonalMessages, setAllPersonalMessages] = useState([]);
@@ -18,7 +18,12 @@ const PersonalMessagePage = ({friendName}) => {
     type: 'CHAT',
   });
 
+  const location = useLocation();
+  const {friendName, friendEmail} = location.state || {};
+
   const subscriptionRef = useRef(null);
+
+  const prevRoomIdRef = useRef(params.roomId); // 이전 채팅방 ID
 
   useEffect(() => {
     setAllPersonalMessages([]); // 채팅방이 변경될 때 이전 메시지 초기화
@@ -26,6 +31,7 @@ const PersonalMessagePage = ({friendName}) => {
     activateClient();
 
     if(subscriptionRef.current){
+      unsubscribeFromPersonalRoom(prevRoomIdRef.current);
       subscriptionRef.current.unsubscribe();
     }
 
@@ -46,8 +52,11 @@ const PersonalMessagePage = ({friendName}) => {
 
     loadMessages();
 
+    prevRoomIdRef.current = params.roomId;
+
     return () => {
       if(subscriptionRef.current){
+        unsubscribeFromPersonalRoom(prevRoomIdRef.current);
         subscriptionRef.current.unsubscribe();
       }
     };
@@ -79,6 +88,7 @@ const PersonalMessagePage = ({friendName}) => {
         <div>
           <Avatar width={48} height={48}/>
           <p>{friendName}</p>
+          <p>{friendEmail}</p>
         </div>
       </header>
       <div className='card-body'>

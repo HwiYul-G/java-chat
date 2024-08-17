@@ -3,12 +3,15 @@ import { useUser } from '../../../context/UserContext';
 import '../css/_common.css';
 import PersonalChat from './PersonalChat';
 import { findPersonalChatRoomsByUserId } from '../../../api/personalChatRoomApi';
+import { useNavigate } from 'react-router-dom';
 
 const PersonalChatList = () => {
     const {userInfo} = useUser();
     
     const [personalChats, setPersonalChats] = useState([]);
     const [message, setMessage] = useState('');
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         const fetchPersonalChats = async () => {
@@ -41,7 +44,12 @@ const PersonalChatList = () => {
 
             <ul className="list-unstyled js-contact-list mb-0">
                 {personalChats.map(personalChat => (
-                    <li key={personalChat.friendId} className="card contact-item">
+                    <li 
+                        key={personalChat.friendId} 
+                        className="card contact-item"
+                        style={{cursor: 'pointer'}}
+                        onClick={()=> navigate(`personal/${personalChat.roomId}`)}
+                    >
                         <PersonalChat {...personalChat} />
                     </li>
                 ))}

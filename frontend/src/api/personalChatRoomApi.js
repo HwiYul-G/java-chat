@@ -27,7 +27,7 @@ export const makePersonalChatRoom = async({myId, friendId}) => {
     const data = {userId1: myId, userId2: friendId};
     try{
         const res = await instance.post(`${prefix}`, data);
-        console.log(res);
+        return res.data;
     }catch(err){
         console.error("서버의 개인 채팅방 만들기 API 호출 실패: ", err);
         throw err;
