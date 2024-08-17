@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,18 +25,20 @@ public class PersonalChatRoomService {
     private final ApplicationEventPublisher eventPublisher;
 
     public PersonalChatRoom createPersonalChatRoom(PersonalChatRoom personalChatRoom) {
+
+        Optional<PersonalChatRoom> existingRoom = personalChatRoomRepository
+                .findByUserId1AndUserId2(personalChatRoom.getUserId1(), personalChatRoom.getUserId2());
+
+        if(existingRoom.isPresent())
+            return existingRoom.get();
+
         PersonalChatRoom savedPersonalChatRoom = personalChatRoomRepository.save(personalChatRoom);
-        personalChatRoomRepository.save(
-                PersonalChatRoom.builder()
-                        .userId(personalChatRoom.getFriendId())
-                        .friendId(personalChatRoom.getUserId())
-                        .build());
 
         eventPublisher.publishEvent(
                 new PersonalChatRoomGeneratedEvent(
                         savedPersonalChatRoom.getId(),
-                        savedPersonalChatRoom.getUserId(),
-                        savedPersonalChatRoom.getFriendId())
+                        savedPersonalChatRoom.getUserId1(),
+                        savedPersonalChatRoom.getUserId2())
         );
 
         return savedPersonalChatRoom;
@@ -44,14 +47,16 @@ public class PersonalChatRoomService {
     public List<PersonalChatRoomResponseDto> getAllPersonalChatRoomByUserId(Long userId) {
         List<PersonalChatRoom> personalChatRooms = personalChatRoomRepository.findAllByUserId(userId);
         return personalChatRooms.stream().map(personalChatRoom -> {
-            String friendName = userRepository.findById(personalChatRoom.getFriendId())
-                    .orElseThrow(() -> new ObjectNotFoundException("user id", personalChatRoom.getFriendId()))
+            Long friendId = !personalChatRoom.getUserId1().equals(userId) ?
+                    personalChatRoom.getUserId1() : personalChatRoom.getUserId2();
+            String friendName = userRepository.findById(friendId)
+                    .orElseThrow(() -> new ObjectNotFoundException("user id", friendId))
                     .getUsername();
             String lastMessage = personalChatRepository
                     .findTopByRoomIdOrderByCreatedAtDesc(personalChatRoom.getId())
                     .orElseThrow(() -> new ObjectNotFoundException("chat at roomId", personalChatRoom.getId()))
                     .getContent();
-            return new PersonalChatRoomResponseDto(personalChatRoom.getId(), personalChatRoom.getFriendId(), friendName, lastMessage);
+            return new PersonalChatRoomResponseDto(personalChatRoom.getId(), personalChatRoom.getUserId2(), friendName, lastMessage);
         }).toList();
     }
 
