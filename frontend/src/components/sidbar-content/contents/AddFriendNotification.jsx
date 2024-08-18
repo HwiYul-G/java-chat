@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { acceptFriendRequest, declineFriendRequest } from "../../../api/userApi";
+import moment from "moment";
 
 const AddFriendNotification = ({invitationId, inviterName, invitationDate}) => {
     const [isResponded, setIsResponded] = useState(false);
@@ -18,6 +19,8 @@ const AddFriendNotification = ({invitationId, inviterName, invitationDate}) => {
         }
     };
 
+    const formattedDate = moment(invitationDate).format('YYYY-MM-DD HH:mm');
+
     return (
         <div className='card mb-3'>
             <div className='card-body'>
@@ -25,7 +28,7 @@ const AddFriendNotification = ({invitationId, inviterName, invitationDate}) => {
                     <div className='flex-grow-1'>
                         <div className='d-flex align-items-center overflow-hidden'>
                             <h5 className='me-auto text-break mb-0'>{inviterName}</h5>
-                            <span className='small text-muted text-nowrap ms-2'>{invitationDate}</span>
+                            <span className='small text-muted text-nowrap ms-2'>{formattedDate}</span>
                         </div>
                         <div className='d-flex align-items-center'>
                             <div className='line-clamp me-auto'>당신에게 친구 초대를 요청합니다.</div>
