@@ -41,6 +41,15 @@ public class DBDataInitializer implements CommandLineRunner {
                 .email("c@google.com")
                 .username("c")
                 .password("12345")
+                .enabled(true)
+                .roles("user")
+                .build();
+
+        User u4 = User.builder()
+                .id(4L)
+                .email("d@google.com")
+                .username("d")
+                .password("12345")
                 .enabled(false)
                 .roles("user")
                 .build();
@@ -48,6 +57,7 @@ public class DBDataInitializer implements CommandLineRunner {
         userService.save(u1);
         userService.save(u2);
         userService.save(u3);
+        userService.save(u4);
     }
 
 
