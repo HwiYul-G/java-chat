@@ -14,6 +14,5 @@ public interface PersonalChatRepository extends JpaRepository<PersonalChat,Long>
 
     List<PersonalChat> findAllByRoomId(Long roomId);
 
-    @Query("SELECT pc FROM PersonalChat AS pc WHERE pc.roomId = :roomId ORDER BY pc.createdAt DESC")
-    Optional<PersonalChat> findTopByRoomIdOrderByCreatedAtDesc(@Param("roomId") Long roomId);
+    Optional<PersonalChat> findFirstByRoomIdOrderByCreatedAtDesc(Long roomId);
 }

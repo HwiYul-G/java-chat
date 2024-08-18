@@ -53,7 +53,7 @@ public class PersonalChatRoomService {
             User friend = userRepository.findById(friendId)
                     .orElseThrow(() -> new ObjectNotFoundException("user id", friendId));
             String lastMessage = personalChatRepository
-                    .findTopByRoomIdOrderByCreatedAtDesc(personalChatRoom.getId())
+                    .findFirstByRoomIdOrderByCreatedAtDesc(personalChatRoom.getId())
                     .orElseThrow(() -> new ObjectNotFoundException("chat at roomId", personalChatRoom.getId()))
                     .getContent();
             return new PersonalChatRoomResponseDto(personalChatRoom.getId(), personalChatRoom.getUserId2(), friend.getUsername(), friend.getEmail(),lastMessage);
