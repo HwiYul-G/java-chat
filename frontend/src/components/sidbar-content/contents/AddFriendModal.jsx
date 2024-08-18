@@ -11,6 +11,10 @@ const AddFriendModal = ({show, onClose}) => {
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleInviteClicked = async() => {
+        if(userInfo.email === email){
+            setErrorMessage("자기 자신을 친구로 초대할 수 없습니다.");
+            return;
+        }
         try{
             const res = await inviteFriend({userId: userInfo.id, friendEmail: email});
             console.log(res);
