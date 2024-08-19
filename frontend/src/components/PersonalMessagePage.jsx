@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import Avatar from './Avatar';
 import PersonalMessage from './PersonalMessage';
 import './css/_messagePage.css';
 import { useUser } from '../context/UserContext';
-import { activateClient, subscribeToPersonalRoom, sendPersonalMessage, unsubscribeFromPersonalRoom} from '../stomp';
 import { getAllMessagesByPersonalRoomId  } from '../api/personalChatRoomApi';
+import * as StompJs from '@stomp/stompjs';
 
 const PersonalMessagePage = () => {
   const {userInfo} = useUser();
@@ -21,23 +21,83 @@ const PersonalMessagePage = () => {
   const location = useLocation();
   const {friendName, friendEmail} = location.state || {};
 
-  const subscriptionRef = useRef(null);
+  let [client, changeClient] = useState(null);
 
-  const prevRoomIdRef = useRef(params.roomId); // 이전 채팅방 ID
+  const connect = () => {
+    try{
+      const clientdata = new StompJs.Client({
+        brokerURL: 'ws://localhost:8080/java-chat',
+        connectHeaders: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        debug: function(str){
+          // console.log(str);
+        },
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+      });
+      
+      // 구독
+      clientdata.onConnect = function(){
+        const dest = `/sub/personal-chat-rooms/${params.roomId}`;
+        clientdata.subscribe(dest, callback);
+      };
+
+      clientdata.activate(); // 클라이언트 활성화
+      changeClient(clientdata); // 클라이언트 갱신
+    }catch(err){
+      console.error(err);
+    }
+  };
+
+  const disConnect = () => {
+    if(client === null)
+      return;
+    client.deactivate();
+  };
+
+  const callback = (message) => {
+    if(message.body){
+      let msg = JSON.parse(message.body);
+      setAllPersonalMessages((personalMessages) => [...personalMessages, msg]);
+    }
+  };
+
+  const handleSendMessage = (message) => {
+    if(message === '')
+      return;
+    client.publish({
+      destination: `/pub/personal-chat-rooms/${params.roomId}`,
+      body: JSON.stringify(message),
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    setPersonalMessage({
+      senderId: userInfo.id,
+      roomId: params.roomId,
+      content: '',
+      type: 'CHAT',
+    });
+  };
+
+  const handleOnChange = (e) => {
+    const {name, value} = e.target;
+    setPersonalMessage(prev => {
+      return{
+        ...prev,
+        [name]: value,
+      }
+    });
+  };
 
   useEffect(() => {
-    setAllPersonalMessages([]); // 채팅방이 변경될 때 이전 메시지 초기화
-
-    activateClient();
-
-    if(subscriptionRef.current){
-      unsubscribeFromPersonalRoom(prevRoomIdRef.current);
-      subscriptionRef.current.unsubscribe();
-    }
-
-    subscriptionRef.current = subscribeToPersonalRoom(params.roomId, msg => {
-      setAllPersonalMessages(prev => [...prev, JSON.parse(msg.body)]);
-    });
+    setAllPersonalMessages([]);
+    
+    connect();
 
     const loadMessages = async () => {
       try{
@@ -52,35 +112,10 @@ const PersonalMessagePage = () => {
 
     loadMessages();
 
-    prevRoomIdRef.current = params.roomId;
-
     return () => {
-      if(subscriptionRef.current){
-        unsubscribeFromPersonalRoom(prevRoomIdRef.current);
-        subscriptionRef.current.unsubscribe();
-      }
+      disConnect();
     };
-  }, [params.roomId]);
-
-  const handleOnChange = (e) => {
-    const {name, value} = e.target;
-    setPersonalMessage(prev => {
-      return{
-        ...prev,
-        [name]: value,
-      }
-    });
-  };
-
-  const handleSendMessage = () => {
-    sendPersonalMessage(params.roomId, personalMessage);
-    setPersonalMessage({
-      senderId: userInfo.id,
-      roomId: params.roomId,
-      content: '',
-      type: 'CHAT',
-    });
-  };
+  }, []);
 
   return (
     <div className='card'>
@@ -106,7 +141,7 @@ const PersonalMessagePage = () => {
           name='content'
           value={personalMessage.content} 
           onChange={handleOnChange}/>
-        <button className='btn btn-primary' type='button' onClick={handleSendMessage}>전송</button>
+        <button className='btn btn-primary' type='button' onClick={() => handleSendMessage(personalMessage)}>전송</button>
       </div>
     </div>
   );
