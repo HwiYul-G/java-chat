@@ -1,61 +1,38 @@
-## Context API가 동작하는 방법
-Context API는 매 레벨마다 수동적으로 props를 전달하지 않고 컴포넌트 트리를 통해서 데이터가 전달되게 한다.
-context api는 components 사이에서 data를 공유하기 쉽게 만든다.
-
-예를 들어, 사용자의 쇼핑 카트를 보여주는 컴포넌트를 ...
-
-## context api를 사용하는 방법
-### 1. create a context object
-- `createContext` function으로 context object를 만든다.
-- 이 context object는 애플리케이션 전체에 걸쳐서 공유하고 싶은 데이터를 담는다.
+## React Context
+### Context 사용방법
+#### context 만들기
+- 내장된 팩토리 함수인 `createContext(default)`로 context instance를 만든다.
+- 팩토리 함수는 default value라는 오직 하나의 선택적 인자만 받는다.
 ```javascript
-// MyContext.js
 import { createContext } from 'react';
 
-export const MyContext = createContext('');
+export const Context = createContext('Default Value');
 ```
-### 2. wrap components with a provider
-context object를 만들었다면, 공유된 데이터로 접글할 필요가 잇는 components를 provider component로 wrap할 필요가 있다.
-provider component는 공유할 데이터를 담는 'value' prop를 받아들인다. 그리고 프로바이더 컴포넌트의 child인 컴포넌트들은 공유된 데이터에 접근할 숭 ㅣㅆ다.
-
+#### context 제공하기
+- `ContextProvider` 컴포넌트는 context를 자신의 하위 컴포넌트로 제공하는 데 사용된다.
+- context에 값을 셋팅하기 위해서 `<Context.Provider value={value}/>` 위에 `value` props가 이용가능하다.
 ```javascript
-// Provider로 child components로 감싼 parent component를 만든다.
-import {useState, React} from "react";
-import {MyContext} from "./MyContext";
-import MyComponent from "./MyComponent";
+import {Context} from './context';
 
-function App(){ // parent component
-    const [text, setText] = useState("");
-
+function Main(){
+    const value = 'My Context Value';
     return (
-        <div>
-            {/* provider component로 childrens를 감싼다
-                그 하위로 
-            */}
-            <MyContext.Provider value={{text, setText}}>
-                <MyComponent/>
-            </MyContext.Provider>
-        </div>
+        <Context.Provider value={value}>
+            <MyComponent/>
+        </Context.Provider>
     );
 }
 ```
-### 3. consume the context
+#### context 사용하기
+1. `useContext(Context)` react hook 사용하기
 ```javascript
-function MyComponent(){
-    const {text, setText} = useContext(MyContext);
-
-    return (
-        <div>
-            <h1>{text}</h1>
-            <button onClick={() => setText('Hello, world!')}>
-                Click me
-            </button>
-        </div>
-    );
-}
-
-export default MyComponent;
 ```
-
-## 참고 자료
-- https://www.freecodecamp.org/news/context-api-in-react/
+2. `Context.Consumer`라는 특별한 컴포넌트에 child로 render function을 사용하는 것
+### context의 필요성
+### 사용예시: global user name
+#### 
+#### context가 변화할 때
+### context 업데이트하기
+### 결론
+### 참고자료
+- https://dmitripavlutin.com/react-context-and-usecontext/

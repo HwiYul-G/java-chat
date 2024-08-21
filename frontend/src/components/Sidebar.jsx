@@ -1,101 +1,68 @@
-import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Avatar from './Avatar';
-import EditUserDetails from './EditUserDetails';
-import SearchUser from './SearchUser';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useUser } from '../context/UserContext';
-
+import { useState } from "react";
+import "./css/_sidebar.css";
+import { useNavigate } from "react-router-dom";
+import Avatar from "./Avatar";
+import GroupSidebar from "./sidbar-content/GroupSidebar";
+import MyInfoSidebar from "./sidbar-content/MyInfoSidebar";
+import ChatListSidebar from "./sidbar-content/ChatListSidebar";
+import FriendListSidebar from "./sidbar-content/FriendListSidebar";
+import NotificationSidebar from "./sidbar-content/NotificationSidebar";
+import { useUser } from "../context/UserContext";
 
 const Sidebar = () => {
-  const [editUserOpen, setEditUserOpen] = useState(false)
-  const [allUser, setAllUser] = useState([])
-  const [openSearchUser, setOpenSearchUser] = useState(false)
+  const [activeContent, setActiveContent] = useState(null);
+  const {setUserInfo} = useUser();
 
-  const { userInfo } = useUser();
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const handleNavClick = (content) => {
+    if(activeContent === content)
+      setActiveContent(null);
+    else
+      setActiveContent(content); 
+  };
 
-  const handleLogout = () => {
+  const handleLogoutClicked = ()=>{
+    setActiveContent(null);
+    setUserInfo(null);
     localStorage.clear();
-    navigate("/login");
-  }
+    navigate('./login');
+  };
 
   return (
-    <div className='row vh-100'>
-      <div className='col-4 d-flex flex-column bg-light justify-content-between'>
-        <div className='mb-3'>
-          <NavLink className='p-3 justify-content-center'>
-            <img src={require('../assets/messenger.png')} alt='메신저' width={40} height={40}/>
-          </NavLink>
-          <div className='p-3 justify-content-center' onClick={()=>setOpenSearchUser(true)}>
-            <img src={require('../assets/add-friend.png')} alt='친구추가' width={40} height={40}/>
-          </div>
-        </div>
-
-        <div className='mb-3'>
-          <div className='p-3 justify-content-center' onClick={()=>setEditUserOpen(true)}>
-            <Avatar width={40} height={40}/>
-          </div>
-          <div className='p-3 justify-content-center' onClick={handleLogout}>
-            <img src={require('../assets/logout.png')} alt='로그아웃' width={40} height={40}/>
-          </div>
-        </div>
+    <div className={`sidebar ${activeContent ? 'expanded' : ''}`}> 
+      <div className="navigation">
+        <ul className="nav">
+          <li className="nav-item mt-xl-auto mb-5" onClick={() => handleNavClick('그룹채팅')}>
+            <i className="bi bi-collection"></i>
+          </li>
+          <li className="nav-item mb-5" onClick={() => handleNavClick('친구목록')}>
+            <i className="bi bi-people-fill"></i>
+          </li>
+          <li className="nav-item mb-5" onClick={() => handleNavClick('채팅내역')}>
+            <i className="bi bi-chat-dots"></i>
+          </li>
+          <li className="nav-item mb-5" onClick={() => handleNavClick('알림')}>
+            <i className="bi bi-bell-fill"></i>
+          </li>
+          <li className="nav-item mb-5" onClick={() => handleNavClick('내정보')}>
+            <Avatar width={35} height={35}/>
+          </li>
+          <li className="nav-item mb-5" onClick={() => handleLogoutClicked()}>
+            <i className="bi bi-box-arrow-left"></i>
+          </li>
+        </ul>
       </div>
 
-      <div className='col-8 bg-primary'>
-        <div className='justify-content-center'>
-          <h2>메시지</h2>
+      {activeContent && (
+        <div className="sidebar-content">
+          {activeContent === '그룹채팅' && <GroupSidebar/>}
+          {activeContent === '친구목록' && <FriendListSidebar/>}
+          {activeContent === '채팅내역' && <ChatListSidebar/>}
+          {activeContent === '알림' && <NotificationSidebar/>}
+          {activeContent === '내정보' && <MyInfoSidebar/>}
         </div>
-        
-        <div data-bs-spy="scroll" className=''>
-          {
-            allUser.length === 0 && (
-              <div className='mt-12'>
-                <p className=''>친구를 추가해 보세요.</p>
-              </div>
-            )
-          }
-          {
-            allUser.map(() => {
-              return (
-                <NavLink>
-                  <div>
-                    <Avatar  width={40} height={40}/>
-                  </div>
-                  <div>
-                    <h3>이름</h3>
-                    <div>
-                      <div>
-                        {
-
-                        }
-                        {
-
-                        }
-                      </div>
-                      <p>마지막메시지</p>
-                    </div>
-                  </div>
-                  {
-
-                  }
-                </NavLink>
-              )
-            })
-          }
-        </div>
-      </div>
-      {
-        editUserOpen && (
-          <EditUserDetails onClose={()=> setEditUserOpen(false)} userInfo={userInfo} />
-        )
-      }
-      {
-        openSearchUser && (
-          <SearchUser onClose={()=>setOpenSearchUser(false)}/>
-        )
-      }
+      )}
     </div>
   )
 }
