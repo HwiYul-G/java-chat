@@ -24,7 +24,7 @@ const Sidebar = () => {
 
   const handleLogoutClicked = ()=>{
     setActiveContent(null);
-    setUserInfo({});
+    setUserInfo(null);
     localStorage.clear();
     navigate('./login');
   };
