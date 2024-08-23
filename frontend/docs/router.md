@@ -1,14 +1,8 @@
 # React Route
 - 목표: SPA(Single Page Application)을 위해 React Route 사용하는 방법 배우기
 - 학습 내용
-    - React Router DOM의
-React application에서 구현하면서 React Router DOM의 핵심 개념을 탐험할 것이다.
-우리의 초점은 다른 컴포넌트로 연결을 가진 간단한 네비게이션 시스템을 구축하는 것이다.
-그리고 이것은 route를 configure하는 법 route matching을 다루는 방법 navigation 구현을 보여준다.
-
-이 아티클의 끝에, 너는 React Router DOM을 사용하는 방법을 단단하게 이해해서 동적이고 군더더기 없는 네비게이션 경험을 만들 수 있을 것이다.
-
-
+    - SPA가 무엇인지 본다.
+    - React에서 각 컴포넌트를 오가는 Route를 학습해 네비게이션을 한다.
 - 목차
     1. [SPA란?](#spa란)
     2. [React Router](#react-router)
