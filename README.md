@@ -12,7 +12,7 @@
 |제목|학습 내역|
 |:--|:--:|
 |비동기 처리와 약한 결합을 위한 `even`학습 - event, publish, listeners|[📖](./backend/docs/study/event.md)|
-|||
+|JWT authentication 구현 마스터하기!|[📖](./backend/docs/study/token.md)|
 
 ### frontend
 |제목|학습 내역|
