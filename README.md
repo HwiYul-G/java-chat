@@ -13,6 +13,8 @@
 |:--|:--:|
 |비동기 처리와 약한 결합을 위한 `even`학습 - event, publish, listeners|[📖](./backend/docs/study/event.md)|
 |JWT authentication 구현 마스터하기!|[📖](./backend/docs/study/token.md)|
+|채팅 구현을 위한 STOMP 사용 방법|[📖](./backend/docs/study/spring-stomp.md)|
+|||
 
 ### frontend
 |제목|학습 내역|
