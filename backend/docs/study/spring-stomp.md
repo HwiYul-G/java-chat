@@ -1,5 +1,5 @@
 # WebSocet Impl with Stomp
-- 목표
+- 목표: Spring Boot로 서버에서 chat service 구현하는 방법 알기(개인, 단체)
 - 목차
     1. websocket과 stomp
     2. Spring Boot에서 STOMP 적용하기
