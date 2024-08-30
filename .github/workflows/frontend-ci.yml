@@ -1,9 +1,12 @@
 name: frontend ci # workflow의 이름, actions 탭에 이 이름이 보인다.
 
 on: # events에 기반으로 workflow가 자동으로 active 된다.
-  pull_request:
+  push:
     tags:
       - "v*.*.*"
+  pull_request:
+    branches:
+      - main
 
 jobs: # workflows의 blocks을 구성한다. - name, runner, set of steps로 구성
   build: # name은 object에 대응한다.
