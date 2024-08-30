@@ -20,7 +20,7 @@
 
 ## Steps to Setup
 ### Requirements
-`java - 17`, `maven - 4.0.0`
+`java - 17`, `maven - 4.0.0`, `node - 20.13.1`
 ### Local
 #### Backend
 ```bash
@@ -30,6 +30,9 @@ mvn spring-boot:run
 ```bash
 npm install
 npm start
+```
+```
+http://localhost:3000/
 ```
 
 ### Azure
