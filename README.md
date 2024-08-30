@@ -18,13 +18,19 @@
 |:--:|:--:|
 |API 문서|[📑](./backend/docs/api.md)|
 
-## Requirements
-1. java - 17
-2. maven - 4.0.0
-
 ## Steps to Setup
+### Requirements
+`java - 17`, `maven - 4.0.0`
 ### Local
-
+#### Backend
+```bash
+mvn spring-boot:run
+```
+#### Frontend
+```bash
+npm install
+npm start
+```
 
 ### Azure
 
