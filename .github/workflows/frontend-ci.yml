@@ -11,7 +11,8 @@ on: # events에 기반으로 workflow가 자동으로 active 된다.
 jobs: # workflows의 blocks을 구성한다. - name, runner, set of steps로 구성
   build: # name은 object에 대응한다.
     runs-on: ubuntu-latest # runner: 깃헙에서 호스트한 가상의 서버 (ubuntu linux, microsofit windows, macOs 등 가상 머신)
-
+    env:
+      CI: false
     steps: # job을 수행시키는 모든 procees들 포함 - uses와 run 키워드
       # uses: run할 action을 적는다. 
       - name: Checkout the repository
