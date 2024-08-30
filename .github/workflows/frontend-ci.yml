@@ -20,7 +20,6 @@ jobs: # workflows의 blocks을 구성한다. - name, runner, set of steps로 구
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
       - name: Install Dependencies
         working-directory: ./frontend
         run: npm install
