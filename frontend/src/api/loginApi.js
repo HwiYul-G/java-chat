@@ -11,7 +11,7 @@ export const login = async ({email, password}) => {
         });
         return res.data;
     } catch(err){
-        console.log("서버의 로그인 API 호출 실패: ", err);
+        console.error("서버의 로그인 API 호출 실패: ", err);
         throw err;
     }
 };
