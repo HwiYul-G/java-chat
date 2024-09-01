@@ -46,6 +46,7 @@ http://localhost:3000/
 |비동기 처리와 약한 결합을 위한 `event`학습 - event, publish, listeners|[📖](./backend/docs/study/event.md)|
 |JWT authentication 구현 마스터하기!|[📖](./backend/docs/study/token.md)|
 |채팅 구현을 위한 STOMP 사용 방법|[📖](./backend/docs/study/spring-stomp.md)|
+| Spring WebFulx - sync, async와 blocking, nonblocking부터 webflux 사용법까지 |[📖](./backend/docs/study/webflex.md)|
 |||
 
 ### frontend
