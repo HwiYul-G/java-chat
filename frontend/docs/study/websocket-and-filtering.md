@@ -6,8 +6,9 @@
     1. [WebSocket이란?](#websocket이란)
         - [HTTP 프로토콜의 아쉬운 점](#http-프로토콜의-아쉬운-점)
         - [WebSocket](#websocket)
-    2. [WebSocket Protocol과 SubProtocl](#websocket과-subprotocol)
-    3. [context-api를 통해 connection을 하나로 하기](#context-api를-통해-connection을-하나로-하기)
+    2. [`useCallback` Hook 보고가기](#usecallback-hook-보고가기)
+    3. [WebSocket Protocol과 SubProtocl](#websocket과-subprotocol)
+    4. [context-api를 통해 connection을 하나로 하기](#context-api를-통해-connection을-하나로-하기)
 
 ## WebSocket이란?
 ### HTTP 프로토콜의 아쉬운 점
@@ -60,6 +61,17 @@
 3. Communication
     - validation 성공 후 웹소켓 연결이 완전히 설립되었다.
     - 서버와 클라이언트는 서로 데이터를 주고 받는다.
+
+## `useCallback` Hook 보고가기
+- `useCallback` Hook은 기억된 콜백 함수이다.
+    - 기억(meomoization)은 값을 캐싱해서 다시 계산할 필요 없게 하는 것이다.
+- `useCallback`은 자원을 고립시키기 위한 강력한 함수로 사용된다.
+    - 그 결과 `useCallback`은 매 렌더링마다 자동적으로 실행되지 않는다.
+    - `useCallback` 훅은 자신의 dependencies가 업데이트될 때만 실행된다.
+    - 이를 통해 성능을 개선할 수 있ㅏ.
+- 참고
+    - useCallback과 useMemo 훅은 유사하다.
+    - 주요한 차이점은 useMemo는 기록된 값을 리턴하고 useCallback은 기록된 함수를 리턴한다.
 
 ## WebSocket과 SubProtocol
 - 웹소켓은 통신 매체이다.
@@ -251,6 +263,7 @@ export const SocketProvider = (props: ISocketProvider) => {
 ```
 
 ## 참고자료
+- https://www.w3schools.com/react/react_usecallback.asp
 - https://refine.dev/blog/react-websocket-tutorial-nodejs/#why-websocket
 - https://refine.dev/blog/react-websocket-tutorial-nodejs/#introduction
 - https://dev.to/raunakgurud09/websockets-unlocked-mastering-the-art-of-real-time-communication-2lnj
