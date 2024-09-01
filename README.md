@@ -46,6 +46,7 @@ http://localhost:3000/
 |비동기 처리와 약한 결합을 위한 `event`학습 - event, publish, listeners|[📖](./backend/docs/study/event.md)|
 |JWT authentication 구현 마스터하기!|[📖](./backend/docs/study/token.md)|
 |채팅 구현을 위한 STOMP 사용 방법|[📖](./backend/docs/study/spring-stomp.md)|
+| Spring WebFulx - sync, async와 blocking, nonblocking부터 webflux 사용법까지 |[📖](./backend/docs/study/webflex.md)|
 |||
 
 ### frontend
@@ -54,6 +55,7 @@ http://localhost:3000/
 |react에서 api 사용하기 - fetch, axios|[📖](./frontend/docs/study/consume-apis.md)|
 |react에서 navigation하기 - react router dom 사용법|[📖](./frontend/docs/study/router.md)|
 |context API로 props drilling 해결 및 data shring|[📖](./frontend/docs/study/context.md)|
+|websocket의 필요와 connection|[📖](./frontend/docs/study/websocket-and-filtering.md)|
 |||
 
 
