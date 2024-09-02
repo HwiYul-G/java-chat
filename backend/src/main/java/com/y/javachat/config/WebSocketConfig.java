@@ -1,5 +1,6 @@
 package com.y.javachat.config;
 
+import com.y.javachat.security.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,6 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -24,8 +23,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    private final JwtDecoder jwtDecoder;
-    private final JwtAuthenticationConverter jwtAuthenticationConverter;
+    private final AuthService authService;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
@@ -53,12 +51,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     String token = accessor.getFirstNativeHeader("Authorization");
                     if (token != null && token.startsWith("Bearer ")) {
                         token = token.substring(7);
-                        try {
-                            Authentication user = jwtAuthenticationConverter.convert(jwtDecoder.decode(token));
-                            accessor.setUser(user);
-                        } catch (Exception e) {
-                            log.error("JWT token parsing failed: ", e);
-                        }
+                        Authentication user = authService.getAuthentication(token);
+                        accessor.setUser(user);
                     }
                 }
                 return message;
