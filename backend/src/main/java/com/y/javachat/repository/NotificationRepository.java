@@ -1,9 +1,9 @@
 package com.y.javachat.repository;
 
-import com.y.javachat.model.Friendship;
+import com.y.javachat.model.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
 }

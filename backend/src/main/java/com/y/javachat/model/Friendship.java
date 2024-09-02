@@ -13,19 +13,26 @@ import java.time.LocalDateTime;
 @Table(name = "friendship")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Friendship {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Friendship extends BaseModel {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @Column(name = "user")
+    private User user;
 
-    @NotNull(message = "userId가 필요합니다.")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "friend_id")
+    @Column(name = "friend")
+    private User friend;
 
-    @NotNull(message = "friendId가 필요합니다.")
-    private Long friendId;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(name = "status", length = 256)
+    private FriendStatus status;
 
-    private Long chatRoomId;
-
-    private LocalDateTime createdAt;
+    public enum FriendStatus{
+        PENDING,
+        ACCEPTED,
+        DECLINED
+    }
 
 }
