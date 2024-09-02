@@ -24,15 +24,7 @@ public class Friendship extends BaseModel {
     @Column(name = "friend")
     private User friend;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    @Column(name = "status", length = 256)
-    private FriendStatus status;
-
-    public enum FriendStatus{
-        PENDING,
-        ACCEPTED,
-        DECLINED
-    }
+    @Column(name = "chat_room_id")
+    private Long chatRoomId;
 
 }
