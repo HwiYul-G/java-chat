@@ -3,10 +3,10 @@ package com.y.javachat.controller;
 import com.y.javachat.converter.NotificaitonToNotificationResponseDtoConverter;
 import com.y.javachat.converter.UserDtoToUserConverter;
 import com.y.javachat.converter.UserToUserDtoConverter;
+import com.y.javachat.dto.ChatRoomResponseDto;
 import com.y.javachat.dto.FriendResponseDto;
 import com.y.javachat.dto.NotificationResponseDto;
 import com.y.javachat.dto.UserDto;
-import com.y.javachat.model.Notification;
 import com.y.javachat.model.User;
 import com.y.javachat.service.UserService;
 import com.y.javachat.system.Result;
@@ -62,6 +62,12 @@ public class UserController {
                 .map(this.notificaitonToNotificationResponseDtoConverter::convert)
                 .toList();
         return new Result(true, StatusCode.SUCCESS, "알림 목록 조회 성공", notifications);
+    }
+
+    @GetMapping("/{userId}/chat-rooms")
+    public Result getChatRooms(@PathVariable Long userId, @RequestParam boolean isGroup){
+        List<ChatRoomResponseDto> chatRooms = userService.findChatRoomsByUserId(userId, isGroup);
+        return new Result(true, StatusCode.SUCCESS, "채팅방 목록 조회 성공", chatRooms);
     }
 
 }
