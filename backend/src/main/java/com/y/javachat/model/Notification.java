@@ -1,10 +1,7 @@
 package com.y.javachat.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "notification")
@@ -12,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Notification extends BaseModel{
     @Column(name = "receiver_id")
     private Long receiverId;
@@ -22,6 +20,7 @@ public class Notification extends BaseModel{
     @Column(name = "content", length = 512)
     private String content;
 
+    @Column(name = "is_read")
     private boolean isRead;
 
     @Enumerated(EnumType.STRING)
