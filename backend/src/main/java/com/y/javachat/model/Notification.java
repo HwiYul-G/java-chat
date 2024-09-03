@@ -1,5 +1,6 @@
 package com.y.javachat.model;
 
+import com.y.javachat.dto.NotificationResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Notification extends BaseModel{
+public class Notification extends BaseModel {
     @Column(name = "receiver_id")
     private Long receiverId;
 
@@ -31,7 +32,7 @@ public class Notification extends BaseModel{
     @Column(name = "notification_type", length = 256)
     private NotificationType type;
 
-    public enum NotificationStatus{
+    public enum NotificationStatus {
         PENDING,
         ACCEPTED,
         DECLINED,
@@ -40,6 +41,17 @@ public class Notification extends BaseModel{
 
     public enum NotificationType {
         FRIEND_REQUEST
+    }
+
+    public NotificationResponseDto toNotificationResponseDto() {
+        return new NotificationResponseDto(
+                this.getId(),
+                this.getContent(),
+                this.isRead(),
+                this.getCreatedAt(),
+                this.getStatus(),
+                this.getType()
+        );
     }
 
 }

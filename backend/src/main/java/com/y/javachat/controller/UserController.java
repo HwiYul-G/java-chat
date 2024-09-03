@@ -1,6 +1,5 @@
 package com.y.javachat.controller;
 
-import com.y.javachat.converter.NotificaitonToNotificationResponseDtoConverter;
 import com.y.javachat.converter.UserDtoToUserConverter;
 import com.y.javachat.converter.UserToUserDtoConverter;
 import com.y.javachat.dto.ChatRoomResponseDto;
@@ -24,8 +23,6 @@ public class UserController {
     private final UserService userService;
     private final UserToUserDtoConverter userToUserDtoConverter;
     private final UserDtoToUserConverter userDtoToUserConverter;
-    private final NotificaitonToNotificationResponseDtoConverter notificaitonToNotificationResponseDtoConverter;
-
 
     @PostMapping
     public Result addUser(@Valid @RequestBody User newUser) {
@@ -56,11 +53,7 @@ public class UserController {
 
     @GetMapping("/{userId}/notifications")
     public Result getNotifications(@PathVariable Long userId) {
-        List<NotificationResponseDto> notifications = userService
-                .getAllNotifications(userId)
-                .stream()
-                .map(this.notificaitonToNotificationResponseDtoConverter::convert)
-                .toList();
+        List<NotificationResponseDto> notifications = userService.getAllNotifications(userId);
         return new Result(true, StatusCode.SUCCESS, "알림 목록 조회 성공", notifications);
     }
 

@@ -2,6 +2,7 @@ package com.y.javachat.service;
 
 import com.y.javachat.dto.ChatRoomResponseDto;
 import com.y.javachat.dto.FriendResponseDto;
+import com.y.javachat.dto.NotificationResponseDto;
 import com.y.javachat.model.*;
 import com.y.javachat.repository.*;
 import com.y.javachat.system.exception.ObjectNotFoundException;
@@ -62,9 +63,11 @@ public class UserService implements UserDetailsService {
                 )).toList();
     }
 
-    public List<Notification> getAllNotifications(Long receiverId) {
+    public List<NotificationResponseDto> getAllNotifications(Long receiverId) {
         userRepository.findById(receiverId).orElseThrow(() -> new ObjectNotFoundException("user id", receiverId));
-        return notificationRepository.findByReceiverId(receiverId);
+        return notificationRepository.findByReceiverId(receiverId)
+                .stream().map(Notification::toNotificationResponseDto)
+                .toList();
     }
 
     public List<ChatRoomResponseDto> findChatRoomsByUserId(Long userId, boolean isGroup) {
