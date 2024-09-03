@@ -1,6 +1,7 @@
 package com.y.javachat.service;
 
 import com.y.javachat.dto.FriendInvitationRequestDto;
+import com.y.javachat.dto.NotificationResponseDto;
 import com.y.javachat.model.Notification;
 import com.y.javachat.model.User;
 import com.y.javachat.repository.NotificationRepository;
@@ -16,7 +17,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
-    public Notification createFriendRequestNotification(FriendInvitationRequestDto friendInvitationRequestDto){
+    public NotificationResponseDto createFriendRequestNotification(FriendInvitationRequestDto friendInvitationRequestDto) {
         User user = userRepository.findById(friendInvitationRequestDto.userId())
                 .orElseThrow(() -> new ObjectNotFoundException("user id", friendInvitationRequestDto.userId()));
         User friend = userRepository.findByEmail(friendInvitationRequestDto.friendEmail())
@@ -29,21 +30,21 @@ public class NotificationService {
                 .type(Notification.NotificationType.FRIEND_REQUEST)
                 .content(user.getEmail() + "님이 친구 신청을 합니다.")
                 .build();
-        return notificationRepository.save(notification);
+        return notificationRepository.save(notification).toNotificationResponseDto();
     }
 
-    public Notification updateNotificationStatus(Long notificationId, boolean isAccept) {
+    public NotificationResponseDto updateNotificationStatus(Long notificationId, boolean isAccept) {
         Notification notification = notificationRepository
                 .findById(notificationId)
                 .orElseThrow(() -> new ObjectNotFoundException("notification", notificationId));
         if (isAccept) {
             notification.setStatus(Notification.NotificationStatus.ACCEPTED);
             notification.setContent(notification.getContent() + "(수락 완료)");
-            return notificationRepository.save(notification);
+            return notificationRepository.save(notification).toNotificationResponseDto();
         }
         notification.setStatus(Notification.NotificationStatus.DECLINED);
         notification.setContent(notification.getContent() + "(거절 완료)");
-        return notificationRepository.save(notification);
+        return notificationRepository.save(notification).toNotificationResponseDto();
     }
 
 }
