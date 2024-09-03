@@ -1,9 +1,12 @@
 package com.y.javachat.service;
 
 import com.y.javachat.dto.FriendResponseDto;
+import com.y.javachat.dto.NotificationResponseDto;
 import com.y.javachat.model.MyUserPrincipal;
+import com.y.javachat.model.Notification;
 import com.y.javachat.model.User;
 import com.y.javachat.repository.FriendshipRepository;
+import com.y.javachat.repository.NotificationRepository;
 import com.y.javachat.repository.UserRepository;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +28,8 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final FriendshipRepository friendshipRepository;
+    private final NotificationRepository notificationRepository;
 
-
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ObjectNotFoundException("user", email));
-    }
 
     public User save(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -63,6 +62,11 @@ public class UserService implements UserDetailsService {
                         friendship.getFriend().getEmail(),
                         friendship.getChatRoomId()
                 )).toList();
+    }
+
+    public List<Notification> getAllNotifications(Long receiverId) {
+        userRepository.findById(receiverId).orElseThrow(() -> new ObjectNotFoundException("user id", receiverId));
+        return notificationRepository.findByReceiverId(receiverId);
     }
 
     @Override
