@@ -14,10 +14,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatRoom extends BaseModel{
+public class ChatRoom extends BaseModel {
     @Column(name = "room_name", length = 256)
-    private String roomName;
+    private String roomName;    // 그룹 채팅방의 경우만 존재
 
     @Column(name = "manager_id")
     private Long managerId; // 그룹 채팅방의 경우만 존재
+
+    @Column(name = "is_group")
+    private boolean isGroup;
 }
