@@ -1,7 +1,6 @@
 package com.y.javachat.service;
 
 import com.y.javachat.dto.FriendInvitationRequestDto;
-import com.y.javachat.dto.NotificationResponseDto;
 import com.y.javachat.model.Notification;
 import com.y.javachat.model.User;
 import com.y.javachat.repository.NotificationRepository;
