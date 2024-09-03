@@ -55,12 +55,8 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ObjectNotFoundException("user", userId));
         return friendshipRepository.findAllByUser(user).stream()
-                .map(friendship -> new FriendResponseDto(
-                        friendship.getFriend().getId(),
-                        friendship.getFriend().getUsername(),
-                        friendship.getFriend().getEmail(),
-                        friendship.getChatRoomId()
-                )).toList();
+                .map(Friendship::toFriendResponseDto)
+                .toList();
     }
 
     public List<NotificationResponseDto> getAllNotifications(Long receiverId) {

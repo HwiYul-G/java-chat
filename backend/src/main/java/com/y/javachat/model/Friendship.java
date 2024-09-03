@@ -1,10 +1,8 @@
 package com.y.javachat.model;
 
+import com.y.javachat.dto.FriendResponseDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,5 +24,14 @@ public class Friendship extends BaseModel {
 
     @Column(name = "chat_room_id")
     private Long chatRoomId;
+
+    public FriendResponseDto toFriendResponseDto() {
+        return new FriendResponseDto(
+                this.friend.getId(),
+                this.friend.getUsername(),
+                this.friend.getEmail(),
+                this.chatRoomId
+        );
+    }
 
 }
