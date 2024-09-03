@@ -9,8 +9,6 @@ import com.y.javachat.system.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -46,10 +44,6 @@ public class NotificationService {
         notification.setStatus(Notification.NotificationStatus.DECLINED);
         notification.setContent(notification.getContent() + "(거절 완료)");
         return notificationRepository.save(notification);
-    }
-
-    public List<Notification> getAllNotifications(Long receiverId) {
-        return notificationRepository.findByReceiverId(receiverId);
     }
 
 }
