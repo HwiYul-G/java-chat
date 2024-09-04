@@ -14,8 +14,8 @@ import lombok.*;
 @AllArgsConstructor
 public class ChatMessage extends BaseModel {
     @NotNull(message = "메시지를 보내는 사람 id가 필요합니다.")
-    @Column(name = "sender")
     @ManyToOne
+    @JoinColumn(name = "sender_id")
     private User sender;
 
     @NotNull(message = "채팅방 id가 필요합니다.")

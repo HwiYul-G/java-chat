@@ -18,7 +18,7 @@ public class User extends BaseModel {
     private String email;
 
     @NotEmpty(message = "사용자 이름이 필요합니다.")
-    @Column(name = "email", length = 256)
+    @Column(name = "username", length = 256)
     private String username;
 
     @NotEmpty(message = "비밀번호가 필요합니다.")

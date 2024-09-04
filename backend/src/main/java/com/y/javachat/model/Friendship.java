@@ -14,12 +14,10 @@ import lombok.*;
 public class Friendship extends BaseModel {
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Column(name = "user")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "friend_id")
-    @Column(name = "friend")
     private User friend;
 
     @Column(name = "chat_room_id")
