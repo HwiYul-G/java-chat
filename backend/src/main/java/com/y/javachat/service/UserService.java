@@ -90,6 +90,7 @@ public class UserService implements UserDetailsService {
         ChatMessage lastMessage = getLastMessageByRoomId(chatRoom.getId());
         return new ChatRoomResponseDto(
                 chatRoom.getId(),
+                chatRoom.isGroup(),
                 new ChatRoomResponseDto.ChatRoomInfo(chatRoom.getRoomName(), chatRoom.getManagerId()),
                 null,
                 new ChatRoomResponseDto.LastMessageInfo(lastMessage.getContent(), lastMessage.getCreatedAt())
@@ -102,6 +103,7 @@ public class UserService implements UserDetailsService {
         ChatMessage lastMessage = getLastMessageByRoomId(chatRoom.getId());
         return new ChatRoomResponseDto(
                 chatRoom.getId(),
+                chatRoom.isGroup(),
                 null,
                 new ChatRoomResponseDto.FriendInfo(friend.getUsername(), friend.getEmail()),
                 new ChatRoomResponseDto.LastMessageInfo(lastMessage.getContent(), lastMessage.getCreatedAt())

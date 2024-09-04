@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public record ChatRoomResponseDto(
         Long roomId,
+        boolean isGroup,
         ChatRoomInfo chatRoomInfo, // 단체 채팅방 필요한 정보
         FriendInfo friendInfo,  // 개인 채팅 방 필요 정보
         LastMessageInfo lastMessageInfo
