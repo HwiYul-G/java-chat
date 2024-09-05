@@ -21,7 +21,7 @@ const MessagePage = () => {
     });
 
     const location = useLocation();
-    const { groupChatRoomName, isGroup, friendName, friendEmail } = location.state || {};
+    const {groupChatRoomName, isGroup, friendName, friendEmail} = location.state || {};
 
     const handleOnChange = (e) => {
         const {name, value} = e.target;

@@ -47,7 +47,12 @@ const FriendListSidebar = () => {
 
     const handleFriendClicked = async (roomId, friendId, friendName, friendEmail) => {
         if (roomId === undefined) {
-            const res = createChatRoom({"isGroup":false, "userId":userInfo.id, "roomName": null, "friendId": friendId});
+            const res = createChatRoom({
+                "isGroup": false,
+                "userId": userInfo.id,
+                "roomName": null,
+                "friendId": friendId
+            });
             if (res.flag) {
                 navigate(`chat-rooms/${roomId}`, {state: {friendName, friendEmail}});
             }

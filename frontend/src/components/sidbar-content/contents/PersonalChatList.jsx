@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import {useUser} from '../../../context/UserContext';
 import '../css/_common.css';
 import PersonalChat from './PersonalChat';
-import {findPersonalChatRoomsByUserId} from '../../../api/personalChatRoomApi';
 import {useNavigate} from 'react-router-dom';
 import {getPersonalChatRooms} from "../../../api/userApi";
 

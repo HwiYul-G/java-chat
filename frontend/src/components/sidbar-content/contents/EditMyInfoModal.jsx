@@ -1,17 +1,17 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import Avatar from '../../Avatar';
-import { useUser } from '../../../context/UserContext';
-import { updateUserInfo } from '../../../api/userApi';
+import {useUser} from '../../../context/UserContext';
+import {updateUserInfo} from '../../../api/userApi';
 
 const EditMyInfoModal = ({show, onClose}) => {
     const {userInfo, setUserInfo} = useUser();
     const [data, setData] = useState({
-       'email': userInfo.email,
-       'username': userInfo.username,
-       'enabled': userInfo.enabled,
-       'roles': userInfo.roles 
+        'email': userInfo.email,
+        'username': userInfo.username,
+        'enabled': userInfo.enabled,
+        'roles': userInfo.roles
     });
 
     useEffect(() => {
@@ -22,11 +22,11 @@ const EditMyInfoModal = ({show, onClose}) => {
             };
         })
     }, [userInfo]);
-    
+
     const handleOnChange = (e) => {
         const {name, value} = e.target;
         setData((prev) => {
-            return({
+            return ({
                 ...prev,
                 [name]: value,
             });
@@ -40,19 +40,19 @@ const EditMyInfoModal = ({show, onClose}) => {
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
-        if(file){
+        if (file) {
             // TODO: server에서 img 처리도 추가한 후 진행
         }
     };
 
-    const handleSubmit = async() => {
-        try{
+    const handleSubmit = async () => {
+        try {
             const res = await updateUserInfo(userInfo.id, data);
-            if(res.flag){
+            if (res.flag) {
                 setUserInfo(data);
                 onClose();
             }
-        } catch(err){
+        } catch (err) {
             console.error(err);
         }
     };
@@ -68,7 +68,7 @@ const EditMyInfoModal = ({show, onClose}) => {
                     <form>
                         <div>
                             <label htmlFor='username'>새 이름 : </label>
-                            <input 
+                            <input
                                 type='text'
                                 name='username'
                                 id='username'
@@ -82,7 +82,8 @@ const EditMyInfoModal = ({show, onClose}) => {
                             <div className='d-flex align-items-center form-control'>
                                 <Avatar width={40} height={40}/>
                                 <label htmlFor='profile_pic'>
-                                    <button className='border-0 bg-transparent' onClick={handleOpenUploadPhoto}>사진 변경</button>
+                                    <button className='border-0 bg-transparent' onClick={handleOpenUploadPhoto}>사진 변경
+                                    </button>
                                     <input
                                         type='file'
                                         id='profile_pic'
@@ -95,10 +96,10 @@ const EditMyInfoModal = ({show, onClose}) => {
                         </div>
                     </form>
                 </Modal.Body>
-                <Modal.Footer> 
-                    <Button variant="primary" onClick={handleSubmit}> 완료 </Button> 
-                    <Button variant="secondary" onClick={onClose}> 닫기 </Button> 
-                </Modal.Footer> 
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleSubmit}> 완료 </Button>
+                    <Button variant="secondary" onClick={onClose}> 닫기 </Button>
+                </Modal.Footer>
             </Modal.Dialog>
         </Modal>
     );

@@ -1,21 +1,21 @@
 import './css/_common.css';
 import Notification from './contents/Notification';
-import { useEffect, useState } from 'react';
-import { useUser } from '../../context/UserContext';
+import {useEffect, useState} from 'react';
+import {useUser} from '../../context/UserContext';
 import {getNotifications} from "../../api/userApi";
 
 const NotificationSidebar = () => {
-    const { userInfo } = useUser();
+    const {userInfo} = useUser();
     const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState('');
 
     const fetchNotifications = async () => {
-        try{
+        try {
             const data = await getNotifications(userInfo.id);
-            if(data.flag){
+            if (data.flag) {
                 setNotifications(data.data);
             }
-        }catch(err){
+        } catch (err) {
             setError(err.message);
         }
     };

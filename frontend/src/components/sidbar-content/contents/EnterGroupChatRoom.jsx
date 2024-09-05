@@ -45,7 +45,9 @@ const EnterGroupChatRoom = () => {
                         placeholder="채팅방 번호를 입력해주세요."
                         className="form-control form-control-sm form-control-solid"
                         value={roomId}
-                        onChange={(e) => {setRoomId(e.target.value)}}
+                        onChange={(e) => {
+                            setRoomId(e.target.value)
+                        }}
                     />
                     <button className="btn btn-primary" onClick={handleEnterClicked}>
                         참여
