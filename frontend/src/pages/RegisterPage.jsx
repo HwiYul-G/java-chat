@@ -21,9 +21,9 @@ const RegisterPage = () => {
   const handleOnChange = (e) => {
     const {name, value} = e.target
 
-    setData((preve) => {
+    setData((prev) => {
       return {
-        ...preve,
+        ...prev,
         [name]: value
       }
     })
@@ -46,17 +46,13 @@ const RegisterPage = () => {
     e.stopPropagation()
 
     await register(data)
-    .then((res) => {
-      if(res.flag){
-        console.log("등록 성공 결과 확인", res.data);
-        navigate('/login');
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      setMessage(err.message);
-    });
-
+        .then((res) => {
+          if(res.flag){
+            navigate('/login');
+          }
+        }).catch((err) => {
+          setMessage(err.message);
+        });
   }
 
 
