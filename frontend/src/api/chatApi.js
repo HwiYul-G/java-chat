@@ -2,7 +2,7 @@ import instance from "./index";
 
 const prefix = '/chat-rooms';
 
-const getMessagesByRoomId = async (roomId) => {
+export const getMessagesByRoomId = async (roomId) => {
     try{
         const res = await instance.get(`${prefix}/${roomId}/messages`);
         console.log(res);
@@ -13,7 +13,7 @@ const getMessagesByRoomId = async (roomId) => {
     }
 };
 
-const createChatRoom = async (roomInfo) => {
+export const createChatRoom = async (roomInfo) => {
     // {"isGroup": , "userId": , "roomName": , "friendId": }
     try{
         const res = await instance.post(`${prefix}`, roomInfo);
@@ -24,7 +24,7 @@ const createChatRoom = async (roomInfo) => {
     }
 };
 
-const enterGroupChatRoom = async (roomId, userId) => {
+export const enterGroupChatRoom = async (roomId, userId) => {
     const requestData =  {"userId": userId, "isGroup": true}
     try{
         const res = await instance.post(`${prefix}/${roomId}/enter`, requestData);

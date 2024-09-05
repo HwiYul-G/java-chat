@@ -59,7 +59,7 @@ export const getNotifications = async (userId) => {
     }
 };
 
-export const getChatRooms = async(userId) => {
+const getChatRooms = async(userId) => {
     try{
         const res = await instance.get(`${prefix}/${userId}/chat-rooms`);
         console.log(res.data);
@@ -68,4 +68,14 @@ export const getChatRooms = async(userId) => {
         console.error("서버의 채팅방 목록 조회 API 호출 실패: ", err);
         throw err;
     }
+};
+
+export const getPersonalChatRooms = async (userId) => {
+    const chatRooms = await getChatRooms(userId);
+    return chatRooms.data.filter(room => !room.isGroup);
+};
+
+export const getGroupChatRooms = async (userId) => {
+    const chatRooms = await getChatRooms(userId);
+    return chatRooms.data.filter(room => room.isGroup);
 };
