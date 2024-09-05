@@ -5,8 +5,7 @@ import Home from "../pages/Home";
 import App from "../App";
 import AuthLayouts from "../layout";
 import Forgotpassword from "../pages/Forgotpassword";
-import GroupMessagePage from "../components/GroupMessagePage";
-import PersonalMessagePage from "../components/PersonalMessagePage";
+import MessagePage from "../components/MessagePage";
 import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
@@ -31,12 +30,8 @@ const router = createBrowserRouter([
                 element: <PrivateRoute element={<Home/>}/>,
                 children: [
                     {
-                        path: 'group/:roomId',
-                        element: <PrivateRoute element={<GroupMessagePage />} />
-                    },
-                    {
-                        path: 'personal/:roomId',
-                        element: <PrivateRoute element={<PersonalMessagePage />} />
+                        path: 'chat-rooms/:roomId',
+                        element: <PrivateRoute element={<MessagePage />} />
                     }
                 ]
             }
