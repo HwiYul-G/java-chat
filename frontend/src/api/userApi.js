@@ -4,21 +4,24 @@ const prefix = "/users";
 
 export const register = async (newUser) => {
     try{
+        // const newUser = {"email": , "username": , "password": , "roles": "user"}
         const res = await instance.post(`${prefix}`, newUser);
+        console.log(res.data);
         return res.data;
     }catch(err){
-        console.log("서버의 회원가입 API 호출 실패: ", err);
+        console.error("서버의 회원가입 API 호출 실패: ", err);
         throw err;
     }
 };
 
 export const updateUserInfo = async (userId, userInfo) => {
     try{
-        // {email, username, enabled , roles}
+        // {email: "", username:"" , roles: "user"}
         const res = await instance.put(`${prefix}/${userId}`, userInfo);
+        console.log(res.data);
         return res.data;
     } catch(err){
-        console.log("서버의 사용자 정보 업데이트 API 호출 실패: ", err);
+        console.error("서버의 사용자 정보 업데이트 API 호출 실패: ", err);
         throw err;
     }
 };
@@ -26,74 +29,43 @@ export const updateUserInfo = async (userId, userInfo) => {
 export const deleteAccount = async (userId) => {
     try{
         const res = await instance.delete(`${prefix}/${userId}`);
+        console.log(res.data);
         return res.data;
     } catch(err){
-        console.log("서버의 탈퇴하기 API 호출 실패: ", err);
+        console.error("서버의 탈퇴하기 API 호출 실패: ", err);
         throw err;
     }
 };
 
-export const findUserByEmail = async (email) => {
+export const getFriends = async (userId) => {
     try{
-        const res = await instance.get(`${prefix}/email`, {
-            params: {email}
-        });
-        return res.data;
-    } catch(err){
-        console.log('서버의 이메일로 사용자 찾기 API 호출 실패: ',err);
-        throw err;
-    }
-};
-
-export const findFriendsByUserId = async(userId) => {
-    try {
-        const res = await instance.get(`${prefix}/${userId}/friends`)
-        return res.data;
-    } catch(err){
-        console.error("서버의 친구 목록 가져오기 API 호출 실패: ", err);
-        throw err;
-    }
-}
-
-export const inviteFriend = async(data) => {
-    // {userId: , friendEmail: }
-    try{
-        const res = await instance.post(`${prefix}/invite-friend`, data);
-        console.log(res);
-        return res.data;
-    } catch(err){
-        console.error("서버의 친구 초대하기 API 호출 실패: ", err);
-        throw err;
-    }
-};
-
-export const acceptFriendRequest = async(friendRequestId) => {
-    try{
-        const res = await instance.post(`${prefix}/friend-requests/${friendRequestId}/accept`);
+        const res = await instance.get(`${prefix}/${userId}/friends`);
+        console.log(res.data);
         return res.data;
     }catch(err){
-        console.error("서버의 친구 요청 승락 API 호출 실패: ", err);
+        console.error("서버의 친구 목록 조회 API 호출 실패: ", err);
         throw err;
     }
 };
 
-export const declineFriendRequest = async(friendRequestId) => {
+export const getNotifications = async (userId) => {
     try{
-        const res = await instance.delete(`${prefix}/friend-requests/${friendRequestId}`);
+        const res = await instance.get(`${prefix}/${userId}/notifications`);
+        console.log(res.data);
         return res.data;
-    }catch(err){
-        console.error("서버의친구 요청 거절 API 호출 오류: ", err);
+    }catch (err){
+        console.error("서버의 알림 목록 조회 API 호출 실패: ", err);
         throw err;
     }
 };
 
-export const findFriendRequests = async(userId) => {
+export const getChatRooms = async(userId) => {
     try{
-        const res = await instance.get(`${prefix}/${userId}/request-friends`)
-        console.log(res);
+        const res = await instance.get(`${prefix}/${userId}/chat-rooms`);
+        console.log(res.data);
         return res.data;
-    }catch(err){
-        console.error("서버의 친구 요청 목록 API 호출 오류: ", err);
+    } catch(err){
+        console.error("서버의 채팅방 목록 조회 API 호출 실패: ", err);
         throw err;
     }
 };
