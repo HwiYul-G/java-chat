@@ -15,13 +15,13 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    @PostMapping("/notifications/friend-invitation")
+    @PostMapping("/friend-invitation")
     public Result addNotification(@RequestBody FriendInvitationRequestDto friendInvitationRequestDto) {
         NotificationResponseDto notification = notificationService.createFriendRequestNotification(friendInvitationRequestDto);
         return new Result(true, StatusCode.SUCCESS, "알림 생성 성공", notification);
     }
 
-    @PutMapping("/notifications/{notificationId}")
+    @PutMapping("/{notificationId}")
     public Result updateNotificationStatus(@PathVariable Long notificationId, @RequestParam boolean isAccept) {
         NotificationResponseDto notification = notificationService.updateNotificationStatus(notificationId, isAccept);
         return new Result(true, StatusCode.SUCCESS, "알림 상태 변경 성공", notification);
