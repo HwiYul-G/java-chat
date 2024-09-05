@@ -16,4 +16,7 @@ public interface ChatJoinRepository extends JpaRepository<ChatJoin, Long> {
 
     @Query("SELECT cj.user FROM ChatJoin AS cj WHERE cj.chatRoom.id = :chatRoomId AND cj.user.id <> :userId")
     Optional<User> findFriendInChatRoom(@Param("chatRoomId") Long chatRoomId, @Param("userId") Long userId);
+
+    boolean findByChatRoom_IdAndUser_Id(Long chatRoomId, Long UserId);
+
 }
