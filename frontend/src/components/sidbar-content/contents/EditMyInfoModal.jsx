@@ -5,7 +5,7 @@ import Avatar from '../../Avatar';
 import { useUser } from '../../../context/UserContext';
 import { updateUserInfo } from '../../../api/userApi';
 
-const EditMyInfomodal = ({show, onClose}) => {
+const EditMyInfoModal = ({show, onClose}) => {
     const {userInfo, setUserInfo} = useUser();
     const [data, setData] = useState({
        'email': userInfo.email,
@@ -104,4 +104,4 @@ const EditMyInfomodal = ({show, onClose}) => {
     );
 };
 
-export default EditMyInfomodal;
+export default EditMyInfoModal;
