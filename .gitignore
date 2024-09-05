@@ -8,3 +8,6 @@
 .idea/jarRepositories.xml
 out/production/java-chat/main/resources/application.yml
 /.idea/uiDesigner.xml
+/.idea/.gitignore
+/.idea/jsLibraryMappings.xml
+/.idea/webResources.xml
