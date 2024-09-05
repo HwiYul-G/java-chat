@@ -2,7 +2,7 @@ import instance from ".";
 
 const prefix = "/notifications";
 
-const inviteFriend = async(userId, friendEmail) => {
+export const inviteFriend = async(userId, friendEmail) => {
     try{
         const requestData =  {"userId" : userId, "friendEmail" : friendEmail}
         const res = instance.post(`${prefix}/friend-invitation`, requestData);
@@ -14,7 +14,7 @@ const inviteFriend = async(userId, friendEmail) => {
     }
 };
 
-const updateNotificationStatus = async (notificationId, isAccept) => {
+export const updateNotificationStatus = async (notificationId, isAccept) => {
     try{
         const res = await instance.put(`${prefix}/${notificationId}`, isAccept);
         console.log(res.data);
