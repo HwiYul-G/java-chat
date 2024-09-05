@@ -1,15 +1,15 @@
 import './css/_common.css';
 import './contents/Friend';
 import Friend from './contents/Friend';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import AddFriendModal from './contents/AddFriendModal';
-import { findFriendsByUserId } from '../../api/userApi';
-import { useUser } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom';
-import { makePersonalChatRoom } from '../../api/personalChatRoomApi';
+import {useUser} from '../../context/UserContext';
+import {useNavigate} from 'react-router-dom';
+import {getFriends} from "../../api/userApi";
+import {createChatRoom} from "../../api/chatApi";
 
 const FriendListSidebar = () => {
-    const { userInfo } = useUser();
+    const {userInfo} = useUser();
 
     const [showModal, setShowModal] = useState(false);
     const [friends, setFriends] = useState([]);
@@ -18,22 +18,22 @@ const FriendListSidebar = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchFriends = async () => {
-            try {
-                const friendsData = await findFriendsByUserId(userInfo.id);
-                if(friendsData.flag && friendsData.data.length === 0){
-                    setMessage("친구를 추가해 보세요");
-                }
-                if(friendsData.flag && friendsData.data.length !== 0){
-                    setMessage('');
-                    setFriends(friendsData.data);
-                }
-            } catch (err) {
-                setMessage(err.message);
+    const fetchFriends = async () => {
+        try {
+            const friendsData = await getFriends(userInfo.id);
+            if (friendsData.flag && friendsData.data.length === 0) {
+                setMessage("친구를 추가해 보세요");
             }
-        };
+            if (friendsData.flag && friendsData.data.length !== 0) {
+                setMessage('');
+                setFriends(friendsData.data);
+            }
+        } catch (err) {
+            setMessage(err.message);
+        }
+    };
 
+    useEffect(() => {
         fetchFriends();
     }, [userInfo.id]);
 
@@ -47,18 +47,15 @@ const FriendListSidebar = () => {
 
     const handleFriendClicked = async (roomId, friendId, friendName, friendEmail) => {
         if (roomId === undefined) {
-            const res = await makePersonalChatRoom({ myId: userInfo.id, friendId: friendId });
-            console.log(res);
+            const res = createChatRoom({"isGroup":false, "userId":userInfo.id, "roomName": null, "friendId": friendId});
             if (res.flag) {
-                navigate(`personal/${res.data.id}`, { state: { friendName, friendEmail } });
-            } else {
-                console.error(res);
+                navigate(`chat-rooms/${roomId}`, {state: {friendName, friendEmail}});
             }
         } else {
-            navigate(`personal/${roomId}`, { state: { friendName, friendEmail } });
+            navigate(`chat-rooms/${roomId}`, {state: {friendName, friendEmail}});
         }
     };
-    
+
 
     return (
         <div className='tab-pane'>
@@ -66,7 +63,7 @@ const FriendListSidebar = () => {
                 <div className='tab-header'>
                     <h5>친구 목록</h5>
                 </div>
-                
+
                 {
                     message && (
                         <div className='alert alert-danger'>
@@ -78,10 +75,10 @@ const FriendListSidebar = () => {
                 <div className='hide-scrollbar h-100'>
                     <div className='m-4'>
                         <ul className='list-unstyled'>
-                            { friends.map(friend => (
-                                <li 
-                                    className='card contact-item' 
-                                    key={friend.userId} 
+                            {friends.map(friend => (
+                                <li
+                                    className='card contact-item'
+                                    key={friend.userId}
                                     style={{cursor: 'pointer'}}
                                     onClick={() => handleFriendClicked(friend.roomId, friend.userId, friend.name, friend.email)}
                                 >
