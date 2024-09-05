@@ -28,6 +28,12 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.NOT_FOUND, e.getMessage());
     }
 
+    @ExceptionHandler(DuplicationJoinException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    Result handleDuplicationJoinException(DuplicationJoinException e){
+        return new Result(false, StatusCode.NOT_FOUND, e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     Result handleValidationException(MethodArgumentNotValidException e) {
