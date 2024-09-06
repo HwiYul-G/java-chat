@@ -1,17 +1,17 @@
-import { useEffect, createContext, useRef } from "react";
+import {useEffect, createContext, useRef} from "react";
 import * as StompJs from '@stomp/stompjs';
-import { useUser } from "./UserContext";
+import {useUser} from "./UserContext";
 
 const WebSocketContext = createContext();
 
-function WebSocketProvider({children}){
+function WebSocketProvider({children}) {
     const {userInfo} = useUser();
     const client = useRef(null);
     const subscriptions = useRef({});
-    
+
     // 하나의 채널을 위해 하나의 콜백을 등록하는 컴포넌트가 호출한다.
     const subscribe = (channel, callback) => {
-        if(client.current && client.current.connected && !subscriptions.current[channel]){
+        if (client.current && client.current.connected && !subscriptions.current[channel]) {
             const subscription = client.current.subscribe(channel, message => {
                 const data = JSON.parse(message.body);
                 callback(data);
@@ -22,7 +22,7 @@ function WebSocketProvider({children}){
 
     // 콜백을 지운다.
     const unsubscribe = (channel) => {
-        if(subscriptions.current[channel]){
+        if (subscriptions.current[channel]) {
             subscriptions.current[channel].unsubscribe();
             delete subscriptions.current[channel];
         }
@@ -42,7 +42,7 @@ function WebSocketProvider({children}){
     };
 
     useEffect(() => {
-        if(userInfo){ // 사용자가 로그인 상태일 때
+        if (userInfo) { // 사용자가 로그인 상태일 때
             client.current = new StompJs.Client({
                 brokerURL: 'ws://localhost:8080/java-chat',
                 connectHeaders: {
@@ -67,7 +67,7 @@ function WebSocketProvider({children}){
         }
 
         return () => {
-            if(client.current){
+            if (client.current) {
                 client.current.deactivate();
             }
         };
@@ -76,7 +76,7 @@ function WebSocketProvider({children}){
     // WS provider dom
     // subscribe와 unsubscirbe는 context를 위해 유일하게 필요한 prop이다.
     return (
-        <WebSocketContext.Provider value={{ subscribe, unsubscribe, publish }}>
+        <WebSocketContext.Provider value={{subscribe, unsubscribe, publish}}>
             {children}
         </WebSocketContext.Provider>
     );
