@@ -17,6 +17,7 @@ export const createChatRoom = async (roomInfo) => {
     // {"isGroup": , "userId": , "roomName": , "friendId": }
     try{
         const res = await instance.post(`${prefix}`, roomInfo);
+        console.log(res.data);
         return res.data;
     } catch(err){
         console.error(err);
@@ -28,6 +29,7 @@ export const enterGroupChatRoom = async (roomId, userId) => {
     const requestData =  {"userId": userId, "isGroup": true}
     try{
         const res = await instance.post(`${prefix}/${roomId}/enter`, requestData);
+        console.log(res);
         return res.data;
     } catch (err){
         console.error(err);
