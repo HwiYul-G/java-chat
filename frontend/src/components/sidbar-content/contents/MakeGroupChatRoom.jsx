@@ -23,9 +23,11 @@ const MakeGroupChatRoom = () => {
                 friendId: null // 그룹 채팅방에서는 친구 ID가 필요하지 않으므로 null로 설정
             });
             if (result.flag) {
-                setRoomId(result.data.id);
-                navigate(`/chat-rooms/${result.data.id}`, {
+                setRoomId(result.data.roomId);
+                setRoomName(result.data.chatRoomInfo.roomName);
+                navigate(`/chat-rooms/${result.data.roomId}`, {
                     state: {
+                        isGroup: true,
                         groupChatRoomName: roomName
                     }
                 });

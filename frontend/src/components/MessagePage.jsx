@@ -29,7 +29,7 @@ const MessagePage = () => {
     };
 
     const handleSendMessage = (message) => {
-        if (message.content.trim() === '')
+        if (message.content === '')
             return;
         publish(`/pub/chat-rooms/${params.roomId}`, message);
         setMessage({
@@ -53,6 +53,7 @@ const MessagePage = () => {
     };
 
     useEffect(() => {
+
         setAllMessages([]); // 채팅방이 변경될 때 이전 메시지 초기화
         loadMessages();
 
