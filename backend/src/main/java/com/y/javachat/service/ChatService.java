@@ -65,6 +65,7 @@ public class ChatService {
     public ChatRoomResponseDto createPrivateChatRoom(ChatRoomRequestDto chatRoomRequestDto) {
         User user = userRepository.findById(chatRoomRequestDto.userId())
                 .orElseThrow(() -> new ObjectNotFoundException("user id", chatRoomRequestDto.userId()));
+        assert chatRoomRequestDto.friendId() != null;
         User friend = userRepository.findById(chatRoomRequestDto.friendId())
                 .orElseThrow(() -> new ObjectNotFoundException("user id", chatRoomRequestDto.friendId()));
 
@@ -107,7 +108,7 @@ public class ChatService {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new ObjectNotFoundException("chatRoom", roomId));
 
-        boolean isAlreadyJoined = chatJoinRepository.findByChatRoom_IdAndUser_Id(roomId, requestDto.userId());
+        boolean isAlreadyJoined = chatJoinRepository.findByChatRoom_IdAndUser_Id(roomId, requestDto.userId()).isPresent();
         if (isAlreadyJoined) {
             throw new DuplicationJoinException(requestDto.userId(), roomId);
         }
