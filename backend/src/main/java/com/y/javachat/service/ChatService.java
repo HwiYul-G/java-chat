@@ -75,7 +75,15 @@ public class ChatService {
                 .orElseThrow(() -> new ObjectNotFoundException("friendship", friend.getId() + " with " + user.getId()));
 
         if (friendship1.getChatRoomId() != null) {
-            throw new DuplicationJoinException(chatRoomRequestDto.userId(), friendship1.getChatRoomId());
+            ChatRoom chatRoom = chatRoomRepository.findById(friendship1.getChatRoomId())
+                    .orElseThrow(() -> new ObjectNotFoundException("chatRoom", friendship1.getChatRoomId()));
+            return new ChatRoomResponseDto(
+                    chatRoom.getId(),
+                    chatRoom.isGroup(),
+                    null,
+                    new ChatRoomResponseDto.FriendInfo(friend.getUsername(), friend.getEmail()),
+                    null
+            );
         }
 
         ChatRoom savedChatRoom = chatRoomRepository.save(ChatRoom.builder()
