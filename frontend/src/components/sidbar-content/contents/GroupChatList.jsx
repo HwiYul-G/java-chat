@@ -40,8 +40,9 @@ const GroupChatList = () => {
                         key={groupChat.roomId}
                         className='card contact-item'
                         style={{cursor: 'pointer'}}
-                        onClick={() => navigate(`chat-rooms/${groupChat.groupChatRoomId}`, {
+                        onClick={() => navigate(`chat-rooms/${groupChat.roomId}`, {
                             state: {
+                                isGroup: true,
                                 groupChatRoomName: groupChat.chatRoomInfo.roomName
                             }
                         })}
