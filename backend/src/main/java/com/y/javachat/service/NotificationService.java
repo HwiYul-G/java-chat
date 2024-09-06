@@ -2,20 +2,25 @@ package com.y.javachat.service;
 
 import com.y.javachat.dto.FriendInvitationRequestDto;
 import com.y.javachat.dto.NotificationResponseDto;
+import com.y.javachat.model.Friendship;
 import com.y.javachat.model.Notification;
 import com.y.javachat.model.User;
+import com.y.javachat.repository.FriendshipRepository;
 import com.y.javachat.repository.NotificationRepository;
 import com.y.javachat.repository.UserRepository;
 import com.y.javachat.system.exception.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+    private final FriendshipRepository friendshipRepository;
 
     public NotificationResponseDto createFriendRequestNotification(FriendInvitationRequestDto friendInvitationRequestDto) {
         User user = userRepository.findById(friendInvitationRequestDto.userId())
@@ -40,6 +45,14 @@ public class NotificationService {
         if (isAccept) {
             notification.setStatus(Notification.NotificationStatus.ACCEPTED);
             notification.setContent(notification.getContent() + "(수락 완료)");
+            if(notification.getType() == Notification.NotificationType.FRIEND_REQUEST){
+                User user = userRepository.findById(notification.getReceiverId())
+                        .orElseThrow(() -> new ObjectNotFoundException("user id", notification.getReceiverId()));
+                User friend = userRepository.findById(notification.getSenderId())
+                        .orElseThrow(() -> new ObjectNotFoundException("user id", notification.getSenderId()));
+                friendshipRepository.save(Friendship.builder().user(user).friend(friend).build());
+                friendshipRepository.save(Friendship.builder().user(friend).friend(user).build());
+            }
             return notificationRepository.save(notification).toNotificationResponseDto();
         }
         notification.setStatus(Notification.NotificationStatus.DECLINED);
