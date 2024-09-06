@@ -6,6 +6,7 @@ const GroupChat = ({roomId, roomName, lastMessage}) => {
             <div className='d-flex flex-column align-items-start'>
                 <div className='room-name mb-2'>
                     <h5>{roomName}</h5>
+                    <p>방번호: {roomId}</p>
                 </div>
                 <div className="last-message">
                     <div className="line-clamp me-auto">{lastMessage}</div>

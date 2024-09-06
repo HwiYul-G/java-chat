@@ -46,7 +46,7 @@ const GroupChatList = () => {
                             }
                         })}
                     >
-                        <GroupChat {...groupChat}/>
+                        <GroupChat roomId={groupChat.roomId} roomName={groupChat.chatRoomInfo.roomName} lastMessage={groupChat.lastMessageInfo.content}/>
                     </li>
                 ))}
             </ul>
