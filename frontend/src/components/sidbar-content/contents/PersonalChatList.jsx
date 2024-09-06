@@ -51,7 +51,7 @@ const PersonalChatList = () => {
                             }
                         })}
                     >
-                        <PersonalChat {...personalChat} />
+                        <PersonalChat roomId={personalChat.roomId} friendName={personalChat.friendInfo.name} lastMessage={personalChat.lastMessageInfo.content}/>
                     </li>
                 ))}
             </ul>
