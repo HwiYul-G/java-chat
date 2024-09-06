@@ -28,7 +28,7 @@ const MessagePage = () => {
         setMessage(prev => ({...prev, [name]: value}));
     };
 
-    const handleSendMessage = (message) => {
+    const handleSendMessage = () => {
         if (message.content === '')
             return;
         publish(`/pub/chat-rooms/${params.roomId}`, message);
@@ -79,7 +79,7 @@ const MessagePage = () => {
                 {allMessages.map((msg) => (
                     <ChatMessage
                         key={msg.id}
-                        {...msg}
+                        message={msg}
                         userId={userInfo.id}
                     />
                 ))}
