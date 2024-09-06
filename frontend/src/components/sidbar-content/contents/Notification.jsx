@@ -7,11 +7,12 @@ const Notification = ({id, content, isRead, createdAt, status, type}) => {
     const formattedDate = moment(createdAt).format("YYYY-MM-DD HH:mm");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const handleResponse = async (response) => {
+    const handleResponse = async (isAccept) => {
         try {
-            const res = await updateNotificationStatus(id, response);
+            const res = await updateNotificationStatus(id, isAccept);
             if (res.flag) {
                 setIsResponded(true);
+                setErrorMessage('');
             }
         } catch (err) {
             setErrorMessage(err.message);
@@ -26,7 +27,7 @@ const Notification = ({id, content, isRead, createdAt, status, type}) => {
                 <div className='d-flex align-items-center'>
                     <div className='flex-grow-1'>
                         <div className='d-flex align-items-center overflow-hidden'>
-                            <h5 className='me-auto text-break mb-0'>{content}</h5>
+                            <h5 className='me-auto text-break mb-0'>친구신청</h5>
                             <span className='small text-muted text-nowrap ms-2'>{formattedDate}</span>
                         </div>
                         <div className='d-flex align-items-center'>

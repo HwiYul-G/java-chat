@@ -16,9 +16,10 @@ const AddFriendModal = ({show, onClose}) => {
             return;
         }
         try {
-            const res = await inviteFriend({userId: userInfo.id, friendEmail: email});
+            const res = await inviteFriend(userInfo.id, email);
             if (res.flag) {
                 setEmail('');
+                setErrorMessage('');
                 onClose();
             } else {
                 setErrorMessage(res.message);
