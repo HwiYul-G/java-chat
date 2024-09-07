@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Avatar from '../Avatar';
 import './css/_common.css';
-import EditMyInfomodal from './contents/EditMyInfoModal';
-import { useUser } from '../../context/UserContext';
+import {useUser} from '../../context/UserContext';
+import EditMyInfoModal from "./contents/EditMyInfoModal";
 
 const MyInfoSidebar = () => {
     const [showModal, setShowModal] = useState(false);
-    const { userInfo } = useUser();
+    const {userInfo} = useUser();
 
     const handleShowModal = () => {
         setShowModal(true);
@@ -23,7 +23,7 @@ const MyInfoSidebar = () => {
             </div>
 
             <div className='d-flex flex-column align-items-center'>
-                <Avatar width={48} height={48}/> 
+                <Avatar width={48} height={48}/>
                 <h5 className='m-1'>{userInfo.username}</h5>
             </div>
 
@@ -43,7 +43,7 @@ const MyInfoSidebar = () => {
                 <button className='btn btn-sm btn-primary w-100' onClick={handleShowModal}>내 정보 수정</button>
             </div>
 
-            <EditMyInfomodal show={showModal} onClose={handleCloseModal}/>
+            <EditMyInfoModal show={showModal} onClose={handleCloseModal}/>
         </div>
     );
 };

@@ -3,17 +3,17 @@ import React from "react";
 const Avatar = ({userId, name, imageUrl, width, height}) => {
 
     let avatarName = ""
-    if(name){
-       const splitName = name.split(" ")
-        
+    if (name) {
+        const splitName = name.split(" ")
+
     }
 
     return (
-        <div className="" style={{width: width+"px", height: height+"px"}}>
+        <div className="" style={{width: width + "px", height: height + "px"}}>
             {
                 imageUrl ? (
                     <img
-                        src= {imageUrl}
+                        src={imageUrl}
                         width={width}
                         height={height}
                         alt={name}
@@ -21,7 +21,7 @@ const Avatar = ({userId, name, imageUrl, width, height}) => {
                     />
                 ) : (
                     <img
-                        src= {require('../assets/default_user_icon.png')}
+                        src={require('../assets/default_user_icon.png')}
                         width={width}
                         height={height}
                         alt={name}

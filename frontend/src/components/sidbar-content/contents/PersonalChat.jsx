@@ -1,6 +1,6 @@
 import Avatar from "../../Avatar.jsx";
 
-const PersonalChat = ({roomId, friendId, friendName, lastMessage, imgUrl}) => {
+const PersonalChat = ({roomId, friendName, lastMessage, imgUrl}) => {
     return (
         <div className="card-body">
             <div className="d-flex align-items-center">

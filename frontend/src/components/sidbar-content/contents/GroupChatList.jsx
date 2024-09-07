@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useUser } from '../../../context/UserContext.js';
+import {useEffect, useState} from 'react';
+import {useUser} from '../../../context/UserContext.js';
 import '../css/_common.css';
 import GroupChat from './GroupChat.jsx';
-import { findGroupChatRoomsByUserid } from '../../../api/groupChatRoomApi.js';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import {getGroupChatRooms} from "../../../api/userApi";
 
 const GroupChatList = () => {
     const {userInfo} = useUser();
@@ -13,21 +13,21 @@ const GroupChatList = () => {
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        const fetchGroupChats = async () => {
-            try{
-                const groupChats = await findGroupChatRoomsByUserid(userInfo.id);
-                if(groupChats.flag && groupChats.data.length === 0){
-                    setMessage('그룹 채팅을 시작해보세요!');
-                }
-                if(groupChats.flag && groupChats.data.length !== 0){
-                    setMessage('');
-                    setGroupChats(groupChats.data);
-                }
-            }catch(err){
-                setMessage(err.message);
+    const fetchGroupChats = async () => {
+        try {
+            const groupChats = await getGroupChatRooms(userInfo.id); // 수정된 부분
+            if (groupChats.length === 0) {
+                setMessage('그룹 채팅을 시작해보세요!');
+            } else {
+                setMessage('');
+                setGroupChats(groupChats);
             }
-        };
+        } catch (err) {
+            setMessage(err.message);
+        }
+    };
+
+    useEffect(() => {
         fetchGroupChats();
     }, [userInfo.id]);
 
@@ -35,18 +35,19 @@ const GroupChatList = () => {
         <div>
             {message && <div>{message}</div>}
             <ul className='list-unstyled js-contact-list mb-0'>
-                { groupChats.map(groupChat => (
-                    <li 
-                        key={groupChat.groupChatRoomId} 
+                {groupChats.map(groupChat => (
+                    <li
+                        key={groupChat.roomId}
                         className='card contact-item'
                         style={{cursor: 'pointer'}}
-                        onClick={()=> navigate(`group/${groupChat.groupChatRoomId}`, {
+                        onClick={() => navigate(`chat-rooms/${groupChat.roomId}`, {
                             state: {
-                                groupChatRoomName: groupChat.groupChatRoomName
+                                isGroup: true,
+                                groupChatRoomName: groupChat.chatRoomInfo.roomName
                             }
                         })}
                     >
-                        <GroupChat {...groupChat}/>
+                        <GroupChat roomId={groupChat.roomId} roomName={groupChat.chatRoomInfo.roomName} lastMessage={groupChat.lastMessageInfo.content}/>
                     </li>
                 ))}
             </ul>

@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from "./Avatar";
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const SearchedUser = ({user, onClose}) => {
     const navigate = useNavigate();

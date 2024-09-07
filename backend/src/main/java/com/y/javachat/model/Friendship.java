@@ -1,10 +1,8 @@
 package com.y.javachat.model;
 
+import com.y.javachat.dto.FriendResponseDto;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -13,19 +11,25 @@ import java.time.LocalDateTime;
 @Table(name = "friendship")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Friendship {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Friendship extends BaseModel {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @NotNull(message = "userId가 필요합니다.")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "friend_id")
+    private User friend;
 
-    @NotNull(message = "friendId가 필요합니다.")
-    private Long friendId;
-
+    @Column(name = "chat_room_id")
     private Long chatRoomId;
 
-    private LocalDateTime createdAt;
+    public FriendResponseDto toFriendResponseDto() {
+        return new FriendResponseDto(
+                this.friend.getId(),
+                this.friend.getUsername(),
+                this.friend.getEmail(),
+                this.chatRoomId
+        );
+    }
 
 }

@@ -19,7 +19,6 @@ public class DBDataInitializer implements CommandLineRunner {
 
     private void initUser() {
         User u1 = User.builder()
-                .id(1L)
                 .email("a@google.com")
                 .username("a")
                 .password("12345")
@@ -28,7 +27,6 @@ public class DBDataInitializer implements CommandLineRunner {
                 .build();
 
         User u2 = User.builder()
-                .id(2L)
                 .email("b@google.com")
                 .username("b")
                 .password("12345")
@@ -37,7 +35,6 @@ public class DBDataInitializer implements CommandLineRunner {
                 .build();
 
         User u3 = User.builder()
-                .id(3L)
                 .email("c@google.com")
                 .username("c")
                 .password("12345")
@@ -46,7 +43,6 @@ public class DBDataInitializer implements CommandLineRunner {
                 .build();
 
         User u4 = User.builder()
-                .id(4L)
                 .email("d@google.com")
                 .username("d")
                 .password("12345")

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../api/loginApi';
+import { login } from '../api/authApi';
 import instance from '../api';
 import { useUser } from '../context/UserContext';
 
@@ -18,9 +18,9 @@ const LoginPage = () => {
   const handleOnChange = (e) => {
     const {name, value} = e.target
 
-    setData((preve) => {
+    setData((prev) => {
       return{
-        ...preve,
+        ...prev,
         [name] : value
       };
     })

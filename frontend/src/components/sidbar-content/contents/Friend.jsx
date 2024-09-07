@@ -1,6 +1,6 @@
 import Avatar from '../../Avatar.jsx';
 
-const Friend = ({id, name, email, imgUrl}) => {
+const Friend = ({id, name, email, chatRoomId, imgUrl}) => {
     return (
         <div className="card-body">
             <div className="d-flex align-items-center">

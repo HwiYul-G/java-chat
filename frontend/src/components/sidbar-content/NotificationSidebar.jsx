@@ -1,32 +1,27 @@
 import './css/_common.css';
-import AddFriendNotification from './contents/AddFriendNotification';
-import { useEffect, useState } from 'react';
-import { useUser } from '../../context/UserContext';
-import { findFriendRequests } from '../../api/userApi';
-import moment from 'moment';
+import Notification from './contents/Notification';
+import {useEffect, useState} from 'react';
+import {useUser} from '../../context/UserContext';
+import {getNotifications} from "../../api/userApi";
 
 const NotificationSidebar = () => {
-    const { userInfo } = useUser();
-
-    const [invitationInfos, setInvitationInfos] = useState([]);
+    const {userInfo} = useUser();
+    const [notifications, setNotifications] = useState([]);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        const fetchFriendRequests = async () => {
-            try{
-                const data = await findFriendRequests(userInfo.id);
-                const invitationInfoData = data.data.map(info => ({
-                    invitationId: info.id,
-                    inviterName: info.senderName,
-                    invitationDate: moment(info.createdAt).format('')
-                }));
-                setInvitationInfos(invitationInfoData);
-            }catch(err){
-                setError("친구 요청 정보를 가져오는 데 실패했습니다.");
+    const fetchNotifications = async () => {
+        try {
+            const data = await getNotifications(userInfo.id);
+            if (data.flag) {
+                setNotifications(data.data);
             }
-        };
+        } catch (err) {
+            setError(err.message);
+        }
+    };
 
-        fetchFriendRequests();
+    useEffect(() => {
+        fetchNotifications();
     }, []);
 
     return (
@@ -40,8 +35,8 @@ const NotificationSidebar = () => {
                     {error && <p className="error-message">{error}</p>}
                     <div className='notification-list'>
                         {
-                            invitationInfos.map(info => (
-                                <AddFriendNotification key={info.invitationId} {...info} />
+                            notifications.map(info => (
+                                <Notification key={info.id} {...info}/>
                             ))
                         }
                     </div>

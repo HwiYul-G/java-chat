@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import './css/_common.css'
 import PersonalChatList from "./contents/PersonalChatList";
 import GroupChatList from "./contents/GroupChatList";

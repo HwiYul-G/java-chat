@@ -1,9 +1,7 @@
 package com.y.javachat.controller;
 
-import com.y.javachat.model.GroupChat;
-import com.y.javachat.model.PersonalChat;
-import com.y.javachat.service.GroupChatService;
-import com.y.javachat.service.PersonalChatService;
+import com.y.javachat.dto.*;
+import com.y.javachat.service.ChatService;
 import com.y.javachat.system.Result;
 import com.y.javachat.system.StatusCode;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +10,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -24,35 +19,37 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final GroupChatService groupChatService;
-    private final PersonalChatService personalChatService;
+    private final ChatService chatService;
 
-    @MessageMapping("/group-chat-rooms/{roomId}")
-    @SendTo("/sub/group-chat-rooms/{roomId}")
-    public GroupChat sendMessage(@Payload GroupChat groupChat) {
-        groupChat.setCreatedAt(LocalDateTime.now());
-        return groupChatService.save(groupChat);
+    @MessageMapping("/chat-rooms/{roomId}")
+    @SendTo("/sub/chat-rooms/{roomId}")
+    public ChatMessageResponseDto sendMessage(@Payload ChatMessageRequestDto chatMessageRequestDto) {
+        return chatService.save(chatMessageRequestDto);
     }
 
-    @MessageMapping("/personal-chat-rooms/{roomId}")
-    @SendTo("/sub/personal-chat-rooms/{roomId}")
-    public PersonalChat sendPersonalMessage(@Payload PersonalChat personalChat){
-        personalChat.setCreatedAt(LocalDateTime.now());
-        return personalChatService.save(personalChat);
-    }
-
-    @GetMapping("${api.endpoint.base-url}/group-chat-rooms/{roomId}/messages")
+    @GetMapping("${api.endpoint.base-url}/chat-rooms/{roomId}/messages")
     @ResponseBody
     public Result getAllMessagesByRoomId(@PathVariable Long roomId){
-        List<GroupChat> chats = groupChatService.findAllByRoomId(roomId);
-        return new Result(true, StatusCode.SUCCESS, "채팅 리스트 조회 성공", chats);
+        List<ChatMessageResponseDto> chats = chatService.findChatMessageByRoomId(roomId);
+        return new Result(true, StatusCode.SUCCESS, "채팅 메시지 목록 조회 성공", chats);
     }
 
-    @GetMapping("${api.endpoint.base-url}/personal-chat-rooms/{roomId}/messages")
+    @PostMapping("${api.endpoint.base-url}/chat-rooms")
     @ResponseBody
-    public Result getAllPersonalChatsByRoomId(@PathVariable Long roomId){
-        List<PersonalChat> chats = personalChatService.findAllByRoomId(roomId);
-        return new Result(true, StatusCode.SUCCESS,"채팅 리스트 조회 성공", chats);
+    public Result addChatRoom(@RequestBody ChatRoomRequestDto chatRoomRequestDto){
+        if(chatRoomRequestDto.isGroup()){
+            ChatRoomResponseDto chatRoom = chatService.createGroupChatRoom(chatRoomRequestDto);
+            return new Result(true, StatusCode.SUCCESS, "그룹 채팅방 생성 성공", chatRoom);
+        }
+        ChatRoomResponseDto chatRoom = chatService.createPrivateChatRoom(chatRoomRequestDto);
+        return new Result(true, StatusCode.SUCCESS, "개인 채팅방 생성 성공", chatRoom);
+    }
+
+    @PostMapping("${api.endpoint.base-url}/chat-rooms/{roomId}/enter")
+    @ResponseBody
+    public Result enterGroupChatRoom(@PathVariable Long roomId, @RequestBody EnterChatRoomRequestDto enterChatRoomRequestDto){
+        ChatRoomResponseDto chatRoom = chatService.enterGroupChatRoom(roomId, enterChatRoomRequestDto);
+        return new Result(true, StatusCode.SUCCESS, "그룹 채팅방 들어가기 성공", chatRoom);
     }
 
 }
