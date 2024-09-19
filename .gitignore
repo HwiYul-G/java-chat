@@ -17,3 +17,4 @@ out/production/java-chat/main/resources/application.yml
 /.idea/jpa.xml
 /.idea/dataSources/78681a06-488b-4a16-95a3-837a629cfc08/storage_v2/_src_/database/TEST.kjwnAA/schema/PUBLIC.aaZQjQ.meta
 /.idea/dataSources/78681a06-488b-4a16-95a3-837a629cfc08/storage_v2/_src_/database/TEST.kjwnAA.meta
+/backend/src/main/resources/model.onnx
