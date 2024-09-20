@@ -19,14 +19,17 @@
 <img src="./frontend/docs/resources/chat_movie.gif"/>
 
 ### 비속어 감지
-
+비속어 채팅 내역이 감지되어 `비속어가 감지되었습니다.`라는 alert가 표시됨
 <img src="./frontend/docs/resources/badworld.gif"/>
 
-### API docs
+### docs
 
-|   제목   |             파일              |
-|:------:|:---------------------------:|
-| API 문서 | [📑](./backend/docs/api.md) |
+|       제목       |                        파일                        |
+|:--------------:|:------------------------------------------------:|
+|     API 문서     |           [📑](./backend/docs/api.md)            |
+| AI 사용 데이터 및 학습 |    [📖](./ai/README.md)    |
+|    AI 학습 파일    | [📖](./ai/BERT_korean_profanity_detection.ipynb) |
+|                |                                                  |
 
 ### AI
 
@@ -68,11 +71,11 @@ http://localhost:3000/
 
 ### AI
 
-| 제목          |   학습내역   |
-|:------------|:--------:|
+| 제목          |            학습내역            |
+|:------------|:--------------------------:|
 | BERT 모델 소개  | [📖](./ai/BERT%20model.md) |
-| 사용 데이터 및 학습 | [📖](./ai/README.md) |
-|             |          |
+| 사용 데이터 및 학습 |    [📖](./ai/README.md)    |
+|             |                            |
 
 ### backend
 
