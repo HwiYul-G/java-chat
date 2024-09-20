@@ -20,6 +20,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Download model file
+        run: |
+          mkdir -p ./backend/src/main/resources
+          wget "https://drive.google.com/file/d/1rRRN_0KcAvmQamEB-2bD5QZttj9zrRy9/view?usp=drive_link" -O ./backend/src/main/resources/model.onnx
       - name: Build and test with maven
         working-directory: ./backend
         run: mvn --batch-mode package
