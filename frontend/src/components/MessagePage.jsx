@@ -60,9 +60,14 @@ const MessagePage = () => {
         subscribe(`/sub/chat-rooms/${params.roomId}`, (msg) => {
             setAllMessages(prev => [...prev, msg]);
         });
+        subscribe(`/sub/warnings/users/${userInfo.id}`, (warning) => {
+            console.log("warning : ", warning);
+            alert(warning.warningMessage);
+        });
 
         return () => {
             unsubscribe(`/sub/chat-rooms/${params.roomId}`);
+            unsubscribe(`/sub/warnings/users/${userInfo.id}`);
         };
     }, [params.roomId]);
 

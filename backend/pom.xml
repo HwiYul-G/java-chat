@@ -52,6 +52,19 @@
 			<version>2.0.1</version>
 		</dependency>
 
+		<!-- AI -->
+		<dependency>
+			<groupId>com.microsoft.onnxruntime</groupId>
+			<artifactId>onnxruntime</artifactId>
+			<version>1.19.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ai.djl.huggingface</groupId>
+			<artifactId>tokenizers</artifactId>
+			<version>0.29.0</version>
+		</dependency>
+
 		<!-- utils -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -92,6 +105,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
