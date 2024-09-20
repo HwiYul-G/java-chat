@@ -1,6 +1,5 @@
 # 채팅 서비스
-
-실시간 양방향 소통을 구현 및 Bert를 이용한 비속어 탐지 AI가 적용된 채팅 서비스
+Bert를 이용한 비속어 탐지 AI가 적용된 실시간 양방향 채팅 서비스
 
 ## Demo
 
@@ -28,10 +27,8 @@
 |:--------------:|:------------------------------------------------:|
 |     API 문서     |           [📑](./backend/docs/api.md)            |
 | AI 사용 데이터 및 학습 |    [📖](./ai/README.md)    |
-|    AI 학습 파일    | [📖](./ai/BERT_korean_profanity_detection.ipynb) |
+|  AI 실제 학습 코드   | [📑](./ai/BERT_korean_profanity_detection.ipynb) |
 |                |                                                  |
-
-### AI
 
 ## Steps to Setup
 
