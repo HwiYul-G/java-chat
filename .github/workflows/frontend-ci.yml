@@ -4,9 +4,9 @@ on: # events에 기반으로 workflow가 자동으로 active 된다.
   push:
     tags:
       - "v*.*.*"
-  # pull_request:
-  #   branches:
-  #     - main
+  pull_request:
+    branches:
+      - main
 
 jobs: # workflows의 blocks을 구성한다. - name, runner, set of steps로 구성
   build: # name은 object에 대응한다.
@@ -27,5 +27,7 @@ jobs: # workflows의 blocks을 구성한다. - name, runner, set of steps로 구
       - name: Build and test with Node.js
         working-directory: ./frontend
         run: npm run build && npm test
+        env:
+          REACT_APP_SERVER_HOST: ${{ secrets.REACT_APP_SERVER_HOST }}
 
       
