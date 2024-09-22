@@ -44,7 +44,10 @@ Bert를 이용한 비속어 탐지 AI가 적용된 실시간 양방향 채팅 �
 #### AI
 
 [🔗 비속어 탐지 onnx 모델 다운로드 링크](https://drive.google.com/file/d/1rRRN_0KcAvmQamEB-2bD5QZttj9zrRy9/view)</br>
-위 파일을 다운로드 후 spring-boot의 resources에 파일명을 `model.onnx`로 변경해 넣는다.
+위 파일을 다운로드 후 AI 서버의 spring-boot의 resources에 파일명을 `model.onnx`로 변경해 넣는다.
+```bash
+mvn spring-boot:run
+```
 
 #### Backend
 
