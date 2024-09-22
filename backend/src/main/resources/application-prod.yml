@@ -12,3 +12,5 @@ spring:
   web:
     resources:
       add-mappings: true
+
+ai.sever.base-url: ${AI_SEVER_URL}
