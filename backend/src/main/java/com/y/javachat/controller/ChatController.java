@@ -1,8 +1,6 @@
 package com.y.javachat.controller;
 
-import ai.onnxruntime.OrtException;
 import com.y.javachat.dto.*;
-import com.y.javachat.service.BertModelService;
 import com.y.javachat.service.ChatService;
 import com.y.javachat.system.Result;
 import com.y.javachat.system.StatusCode;
@@ -23,20 +21,15 @@ import java.util.List;
 public class ChatController {
 
     private final ChatService chatService;
-    private final BertModelService bertModelService;
     private final SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chat-rooms/{roomId}")
     @SendTo("/sub/chat-rooms/{roomId}")
     public ChatMessageResponseDto sendMessage(@Payload ChatMessageRequestDto chatMessageRequestDto) throws OrtException {
-        boolean isBadWord = bertModelService.predictBadWord(chatMessageRequestDto.content());
-        if (isBadWord) {
-            messagingTemplate.convertAndSend(
-                    "/sub/warnings/users/" + chatMessageRequestDto.senderId(),
-                    new WarningMessageDto(chatMessageRequestDto.senderId(), "비속어 사용이 감지되었습니다.")
-            );
-            return null;
-        }
+        // TODO: 전체 사용자에게 메시지를 보낸다. (메시지가 비속어 탐지 중이라고 나오게 한다.)
+        // TODO: 탐지가 완료되고 비속어가 아니라면 이미 보내진 메시지가
+        // TODO: 탐지가 완료되고 비속어라면 (비속어로 판별되었습니다.)로 적히게 한다.
+
         return chatService.save(chatMessageRequestDto);
     }
 
