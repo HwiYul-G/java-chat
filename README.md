@@ -18,8 +18,11 @@ Bert를 이용한 비속어 탐지 AI가 적용된 실시간 양방향 채팅 �
 <img src="./frontend/docs/resources/chat_movie.gif"/>
 
 ### 비속어 감지
-비속어 채팅 내역이 감지되어 `비속어가 감지되었습니다.`라는 alert가 표시됨
-<img src="./frontend/docs/resources/badworld.gif"/>
+- 모두에게 `비속어 탐지중...`이 나온다.
+  - 비속어가 아닌 경우: 올바르게 메시지가 보여진다.
+  - 비속어인 경우:  `비속어가 감지되었습니다.`라는 alert가 표시됨
+
+<img src="./frontend/docs/resources/badword_detection.gif"/>
 
 ### docs
 
