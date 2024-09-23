@@ -105,4 +105,4 @@ http://localhost:3000/
 This document and code were written by [KSY(HwiYul-G)](https://github.com/HwiYul-G). Please be sure to indicate this
 when cloning
 
-Copyright (c) 2024 Soyeon Kim(Hwiyul_G). All rights reserved.
+Copyright (c) 2024. Soyeon Kim(Hwiyul_G). All rights reserved.
