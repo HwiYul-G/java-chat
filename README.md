@@ -104,3 +104,5 @@ http://localhost:3000/
 이 문서와 코드는 [KSY(HwiYul-G)](https://github.com/HwiYul-G)에 의해 작성되었습니다. 클론 시 꼭 표기 부탁드립니다. </br>
 This document and code were written by [KSY(HwiYul-G)](https://github.com/HwiYul-G). Please be sure to indicate this
 when cloning
+
+Copyright (c) 2024 Soyeon Kim(Hwiyul_G). All rights reserved.
