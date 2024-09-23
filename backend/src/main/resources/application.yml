@@ -1,11 +1,11 @@
+api.endpoint.base-url: api/v1
 spring:
-  datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  jpa:
-    show-sql: true
-api:
-  endpoint:
-    base-url: /api/v1
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 256MB
+      max-request-size: 256MB
+server:
+  port: 8080

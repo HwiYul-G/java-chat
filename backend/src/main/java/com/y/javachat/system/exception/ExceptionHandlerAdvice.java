@@ -47,6 +47,12 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.INVALID_ARGUMENT, "제공된 인자가 타당하지 않습니다.", map);
     }
 
+    @ExceptionHandler(ExternalAPIException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    Result handleExternalAPIException(Exception e){
+        return new Result(false, StatusCode.INTERNAL_SERVER_ERROR, e.getMessage());
+    }
+
     @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     Result handleAuthenticationException(Exception e) {

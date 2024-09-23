@@ -30,6 +30,7 @@ public class ChatMessage extends BaseModel {
     private MessageType messageType;
 
     public enum MessageType {
+        SYSTEM,
         CONNECT,
         DISCONNECT,
         CHAT,

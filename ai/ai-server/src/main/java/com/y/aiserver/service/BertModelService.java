@@ -1,4 +1,4 @@
-package com.y.javachat.service;
+package com.y.aiserver.service;
 
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
 import ai.djl.modality.nlp.bert.BertToken;

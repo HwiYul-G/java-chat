@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.y</groupId>
 	<artifactId>java-chat</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>java-chat</name>
 	<description>java-chat</description>
 	<properties>
@@ -25,6 +25,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<!-- webfulx -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 		<!-- security for authentication and authorization -->
 		<dependency>
@@ -52,17 +59,15 @@
 			<version>2.0.1</version>
 		</dependency>
 
-		<!-- AI -->
 		<dependency>
-			<groupId>com.microsoft.onnxruntime</groupId>
-			<artifactId>onnxruntime</artifactId>
-			<version>1.19.2</version>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
 		</dependency>
-
 		<dependency>
-			<groupId>ai.djl.huggingface</groupId>
-			<artifactId>tokenizers</artifactId>
-			<version>0.29.0</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- utils -->

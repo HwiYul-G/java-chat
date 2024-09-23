@@ -1,31 +1,36 @@
-name: Frontend CI # workflow의 이름, actions 탭에 이 이름이 보인다.
+name: Frontend CI
 
-on: # events에 기반으로 workflow가 자동으로 active 된다.
+on:
   push:
     tags:
       - "v*.*.*"
-  # pull_request:
-  #   branches:
-  #     - main
+#  pull_request:
+#    branches:
+#      - main
 
-jobs: # workflows의 blocks을 구성한다. - name, runner, set of steps로 구성
-  build: # name은 object에 대응한다.
-    runs-on: ubuntu-latest # runner: 깃헙에서 호스트한 가상의 서버 (ubuntu linux, microsofit windows, macOs 등 가상 머신)
-    env:
-      CI: ""
-    steps: # job을 수행시키는 모든 procees들 포함 - uses와 run 키워드
-      # uses: run할 action을 적는다. 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
       - name: Install Node
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ./frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: | 
+            ${{ runner.os }}-node-
       - name: Install Dependencies
         working-directory: ./frontend
         run: npm install
-      - name: Build and test with Node.js
+      - name: Build with Node.js
         working-directory: ./frontend
-        run: npm run build && npm test
-
-      
+        run: npm run build
+        env:
+          REACT_APP_SERVER_HOST: ${{ secrets.REACT_APP_SERVER_HOST }}

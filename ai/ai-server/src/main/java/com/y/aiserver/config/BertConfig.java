@@ -1,4 +1,4 @@
-package com.y.javachat.config;
+package com.y.aiserver.config;
 
 import ai.djl.modality.nlp.DefaultVocabulary;
 import ai.djl.modality.nlp.bert.BertFullTokenizer;
