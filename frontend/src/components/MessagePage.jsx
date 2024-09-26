@@ -20,8 +20,6 @@ const MessagePage = () => {
         type: 'CHAT',
     });
 
-    const [isDetectingBadWord, setIsDetectingBadWord] = useState(false);
-
     const location = useLocation();
     const {groupChatRoomName, isGroup, friendName, friendEmail} = location.state || {};
 
@@ -54,30 +52,27 @@ const MessagePage = () => {
         }
     };
 
-
-
     useEffect(() => {
 
         setAllMessages([]); // 채팅방이 변경될 때 이전 메시지 초기화
         loadMessages();
 
         subscribe(`/sub/chat-rooms/${params.roomId}`, (msg) => {
-            if(msg.senderName === "SYSTEM" && msg.content ==="비속어 탐지 중..."){
-                setIsDetectingBadWord(true);
-            } else if(msg.senderName==="SYSTEM" && msg.content===""){
-                setIsDetectingBadWord(false);
-            } else {
-                setAllMessages(prev => [...prev, msg]);
-            }
+            setAllMessages(prev => {
+                const messageIdx = prev.findIndex(existingMsg => existingMsg.id === msg.id);
+                if (messageIdx > -1) {
+                    const updatedMessage = [...prev];
+                    updatedMessage[messageIdx] = msg;
+                    return updatedMessage;
+                } else {
+                    return [...prev, msg];
+                }
+            })
         });
-        subscribe(`/sub/warnings/users/${userInfo.id}`, (warning) => {
-            console.log("warning : ", warning);
-            alert(warning.content);
-        });
+
 
         return () => {
             unsubscribe(`/sub/chat-rooms/${params.roomId}`);
-            unsubscribe(`/sub/warnings/users/${userInfo.id}`);
         };
     }, [params.roomId]);
 
@@ -91,13 +86,6 @@ const MessagePage = () => {
                 </div>
             </header>
             <div className='card-body'>
-                {
-                    isDetectingBadWord && (
-                        <div className="system-message">
-                            <p>비속어 탐지 중...</p>
-                        </div>
-                    )
-                }
                 {allMessages.map((msg) => (
                     <ChatMessage
                         key={msg.id}

@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    azure:
+      storage:
+        account:
+          name: ${AZURE_STORAGE_ACCOUNT_NAME}
+          key: ${AZURE_STORAGE_ACCOUNT_KEY}
+        queue:
+          endpoint: ${INPUT_QUEUE_ENDPOINT}
+          input:
+            name: ${INPUT_QUEUE_NAME} # ai sever로 최초로 입력되는 queue
+          output:
+            name: ${OUTPUT_QUEUE_NAME}

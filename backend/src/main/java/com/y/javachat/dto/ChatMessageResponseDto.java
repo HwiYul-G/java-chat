@@ -10,6 +10,8 @@ public record ChatMessageResponseDto(
         Long senderId,
         String senderName,
         String content,
+        boolean isDetected,
+        boolean isBadWord,
         LocalDateTime createdAt,
         ChatMessage.MessageType type
 ) {

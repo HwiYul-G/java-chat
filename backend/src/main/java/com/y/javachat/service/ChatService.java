@@ -1,6 +1,7 @@
 package com.y.javachat.service;
 
 import com.y.javachat.dto.*;
+import com.y.javachat.dto.external.OutputQueueResultDto;
 import com.y.javachat.model.*;
 import com.y.javachat.repository.*;
 import com.y.javachat.system.exception.DuplicationJoinException;
@@ -9,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,6 +24,7 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final UserRepository userRepository;
     private final FriendshipRepository friendshipRepository;
+    private final QueueService queueService;
 
     public ChatMessageResponseDto save(ChatMessageRequestDto chatMessageRequestDto) {
         User sender = userRepository.findById(chatMessageRequestDto.senderId())
@@ -32,6 +37,29 @@ public class ChatService {
                 .messageType(chatMessageRequestDto.type())
                 .build()
         ).toChatMessageResponseDto();
+    }
+
+    public void processMessageForDetection(ChatMessageResponseDto chatMessageResponseDto) {
+        queueService.insertInputQueue(chatMessageResponseDto);
+    }
+
+    public List<ChatMessageResponseDto> getDetectedMessages() {
+        List<OutputQueueResultDto> outputQueueResults = queueService.getOutputQueueResult();
+        List<ChatMessageResponseDto> updatedMessages = new ArrayList<>();
+
+        if (outputQueueResults.isEmpty())
+            return Collections.emptyList();
+
+        outputQueueResults.forEach(result -> {
+            ChatMessage chatMessage = chatMessageRepository.findById(result.messageId())
+                    .orElseThrow(() -> new ObjectNotFoundException("message", result.messageId()));
+            chatMessage.setDetected(true);
+            chatMessage.setBadWord(result.isBadWord());
+            chatMessageRepository.save(chatMessage);
+            updatedMessages.add(chatMessage.toChatMessageResponseDto());
+        });
+
+        return updatedMessages;
     }
 
     public List<ChatMessageResponseDto> findChatMessageByRoomId(Long roomId) {
