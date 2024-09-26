@@ -29,21 +29,28 @@ public class ChatMessage extends BaseModel {
     @Column(name = "message_type", length = 256)
     private MessageType messageType;
 
+    @Column(name = "is_detected")
+    private boolean isDetected;
+
+    @Column(name = "is_badword")
+    private boolean isBadWord;
+
     public enum MessageType {
-        SYSTEM,
         CONNECT,
         DISCONNECT,
         CHAT,
         DATE
     }
 
-    public ChatMessageResponseDto toChatMessageResponseDto(){
+    public ChatMessageResponseDto toChatMessageResponseDto() {
         return new ChatMessageResponseDto(
                 this.getId(),
                 this.getRoomId(),
                 this.getSender().getId(),
                 this.getSender().getUsername(),
                 this.getContent(),
+                this.isDetected,
+                this.isBadWord,
                 this.getCreatedAt(),
                 this.getMessageType()
         );
