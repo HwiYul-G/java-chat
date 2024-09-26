@@ -22,7 +22,7 @@ Bert를 이용한 비속어 탐지 AI가 적용된 실시간 양방향 채팅 �
 - 약 10초의 시간동안 비속어 여부를 판별 후
   - 비속어인 경우 메시지가 가려진다. `비속어가 탐지되어 메시지가 가려졌습니다.` 로 업데이트 된다.
 
-<img src="./frontend/docs/resources/badword_detection.gif"/>
+<img src="./frontend/docs/resources/badword_detection_20sec.gif"/>
 
 ### docs
 
