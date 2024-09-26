@@ -48,6 +48,9 @@ public class SecurityConfig {
     @Value("${api.endpoint.base-url}")
     private String baseUrl;
 
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
+
     private final CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint;
     private final CustomBearerTokenAuthenticationEntryPoint customBearerTokenAuthenticationEntryPoint;
     private final CustomBearerTokenAccessDeniedHandler customBearerTokenAccessDeniedHandler;
@@ -90,9 +93,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
