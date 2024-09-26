@@ -1,7 +1,7 @@
-name: AI sever CI/CD - Build and Deploy a container to an Azure Web App
+name: Backend CI/CD - Build and Deploy a container to an Azure Web
 
 env:
-  AZURE_WEBAPP_NAME: chat-ai-server-webapp
+  AZURE_WEBAPP_NAME: chat-server-webapp
 
 on:
   push:
@@ -13,7 +13,6 @@ on:
 permissions:
   contents: 'read' # 저장소 내용을 읽을 수 있는 권한
   packages: 'write' # github 패키지 레지스트리에 이미지를 푸시할 수 있는 권한
-
 
 jobs:
   build:
@@ -27,9 +26,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
-      - name: Build AI server with maven
-        working-directory: ./ai/ai-server
-        run: mvn --batch-mode package
+      - name: Build with maven
+        working-directory: ./backend
+        run: mvn --batch
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Log in to Github container registry
@@ -38,25 +37,24 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build and push container image to registry
         uses: docker/build-push-action@v5
         with:
-          context: ./ai/ai-server
+          context: ./backend
           push: true
           tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
-          file: ./ai/ai-server/Dockerfile
+          file: ./backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to Azure Web App
+      - name: deploy-to-webapp
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_AI_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_CHAT_PUBLISH_PROFILE }}
           images: 'ghcr.io/${{ env.REPO }}:${{ github.sha }}'
       - name: Prevent push to main branch on deployment failure
         if: ${{ failure() }}
