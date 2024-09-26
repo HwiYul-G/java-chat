@@ -62,22 +62,11 @@ const MessagePage = () => {
         loadMessages();
 
         subscribe(`/sub/chat-rooms/${params.roomId}`, (msg) => {
-            if(msg.senderName === "SYSTEM" && msg.content ==="비속어 탐지 중..."){
-                setIsDetectingBadWord(true);
-            } else if(msg.senderName==="SYSTEM" && msg.content===""){
-                setIsDetectingBadWord(false);
-            } else {
-                setAllMessages(prev => [...prev, msg]);
-            }
-        });
-        subscribe(`/sub/warnings/users/${userInfo.id}`, (warning) => {
-            console.log("warning : ", warning);
-            alert(warning.content);
+            setAllMessages(prev => [...prev, msg]);
         });
 
         return () => {
             unsubscribe(`/sub/chat-rooms/${params.roomId}`);
-            unsubscribe(`/sub/warnings/users/${userInfo.id}`);
         };
     }, [params.roomId]);
 
@@ -91,13 +80,6 @@ const MessagePage = () => {
                 </div>
             </header>
             <div className='card-body'>
-                {
-                    isDetectingBadWord && (
-                        <div className="system-message">
-                            <p>비속어 탐지 중...</p>
-                        </div>
-                    )
-                }
                 {allMessages.map((msg) => (
                     <ChatMessage
                         key={msg.id}
