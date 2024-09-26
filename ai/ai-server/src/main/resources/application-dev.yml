@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    azure:
+      storage:
+        queue:
+          input:
+            name: 이름 # ai sever로 최초로 입력되는 queue
+            endpoint: 앤드포인트
+          output:
+            name: 이름
+            endpoint: 앤드포인트

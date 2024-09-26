@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    azure:
+      storage:
+        queue:
+          input:
+            name: ${INPUT_QUEUE_NAME} # ai sever로 최초로 입력되는 queue
+            endpoint: ${INPUT_QUEUE_ENDPOINT}
+          output:
+            name: ${OUTPUT_QUEUE_NAME}
+            endpoint: ${OUTPUT_QUEUE_ENDPOINT}
