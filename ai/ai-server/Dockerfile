@@ -1,4 +1,4 @@
-FROM eclipse-termurin:17-jre AS builder
+FROM eclipse-temurin:17-jre as builder
 WORKDIR /app
 ARG JAR_FILE=target/ai-server-0.0.1.jar
 COPY ${JAR_FILE} app.jar
