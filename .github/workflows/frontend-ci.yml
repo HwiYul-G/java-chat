@@ -32,5 +32,3 @@ jobs:
       - name: Build with Node.js
         working-directory: ./frontend
         run: npm run build
-        env:
-          REACT_APP_SERVER_HOST: ${{ secrets.REACT_APP_SERVER_HOST }}
