@@ -25,6 +25,11 @@ jobs:
       - name: Install dependencies
         working-directory: ./frontend
         run: npm install
+      - name: retrieve azure environment variables
+        run: |
+          echo "REACT_APP_SERVER_HOST=${{ secrets.AZURE_REACT_APP_SERVER_HOST }}" > ./frontend/.env.production
+          cat ./frontend/.env.production
+          
       - name: build the App
         working-directory: ./frontend
         run: npm run build
