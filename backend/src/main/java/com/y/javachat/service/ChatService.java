@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -45,11 +47,15 @@ public class ChatService {
         List<OutputQueueResultDto> outputQueueResults = queueService.getOutputQueueResult();
         List<ChatMessageResponseDto> updatedMessages = new ArrayList<>();
 
+        if (outputQueueResults.isEmpty())
+            return Collections.emptyList();
+
         outputQueueResults.forEach(result -> {
             ChatMessage chatMessage = chatMessageRepository.findById(result.messageId())
                     .orElseThrow(() -> new ObjectNotFoundException("message", result.messageId()));
             chatMessage.setDetected(true);
             chatMessage.setBadWord(result.isBadWord());
+            chatMessageRepository.save(chatMessage);
             updatedMessages.add(chatMessage.toChatMessageResponseDto());
         });
 

@@ -32,9 +32,11 @@ public class ChatController {
         return savedMessage;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 10000)
     public void sendDetectedMessage() {
         List<ChatMessageResponseDto> detectedMessages = chatService.getDetectedMessages();
+        if(detectedMessages.isEmpty())
+            return;
         detectedMessages.forEach(message ->
                 messagingTemplate.convertAndSend("/sub/chat-rooms/" + message.roomId(), message)
         );
