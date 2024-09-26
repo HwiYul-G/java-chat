@@ -28,4 +28,6 @@ spring:
     hibernate:
       ddl-auto: update
 
+cors:
+  allowed-origins: http://localhost:3000
 ai.sever.base-url: http://localhost:8081
