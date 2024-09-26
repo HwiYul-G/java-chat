@@ -7,8 +7,6 @@ on:
   push:
     tags:
       - "v*.*.*"
-  release:
-    [created]
 
 permissions:
   contents: 'read' # 저장소 내용을 읽을 수 있는 권한

@@ -2,8 +2,8 @@ name: Backend CI
 
 on:
   push:
-    tags:
-      - "v*.*.*"
+    # tags:
+    #   - "v*.*.*"
 #  pull_request:
 #     branches:
 #       - main
