@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<spring-cloud-azure.version>5.11.0</spring-cloud-azure.version>
 	</properties>
 	<dependencies>
 		<!-- web -->
@@ -49,6 +50,17 @@
 			<version>0.29.0</version>
 		</dependency>
 
+		<!-- Azure Storage Queue-->
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-storage-queue</artifactId>
+		</dependency>
+
+		<!-- for passwordless connection to Azure service-->
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-identity</artifactId>
+		</dependency>
 
 		<!-- utils -->
 		<dependency>
@@ -71,6 +83,19 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<!-- The Spring Cloud Azure Bill of Materials (BOM) -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.azure.spring</groupId>
+				<artifactId>spring-cloud-azure-dependencies</artifactId>
+				<version>${spring-cloud-azure.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
