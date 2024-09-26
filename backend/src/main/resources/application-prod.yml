@@ -1,4 +1,14 @@
 spring:
+  cloud:
+    azure:
+      storage:
+        queue:
+          endpoint: ${INPUT_QUEUE_ENDPOINT}
+          input:
+            name: ${INPUT_QUEUE_NAME} # ai sever로 최초로 입력되는 queue
+          output:
+            name: ${OUTPUT_QUEUE_NAME}
+
   datasource:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}
@@ -8,7 +18,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        dialect:
+        dialect: org.hibernate.dialect.H2Dialect
   web:
     resources:
       add-mappings: true
