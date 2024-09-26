@@ -1,6 +1,6 @@
 package com.y.javachat.config;
 
-import com.azure.identity.DefaultAzureCredentialBuilder;
+import com.azure.storage.common.StorageSharedKeyCredential;
 import com.azure.storage.queue.QueueClient;
 import com.azure.storage.queue.QueueClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,21 +17,33 @@ public class AzureConfig {
     @Value("${spring.cloud.azure.storage.queue.output.name}")
     private String outputQueueName;
 
+    @Value("${spring.cloud.azure.storage.account.name}")
+    private String accountName;
+    @Value("${spring.cloud.azure.storage.account.key}")
+    private String accountKey;
+
+    @Bean
+    public StorageSharedKeyCredential storageSharedKeyCredential() {
+        return new StorageSharedKeyCredential(
+                accountName, accountKey
+        );
+    }
+
     @Bean
     public QueueClient inputQueueClient() {
         return new QueueClientBuilder()
-                .endpoint(queueEndpointName)
+                .endpoint(queueEndpointName + "/" + inputQueueName)
                 .queueName(inputQueueName)
-                .credential(new DefaultAzureCredentialBuilder().build())
+                .credential(storageSharedKeyCredential())
                 .buildClient();
     }
 
     @Bean
     public QueueClient outputQueueClient() {
         return new QueueClientBuilder()
-                .endpoint(queueEndpointName)
+                .endpoint(queueEndpointName + "/" + outputQueueName)
                 .queueName(outputQueueName)
-                .credential(new DefaultAzureCredentialBuilder().build())
+                .credential(storageSharedKeyCredential())
                 .buildClient();
     }
 
