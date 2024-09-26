@@ -35,16 +35,17 @@ Bert를 이용한 비속어 탐지 AI가 적용된 실시간 양방향 채팅 �
 
 ## Steps to Setup
 
-### Requirements
-
-`java - 17`, `maven - 4.0.0`, `node - 20.13.1`
-
 ### Local
+#### Requirements
+`java - 17`, `maven - 4.0.0`, `node - 20.13.1`, `Azurite`
 
 #### AI
 
 [🔗 비속어 탐지 onnx 모델 다운로드 링크](https://github.com/HwiYul-G/java-chat/releases)</br>
 위 파일을 다운로드 후 AI 서버의 spring-boot의 resources에 파일명을 `model.onnx`로 변경해 넣는다.
+```bash
+azurite --silent --location c:\azurite --debug c:\azurite\debug.log
+```
 ```bash
 mvn spring-boot:run
 ```
@@ -66,9 +67,9 @@ npm start
 http://localhost:3000/
 ```
 
-### Azure
+## workflow & architecture
 
-## Architeucture
+
 
 ## 학습 내역
 
