@@ -1,7 +1,7 @@
 name: Backend CI/CD - Build and Deploy a container to an Azure Web
 
 env:
-  AZURE_WEBAPP_NAME: chat-server-webapp
+  AZURE_WEBAPP_NAME: chat-sever-webapp
 
 on:
   push:
