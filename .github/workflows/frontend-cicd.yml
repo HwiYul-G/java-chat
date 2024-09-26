@@ -36,6 +36,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: chat-front-webapp
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV} 
       - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
@@ -48,12 +50,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: chat-front-webapp
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV} 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_FRONT_PUBLISH_PROFIEL }} # AZURE 배포 프로필 흠??
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }} #배포할 패키지 경로 흠?
+          images: 'ghcr.io/${{ env.REPO }}:${{ github.sha }}'
       - name: Prevent push to main branch on deployment failure
         if: ${{ failure() }}
         run: |
