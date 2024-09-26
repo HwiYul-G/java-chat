@@ -1,7 +1,7 @@
 import moment from "moment";
 
 const ChatMessage = ({message, userId}) => {
-    const {_id, roomId, senderId, senderName, content, createdAt, type, isDetected, isBadWord} = message;
+    const { id, roomId, senderId, senderName, content, createdAt, type, isDetected, isBadWord } = message;
 
     if (type === 'DATE') {
         return (
@@ -18,7 +18,7 @@ const ChatMessage = ({message, userId}) => {
         if (isBadWord) {
             displayContent = "비속어가 탐지되어 메시지가 가려졌습니다.";
         }
-        // isBadWord가 false인 경우는 displayContent 그대로 사용
+        // 비속어가 탐지되지 않은 경우에는 원래의 content를 그대로 사용
     }
 
     if (userId === senderId) {
