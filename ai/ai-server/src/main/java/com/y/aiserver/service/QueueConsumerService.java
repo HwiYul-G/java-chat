@@ -21,18 +21,19 @@ public class QueueConsumerService {
     private final BertModelService bertModelService;
     private final ObjectMapper objectMapper;
 
-    @Scheduled(fixedRate = 5000) // 5초마다 큐를 확인한다.
+    @Scheduled(fixedRate = 10000) // 10초마다 큐를 확인한다.
     public void processMessages() {
         inputQueueClient.receiveMessages(5).forEach(
                 receivedMessage -> {
                     try {
                         InputQueueMessageDto inputQueueMessageDto = objectMapper.readValue(receivedMessage.getBody().toString(), InputQueueMessageDto.class);
-
+                        log.debug("데이터 읽어옴 : {}", inputQueueMessageDto);
                         boolean result = bertModelService.predictBadWord(inputQueueMessageDto.content());
                         String outputQueueResultDtoAsString = objectMapper.writeValueAsString(
                                 new OutputQueueResultDto(inputQueueMessageDto.messageId(), result)
                         );
                         outputQueueClient.sendMessage(outputQueueResultDtoAsString);
+                        log.debug("데이터 결과 내서 보냄: {}", outputQueueResultDtoAsString);
 
                         inputQueueClient.deleteMessage(receivedMessage.getMessageId(), receivedMessage.getPopReceipt());
                     } catch (JsonProcessingException e) {
