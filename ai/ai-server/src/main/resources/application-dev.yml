@@ -3,9 +3,8 @@ spring:
     azure:
       storage:
         queue:
+          endpoint: http://127.0.0.1:10001/devstoreaccount1
           input:
-            name: 이름 # ai sever로 최초로 입력되는 queue
-            endpoint: 앤드포인트
+            name: 'input-queue'
           output:
-            name: 이름
-            endpoint: 앤드포인트
+            name: 'output-queue'

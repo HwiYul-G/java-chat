@@ -10,20 +10,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AzureConfig {
 
-    @Value("${azure.queue.input.endpoint}")
-    private String inputQueueEndpointName;
-    @Value("${azure.queue.input.name}")
+    @Value("${spring.cloud.azure.storage.queue.endpoint}")
+    private String queueEndpointName;
+    @Value("${spring.cloud.azure.storage.queue.input.name}")
     private String inputQueueName;
-
-    @Value("${azure.queue.output.endpoint}")
-    private String outputQueueEndpointName;
-    @Value("${azure.queue.output.name}")
+    @Value("${spring.cloud.azure.storage.queue.output.name}")
     private String outputQueueName;
 
     @Bean
     public QueueClient inputQueueClient() {
         return new QueueClientBuilder()
-                .endpoint(inputQueueEndpointName)
+                .endpoint(queueEndpointName)
                 .queueName(inputQueueName)
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
@@ -32,7 +29,7 @@ public class AzureConfig {
     @Bean
     public QueueClient outputQueueClient() {
         return new QueueClientBuilder()
-                .endpoint(outputQueueEndpointName)
+                .endpoint(queueEndpointName)
                 .queueName(outputQueueName)
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
