@@ -2,11 +2,11 @@ name: Frontend CI
 
 on:
   push:
-    # tags:
-    #   - "v*.*.*"
-  pull_request:
-    branches:
-      - main
+    tags:
+      - "NO"
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   build:

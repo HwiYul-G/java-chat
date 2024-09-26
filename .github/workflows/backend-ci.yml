@@ -1,12 +1,12 @@
 name: Backend CI
 
 on:
-  # push:
-    # tags:
-    #   - "v*.*.*"
- pull_request:
-    branches:
-      - main
+  push:
+    tags:
+      - "NO"
+#  pull_request:
+#     branches:
+#       - main
 jobs:
   build:
     runs-on: ubuntu-latest
