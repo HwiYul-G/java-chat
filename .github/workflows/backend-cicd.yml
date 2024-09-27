@@ -2,6 +2,7 @@ name: Backend CI/CD - Build and Deploy a container to an Azure Web
 
 env:
   AZURE_WEBAPP_NAME: chat-sever-webapp
+  ROLE: chat-sever
 
 on:
   push:
@@ -35,29 +36,25 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: chat-server-webapp
-        run: echo "REPO=chat-server-webapp" >>${GITHUB_ENV}
       - name: Build and push container image to registry
         uses: docker/build-push-action@v5
         with:
           context: ./backend
           push: true
-          tags: ghcr.io/${{ env.REPO }}:${{ github.sha }}
+          tags: ghcr.io/${{ env.ROLE }}:${{ github.sha }}
           file: ./backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: chat-server-webapp
-        run: echo "REPO=chat-server-webapp" >>${GITHUB_ENV}
       - name: deploy-to-webapp
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_CHAT_PUBLISH_PROFILE }}
-          images: 'ghcr.io/${{ env.REPO }}:${{ github.sha }}'
+          images: 'ghcr.io/${{ env.ROLE }}:${{ github.sha }}'
       - name: Prevent push to main branch on deployment failure
         if: ${{ failure() }}
         run: |
