@@ -9,6 +9,9 @@ on:
   push:
     tags:
       - "v*.*.*"
+  pull_request:
+    branches:
+      - "main"
 
 permissions:
   contents: 'read' # 저장소 내용을 읽는 권한
