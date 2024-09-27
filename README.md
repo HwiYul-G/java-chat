@@ -69,7 +69,7 @@ http://localhost:3000/
 ```
 
 ## workflow & architecture
-
+<img src="./backend/docs/resources/workflow%20and%20architecture.png" width="544" height="328" alt="cicd worflow & architecture image">
 
 
 ## 학습 내역
