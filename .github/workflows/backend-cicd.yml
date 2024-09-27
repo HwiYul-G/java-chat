@@ -3,7 +3,6 @@ name: Backend CI/CD - Build and Deploy a container to an Azure Web
 env:
   AZURE_WEBAPP_NAME: chat-sever-webapp
   ROLE: chat-sever
-  REPO: ${GITHUB_REPOSITORY}
 
 on:
   push:

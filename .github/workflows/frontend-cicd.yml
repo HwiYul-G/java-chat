@@ -3,15 +3,11 @@ name: Frontend CI/CD - Build and Deploy React to Azure Web App
 env:
   AZURE_WEBAPP_NAME: chat-front-webapp # Azure Web App 이름
   ROLE: chat-front
-  REPO: ${GITHUB_REPOSITORY}
 
 on:
   push:
     tags:
       - "v*.*.*"
-  pull_request:
-    branches:
-      - "main"
 
 permissions:
   contents: 'read' # 저장소 내용을 읽는 권한
