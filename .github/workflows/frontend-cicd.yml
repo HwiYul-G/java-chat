@@ -3,6 +3,7 @@ name: Frontend CI/CD - Build and Deploy React to Azure Web App
 env:
   AZURE_WEBAPP_NAME: chat-front-webapp # Azure Web App 이름
   ROLE: chat-front
+  REPO: ${GITHUB_REPOSITORY}
 
 on:
   push:
@@ -47,7 +48,7 @@ jobs:
         with:
           context: ./frontend # frontend 디렉토리에서 Docker 빌드 실행
           push: true
-          tags: ghcr.io/${{ env.ROLE }}:${{ github.sha }} # GitHub Container Registry에 태그로 푸시
+          tags: ghcr.io/${{ env.REPO }}/${{ env.ROLE }}:${{ github.sha }} # GitHub Container Registry에 태그로 푸시
           file: ./frontend/Dockerfile
 
   deploy:
@@ -59,7 +60,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_FRONT_PUBLISH_PROFIEL }} # AZURE 배포 프로필 흠??
-          images: 'ghcr.io/${{ env.ROLE }}:${{ github.sha }}'
+          images: 'ghcr.io/${{ env.REPO }}/${{ env.ROLE }}:${{ github.sha }}'
       - name: Prevent push to main branch on deployment failure
         if: ${{ failure() }}
         run: |

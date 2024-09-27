@@ -3,6 +3,8 @@ name: AI sever CI/CD - Build and Deploy a container to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: chat-ai-server-webapp
   ROLE: chat-ai-sever
+  REPO: ${GITHUB_REPOSITORY}
+
 on:
   push:
     tags:
@@ -41,7 +43,7 @@ jobs:
         with:
           context: ./ai/ai-server
           push: true
-          tags: ghcr.io/${{ env.ROLE }}:${{ github.sha }}
+          tags: ghcr.io/${{env.REPO}}/${{ env.ROLE }}:${{ github.sha }}
           file: ./ai/ai-server/Dockerfile
 
   deploy:
@@ -54,7 +56,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_AI_PUBLISH_PROFILE }}
-          images: 'ghcr.io/${{ env.ROLE }}:${{ github.sha }}'
+          images: 'ghcr.io/${{ env.REPO }}/${{ env.ROLE }}:${{ github.sha }}'
       - name: Prevent push to main branch on deployment failure
         if: ${{ failure() }}
         run: |
