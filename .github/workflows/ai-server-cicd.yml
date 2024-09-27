@@ -3,7 +3,6 @@ name: AI sever CI/CD - Build and Deploy a container to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: chat-ai-server-webapp
   ROLE: chat-ai-sever
-  REPO: ${GITHUB_REPOSITORY}
 
 on:
   push:
@@ -38,6 +37,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: chat-ai-sever-webapp
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
       - name: Build and push container image to registry
         uses: docker/build-push-action@v5
         with:
@@ -50,6 +51,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: java-chat
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
