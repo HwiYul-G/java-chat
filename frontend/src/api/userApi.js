@@ -10,6 +10,7 @@ export const register = async (newUser) => {
         return res.data;
     } catch (err) {
         console.error("서버의 회원가입 API 호출 실패: ", err);
+        console.error(`${instance.defaults.baseURL}`)
         throw err;
     }
 };
