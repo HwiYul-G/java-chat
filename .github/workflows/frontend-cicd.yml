@@ -42,7 +42,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: chat-front-webapp
-        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV} 
+        run: echo "REPO=chat-frontend-webapp" >>${GITHUB_ENV}
       - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
